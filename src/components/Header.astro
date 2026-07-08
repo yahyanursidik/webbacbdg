@@ -4,6 +4,9 @@ import { navItems, site, whatsappUrl } from "@/data/site";
 const currentPath = Astro.url.pathname;
 const generalMessage =
   "Halo Admin BAC, saya ingin konsultasi kebutuhan atribut kedinasan.";
+
+const isActive = (href: string) =>
+  href === "/" ? currentPath === "/" : currentPath.startsWith(href);
 ---
 
 <header class="site-header">
@@ -19,7 +22,7 @@ const generalMessage =
     <nav class="desktop-nav" aria-label="Navigasi utama">
       {
         navItems.map((item) => (
-          <a class:list={[currentPath === item.href && "active"]} href={item.href}>
+          <a class:list={[isActive(item.href) && "active"]} href={item.href}>
             {item.label}
           </a>
         ))
@@ -29,21 +32,16 @@ const generalMessage =
     <a class="button button-whatsapp header-cta" href={whatsappUrl(generalMessage)} target="_blank" rel="noreferrer">
       WhatsApp Admin
     </a>
-
-    <details class="mobile-menu">
-      <summary aria-label="Buka menu">Menu</summary>
-      <nav aria-label="Navigasi mobile">
-        {
-          navItems.map((item) => (
-            <a class:list={[currentPath === item.href && "active"]} href={item.href}>
-              {item.label}
-            </a>
-          ))
-        }
-        <a class="button button-whatsapp" href={whatsappUrl(generalMessage)} target="_blank" rel="noreferrer">
-          WhatsApp Admin
-        </a>
-      </nav>
-    </details>
   </div>
 </header>
+
+<nav class="mobile-bottom-nav" aria-label="Navigasi mobile bawah">
+  {
+    navItems.map((item) => (
+      <a class:list={[isActive(item.href) && "active"]} href={item.href}>
+        <span class="nav-dot" aria-hidden="true"></span>
+        <span>{item.label.replace(" BAC", "")}</span>
+      </a>
+    ))
+  }
+</nav>

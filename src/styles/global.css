@@ -132,8 +132,7 @@ h3 {
   gap: 2px;
 }
 
-.desktop-nav a,
-.mobile-menu nav a:not(.button) {
+.desktop-nav a {
   border-radius: var(--radius);
   color: #334155;
   font-weight: 700;
@@ -145,8 +144,7 @@ h3 {
 }
 
 .desktop-nav a:hover,
-.desktop-nav a.active,
-.mobile-menu nav a.active {
+.desktop-nav a.active {
   background: #edf3fa;
   color: var(--navy);
 }
@@ -188,42 +186,8 @@ h3 {
   color: var(--white);
 }
 
-.mobile-menu {
+.mobile-bottom-nav {
   display: none;
-  position: relative;
-}
-
-.mobile-menu summary {
-  min-width: 72px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  color: var(--navy);
-  cursor: pointer;
-  font-weight: 800;
-  list-style: none;
-}
-
-.mobile-menu summary::-webkit-details-marker {
-  display: none;
-}
-
-.mobile-menu nav {
-  position: absolute;
-  top: calc(100% + 12px);
-  right: 0;
-  display: grid;
-  width: min(320px, calc(100vw - 32px));
-  gap: 8px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--white);
-  box-shadow: var(--shadow);
-  padding: 14px;
-}
-
-.mobile-menu nav a:not(.button) {
-  padding: 10px;
 }
 
 .section {
@@ -271,6 +235,7 @@ h3 {
   background:
     linear-gradient(90deg, rgba(16, 35, 63, 0.94) 0%, rgba(16, 35, 63, 0.78) 42%, rgba(16, 35, 63, 0.18) 74%),
     url("/images/bac-hero.webp") center / cover;
+  animation: heroImageDrift 18s ease-in-out infinite alternate;
 }
 
 .hero::after {
@@ -280,7 +245,9 @@ h3 {
   left: 0;
   height: 9px;
   content: "";
-  background: linear-gradient(90deg, var(--red), var(--gold), var(--blue), var(--orange), var(--green));
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--blue), var(--orange), var(--green), var(--red));
+  background-size: 220% 100%;
+  animation: serviceRibbon 8s linear infinite;
 }
 
 .hero-content {
@@ -290,6 +257,43 @@ h3 {
   min-height: calc(100vh - 214px);
   align-content: center;
   max-width: 810px;
+}
+
+.hero-content::before {
+  position: absolute;
+  top: 12%;
+  right: max(-16vw, -190px);
+  width: min(42vw, 420px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background:
+    conic-gradient(from 90deg, rgba(168, 32, 45, 0.64), rgba(216, 164, 72, 0.62), rgba(23, 105, 170, 0.58), rgba(244, 123, 32, 0.5), rgba(46, 107, 69, 0.54), rgba(168, 32, 45, 0.64));
+  content: "";
+  filter: blur(0.2px);
+  opacity: 0.62;
+  animation: heroAccentSpin 20s linear infinite;
+}
+
+.hero-content > * {
+  position: relative;
+  animation: heroReveal 760ms ease both;
+}
+
+.hero-content > :nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.hero-content > :nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.hero-content > :nth-child(4) {
+  animation-delay: 270ms;
+}
+
+.hero-content > :nth-child(5) {
+  animation-delay: 360ms;
 }
 
 .hero h1,
@@ -327,6 +331,14 @@ h3 {
 .trust-strip div {
   padding: 18px;
   background: rgba(16, 35, 63, 0.35);
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.trust-strip div:hover {
+  background: rgba(16, 35, 63, 0.54);
+  transform: translateY(-2px);
 }
 
 .trust-strip strong {
@@ -642,10 +654,6 @@ h3 {
     display: none;
   }
 
-  .mobile-menu {
-    display: block;
-  }
-
   .grid-4,
   .product-grid,
   .footer-grid {
@@ -654,6 +662,10 @@ h3 {
 }
 
 @media (max-width: 760px) {
+  body {
+    padding-bottom: calc(82px + env(safe-area-inset-bottom));
+  }
+
   .container {
     width: min(100% - 24px, 1180px);
   }
@@ -670,13 +682,68 @@ h3 {
     display: none;
   }
 
+  .mobile-bottom-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    border-top: 1px solid rgba(217, 222, 231, 0.95);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 -12px 30px rgba(16, 35, 63, 0.12);
+    padding: 9px 10px calc(9px + env(safe-area-inset-bottom));
+    scrollbar-width: none;
+    backdrop-filter: blur(16px);
+  }
+
+  .mobile-bottom-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-bottom-nav a {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    flex: 0 0 74px;
+    min-height: 56px;
+    border-radius: var(--radius);
+    color: #465467;
+    font-size: 0.72rem;
+    font-weight: 850;
+    line-height: 1.1;
+  }
+
+  .mobile-bottom-nav a.active {
+    background: #edf3fa;
+    color: var(--navy);
+  }
+
+  .mobile-bottom-nav a.active .nav-dot {
+    width: 24px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--blue));
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    margin-bottom: 7px;
+    border-radius: 999px;
+    background: #a8b2c1;
+    transition:
+      width 180ms ease,
+      background 180ms ease;
+  }
+
   .section {
     padding: 58px 0;
   }
 
   .hero {
     min-height: auto;
-    padding: 72px 0 28px;
+    padding: 72px 0 112px;
   }
 
   .hero::before {
@@ -686,7 +753,15 @@ h3 {
   }
 
   .hero-content {
-    min-height: 560px;
+    min-height: auto;
+    align-content: start;
+  }
+
+  .hero-content::before {
+    top: 4%;
+    right: -170px;
+    width: 300px;
+    opacity: 0.46;
   }
 
   .trust-strip,
@@ -701,6 +776,23 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .trust-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 24px;
+  }
+
+  .trust-strip div {
+    padding: 14px 16px;
+  }
+
+  .trust-strip strong {
+    font-size: 0.92rem;
+  }
+
+  .trust-strip span {
+    font-size: 0.78rem;
+  }
+
   .section-head {
     display: block;
   }
@@ -712,5 +804,69 @@ h3 {
 
   .footer-bottom {
     display: grid;
+  }
+
+  .floating-whatsapp {
+    right: 14px;
+    bottom: calc(90px + env(safe-area-inset-bottom));
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroImageDrift {
+  from {
+    transform: scale(1.01) translateX(0);
+  }
+
+  to {
+    transform: scale(1.06) translateX(-18px);
+  }
+}
+
+@keyframes serviceRibbon {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 220% 0;
+  }
+}
+
+@keyframes heroAccentSpin {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.04);
+  }
+
+  to {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
   }
 }
