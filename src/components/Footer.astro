@@ -1,0 +1,53 @@
+---
+import { categories } from "@/data/products";
+import { navItems, site, whatsappUrl } from "@/data/site";
+
+const message = "Halo Admin BAC, saya ingin bertanya tentang katalog atribut kedinasan.";
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <section>
+      <a class="brand footer-brand" href="/">
+        <span class="brand-mark">BAC</span>
+        <span>
+          <strong>{site.name}</strong>
+          <small>{site.tagline}</small>
+        </span>
+      </a>
+      <p>{site.description}</p>
+      <a class="button button-whatsapp" href={whatsappUrl(message)} target="_blank" rel="noreferrer">
+        Chat WhatsApp
+      </a>
+    </section>
+
+    <section>
+      <h2>Menu</h2>
+      <ul>
+        {navItems.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/alamat-toko/">Alamat Toko</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Kategori</h2>
+      <ul>
+        {categories.slice(0, 8).map((category) => <li><a href={`/katalog/?kategori=${category.slug}`}>{category.name}</a></li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Kontak</h2>
+      <ul>
+        <li><a href={whatsappUrl(message)} target="_blank" rel="noreferrer">WhatsApp Admin</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={site.mapsUrl} target="_blank" rel="noreferrer">Buka Google Maps</a></li>
+      </ul>
+      <p>{site.address}</p>
+    </section>
+  </div>
+  <div class="container footer-bottom">
+    <span>© {new Date().getFullYear()} {site.name}</span>
+    <span>Website katalog statis siap deploy Vercel</span>
+  </div>
+</footer>

@@ -1,0 +1,49 @@
+---
+import { navItems, site, whatsappUrl } from "@/data/site";
+
+const currentPath = Astro.url.pathname;
+const generalMessage =
+  "Halo Admin BAC, saya ingin konsultasi kebutuhan atribut kedinasan.";
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Beranda BAC">
+      <span class="brand-mark">BAC</span>
+      <span>
+        <strong>{site.shortName}</strong>
+        <small>{site.tagline}</small>
+      </span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navigasi utama">
+      {
+        navItems.map((item) => (
+          <a class:list={[currentPath === item.href && "active"]} href={item.href}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a class="button button-whatsapp header-cta" href={whatsappUrl(generalMessage)} target="_blank" rel="noreferrer">
+      WhatsApp Admin
+    </a>
+
+    <details class="mobile-menu">
+      <summary aria-label="Buka menu">Menu</summary>
+      <nav aria-label="Navigasi mobile">
+        {
+          navItems.map((item) => (
+            <a class:list={[currentPath === item.href && "active"]} href={item.href}>
+              {item.label}
+            </a>
+          ))
+        }
+        <a class="button button-whatsapp" href={whatsappUrl(generalMessage)} target="_blank" rel="noreferrer">
+          WhatsApp Admin
+        </a>
+      </nav>
+    </details>
+  </div>
+</header>

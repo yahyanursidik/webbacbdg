@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { whatsappUrl } from "@/data/site";
+
+const steps = [
+  ["Konsultasi Kebutuhan", "Pelanggan menyampaikan jenis atribut, kategori instansi, jumlah, dan target pemakaian."],
+  ["Pemeriksaan Referensi", "Tim BAC mengecek desain, warna, ukuran, bahan, dan detail teknis lain."],
+  ["Pemilihan Bahan", "Opsi bahan disesuaikan dengan fungsi produk, tampilan, dan anggaran."],
+  ["Produksi atau Stok", "Pesanan dipenuhi dari stok tersedia atau diproses sebagai pre-order/custom."],
+  ["Quality Control", "Detail, kerapian, jumlah, dan kelayakan produk diperiksa sebelum pengemasan."],
+  ["Pengemasan", "Produk dikemas rapi agar aman saat diambil atau dikirim."],
+  ["Pengiriman", "Pesanan dikirim sesuai alamat dan konfirmasi pelanggan."],
+];
+---
+
+<BaseLayout
+  title="Proses Produksi"
+  description="Alur produksi, quality control, dan pengemasan atribut kedinasan BAC."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Proses Produksi</p>
+      <h1>Alur kerja yang jelas untuk atribut ready stock, pre-order, dan custom.</h1>
+      <p>
+        BAC menjaga komunikasi dari awal konsultasi sampai pengiriman agar detail produk sesuai
+        referensi dan kebutuhan pelanggan.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <img class="detail-image" src="/images/bac-process.webp" alt="Proses produksi dan quality control atribut BAC" />
+      <div>
+        <p class="eyebrow">Quality Control</p>
+        <h2>Detail diperiksa sebelum produk sampai ke pelanggan.</h2>
+        <p>
+          Pemeriksaan mencakup kesesuaian desain, kerapian bordir atau finishing, warna, jumlah,
+          dan kondisi produk. Untuk pesanan custom, referensi pelanggan menjadi acuan utama dalam
+          proses produksi.
+        </p>
+        <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi proses produksi atau custom atribut.")} target="_blank" rel="noreferrer">
+          Konsultasi Produksi
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Alur</p>
+          <h2>Proses pesanan BAC.</h2>
+        </div>
+      </div>
+      <div class="grid-3">
+        {steps.map(([title, text], index) => <div class="step-card"><h3>{index + 1}. {title}</h3><p>{text}</p></div>)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

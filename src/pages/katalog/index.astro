@@ -1,0 +1,101 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import { categories, products } from "@/data/products";
+---
+
+<BaseLayout
+  title="Katalog Produk"
+  description="Katalog atribut kedinasan BAC berdasarkan kategori instansi, lengkap dengan tombol tanya produk via WhatsApp."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Katalog Produk</p>
+      <h1>Atribut kedinasan, perlengkapan seragam, dan custom order dalam satu katalog.</h1>
+      <p>
+        Cari produk berdasarkan instansi, status stok, atau kebutuhan custom. Setiap produk memiliki
+        pesan WhatsApp otomatis dengan nama dan kategori produk.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="catalog-toolbar">
+        <input id="product-search" class="input" type="search" placeholder="Cari produk atau instansi" aria-label="Cari produk" />
+        <select id="category-filter" class="select" aria-label="Filter kategori">
+          <option value="">Semua kategori</option>
+          {categories.map((category) => <option value={category.slug}>{category.name}</option>)}
+        </select>
+      </div>
+
+      <div id="product-grid" class="product-grid">
+        {products.map((product) => <ProductCard product={product} />)}
+      </div>
+
+      <p id="empty-state" class="contact-panel hidden" aria-live="polite">
+        Produk belum ditemukan. Admin BAC dapat membantu mencarikan stok atau opsi custom.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Kategori</p>
+          <h2>Kelompok produk utama BAC.</h2>
+        </div>
+      </div>
+      <div class="grid-4">
+        {
+          categories.map((category) => (
+            <a
+              class="category-card"
+              href={`/katalog/?kategori=${category.slug}`}
+              style={`--category-color: ${category.color}; --category-accent: ${category.accent};`}
+            >
+              <h3>{category.name}</h3>
+              <p>{category.description}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const searchInput = document.querySelector("#product-search");
+    const categoryFilter = document.querySelector("#category-filter");
+    const cards = Array.from(document.querySelectorAll(".product-card"));
+    const emptyState = document.querySelector("#empty-state");
+    const params = new URLSearchParams(window.location.search);
+    const initialCategory = params.get("kategori");
+
+    if (initialCategory && categoryFilter instanceof HTMLSelectElement) {
+      categoryFilter.value = initialCategory;
+    }
+
+    function updateCatalog() {
+      const query = searchInput instanceof HTMLInputElement ? searchInput.value.trim().toLowerCase() : "";
+      const category = categoryFilter instanceof HTMLSelectElement ? categoryFilter.value : "";
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const name = card.getAttribute("data-name") ?? "";
+        const productCategory = card.getAttribute("data-category") ?? "";
+        const matchesSearch = !query || name.includes(query);
+        const matchesCategory = !category || productCategory === category;
+        const isVisible = matchesSearch && matchesCategory;
+        card.classList.toggle("hidden", !isVisible);
+        if (isVisible) visibleCount += 1;
+      });
+
+      emptyState?.classList.toggle("hidden", visibleCount > 0);
+    }
+
+    searchInput?.addEventListener("input", updateCatalog);
+    categoryFilter?.addEventListener("change", updateCatalog);
+    updateCatalog();
+  </script>
+</BaseLayout>

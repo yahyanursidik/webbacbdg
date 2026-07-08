@@ -1,0 +1,34 @@
+---
+import { getCategory, productWhatsappMessage, type Product } from "@/data/products";
+import { whatsappUrl } from "@/data/site";
+
+type Props = {
+  product: Product;
+};
+
+const { product } = Astro.props;
+const category = getCategory(product.category);
+---
+
+<article
+  class="product-card"
+  data-category={product.category}
+  data-name={product.name.toLowerCase()}
+  style={`--category-color: ${category?.color ?? "#25324a"}; --category-accent: ${category?.accent ?? "#d8a448"};`}
+>
+  <a class="product-media" href={`/katalog/${product.slug}/`} aria-label={`Lihat ${product.name}`}>
+    <img src={product.image} alt={`Foto ${product.name}`} loading="lazy" />
+    <span>{product.status}</span>
+  </a>
+  <div class="product-body">
+    <p class="eyebrow">{category?.name}</p>
+    <h2><a href={`/katalog/${product.slug}/`}>{product.name}</a></h2>
+    <p>{product.shortDescription}</p>
+    <div class="product-actions">
+      <a class="button button-secondary" href={`/katalog/${product.slug}/`}>Detail</a>
+      <a class="button button-whatsapp" href={whatsappUrl(productWhatsappMessage(product))} target="_blank" rel="noreferrer">
+        Tanya Produk
+      </a>
+    </div>
+  </div>
+</article>

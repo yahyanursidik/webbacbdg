@@ -1,0 +1,43 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const gallery = [
+  ["Produk atribut", "/images/bac-catalog.webp", "Katalog atribut kedinasan BAC"],
+  ["Proses produksi", "/images/bac-process.webp", "Meja proses produksi dan quality control BAC"],
+  ["Custom order", "/images/bac-catalog.webp", "Contoh atribut custom untuk instansi"],
+  ["Pengemasan", "/images/bac-process.webp", "Persiapan pengemasan produk BAC"],
+  ["Display toko", "/images/bac-hero.webp", "Display produk atribut kedinasan"],
+  ["Pesanan grosir", "/images/bac-catalog.webp", "Rangkaian produk untuk kebutuhan grosir"],
+];
+---
+
+<BaseLayout
+  title="Galeri"
+  description="Galeri produk atribut, proses produksi, custom order, pengemasan, display toko, dan pesanan grosir BAC."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Galeri</p>
+      <h1>Dokumentasi produk, proses, pengemasan, dan contoh pesanan.</h1>
+      <p>
+        Galeri awal memakai visual katalog BAC yang dapat diganti dengan foto produk asli, foto toko,
+        dan dokumentasi pesanan pelanggan.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container gallery-grid">
+      {
+        gallery.map(([title, image, alt]) => (
+          <figure class="gallery-item">
+            <a href={image} target="_blank" rel="noreferrer">
+              <img src={image} alt={alt} loading="lazy" />
+            </a>
+            <figcaption>{title}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,75 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { whatsappUrl } from "@/data/site";
+
+const customTypes = [
+  "Badge",
+  "Emblem",
+  "Patch bordir",
+  "Pin",
+  "Papan nama",
+  "Tanda pengenal",
+  "Atribut instansi",
+  "Atribut acara resmi",
+  "Perlengkapan seragam",
+  "Atribut organisasi resmi",
+];
+
+const flow = [
+  "Kirim referensi desain",
+  "Tentukan ukuran, bahan, dan jumlah",
+  "Tim BAC memberikan estimasi",
+  "Pelanggan konfirmasi",
+  "Produksi",
+  "Quality control",
+  "Pengiriman",
+];
+---
+
+<BaseLayout
+  title="Custom Order"
+  description="Layanan custom badge, emblem, patch bordir, pin, papan nama, dan atribut instansi BAC."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Custom Order</p>
+      <h1>Buat atribut khusus berdasarkan referensi desain, bahan, ukuran, dan jumlah pesanan.</h1>
+      <p>
+        BAC melayani custom atribut untuk instansi, organisasi resmi, acara kedinasan, sekolah
+        kedinasan, reseller, dan toko seragam.
+      </p>
+      <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi custom order. Saya akan mengirim referensi desain.")} target="_blank" rel="noreferrer">
+        Konsultasikan Custom Order
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Jenis Custom</p>
+        <h2>Produk yang bisa dikonsultasikan.</h2>
+        <div class="grid-2">
+          {customTypes.map((item) => <div class="info-card"><h3>{item}</h3><p>Detail mengikuti kebutuhan, referensi, dan jumlah pesanan.</p></div>)}
+        </div>
+      </div>
+      <div>
+        <img class="detail-image" src="/images/bac-catalog.webp" alt="Contoh atribut custom BAC" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Alur Custom</p>
+          <h2>Dari referensi sampai pengiriman.</h2>
+        </div>
+      </div>
+      <div class="grid-3">
+        {flow.map((item, index) => <div class="step-card"><h3>{index + 1}. {item}</h3><p>Admin BAC akan mengonfirmasi detail sebelum masuk tahap berikutnya.</p></div>)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

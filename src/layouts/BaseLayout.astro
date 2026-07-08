@@ -1,0 +1,52 @@
+---
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import WhatsAppButton from "@/components/WhatsAppButton.astro";
+import { site } from "@/data/site";
+import "@/styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+  image?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+};
+
+const {
+  title = `${site.shortName} - ${site.tagline}`,
+  description = site.description,
+  image = "/images/bac-hero.webp",
+  schema,
+} = Astro.props;
+
+const pageTitle = title.includes(site.shortName) ? title : `${title} | ${site.shortName}`;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : Astro.url.href;
+const imageUrl = Astro.site ? new URL(image, Astro.site).toString() : image;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#10233f" />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppButton />
+  </body>
+</html>

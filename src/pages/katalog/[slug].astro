@@ -1,0 +1,109 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import { getCategory, productWhatsappMessage, products, type Product } from "@/data/products";
+import { whatsappUrl } from "@/data/site";
+
+export function getStaticPaths() {
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+type Props = {
+  product: Product;
+};
+
+const { product } = Astro.props;
+const category = getCategory(product.category);
+const related = products
+  .filter((item) => item.category === product.category && item.slug !== product.slug)
+  .slice(0, 3);
+
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.name,
+  description: product.fullDescription,
+  image: Astro.site ? new URL(product.image, Astro.site).toString() : product.image,
+  category: category?.name,
+  brand: {
+    "@type": "Brand",
+    name: "BAC",
+  },
+  offers: {
+    "@type": "Offer",
+    availability: product.status === "Ready Stock" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+    priceCurrency: "IDR",
+    url: Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : Astro.url.href,
+  },
+};
+---
+
+<BaseLayout
+  title={product.name}
+  description={product.shortDescription}
+  image={product.image}
+  schema={productSchema}
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{category?.name}</p>
+      <h1>{product.name}</h1>
+      <p>{product.shortDescription}</p>
+      <div class="inline-actions">
+        <a class="button button-whatsapp" href={whatsappUrl(productWhatsappMessage(product))} target="_blank" rel="noreferrer">
+          Tanya Produk Ini
+        </a>
+        <a class="button button-secondary" href="/katalog/">Kembali ke Katalog</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container detail-layout">
+      <div class="detail-image">
+        <img src={product.image} alt={`Foto utama ${product.name}`} />
+      </div>
+      <article>
+        <p class="eyebrow">{product.status}</p>
+        <h2>Informasi Produk</h2>
+        <p>{product.fullDescription}</p>
+        <dl class="spec-list">
+          <div><dt>Kategori</dt><dd>{category?.name}</dd></div>
+          <div><dt>Bahan</dt><dd>{product.material}</dd></div>
+          <div><dt>Ukuran</dt><dd>{product.size}</dd></div>
+          <div><dt>Warna</dt><dd>{product.color}</dd></div>
+          <div><dt>Varian</dt><dd>{product.variant}</dd></div>
+          <div><dt>Status</dt><dd>{product.status}</dd></div>
+          <div><dt>Minimal Order</dt><dd>{product.minOrder}</dd></div>
+        </dl>
+        <div class="inline-actions">
+          <a class="button button-whatsapp" href={whatsappUrl(productWhatsappMessage(product))} target="_blank" rel="noreferrer">
+            Tanya via WhatsApp
+          </a>
+          <a class="button button-secondary" href="/custom-order/">Custom Order</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section section-soft">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Produk Terkait</p>
+              <h2>Produk lain dalam kategori {category?.name}.</h2>
+            </div>
+          </div>
+          <div class="product-grid">
+            {related.map((item) => <ProductCard product={item} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

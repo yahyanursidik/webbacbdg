@@ -1,0 +1,48 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site, whatsappUrl } from "@/data/site";
+---
+
+<BaseLayout
+  title="Alamat Toko"
+  description="Alamat toko BAC, Google Maps, jam operasional, dan jalur WhatsApp admin."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Alamat Toko</p>
+      <h1>Lokasi BAC dan kontak utama untuk kunjungan toko.</h1>
+      <p>{site.address}</p>
+      <div class="inline-actions">
+        <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin bertanya alamat toko dan jam operasional.")} target="_blank" rel="noreferrer">
+          Tanya Alamat
+        </a>
+        <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Buka Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="contact-panel">
+        <h2>Informasi Toko</h2>
+        <p><strong>Nama:</strong> {site.name}</p>
+        <p><strong>Alamat:</strong> {site.address}</p>
+        <p><strong>Jam operasional:</strong> {site.hours}</p>
+        <p><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <div class="inline-actions">
+          <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin datang ke toko BAC.")} target="_blank" rel="noreferrer">
+            Chat Admin
+          </a>
+          <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Arahkan ke Lokasi</a>
+        </div>
+      </div>
+      <img class="detail-image" src="/images/bac-hero.webp" alt="Display toko dan katalog atribut BAC" />
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="container">
+      <iframe class="map-frame" src={site.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Maps BAC"></iframe>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site, whatsappUrl } from "@/data/site";
+---
+
+<BaseLayout
+  title="Tentang BAC"
+  description="Profil CV. Berkah Abadi Creative sebagai supplier atribut kedinasan, custom order, dan pengadaan instansi."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Tentang BAC</p>
+      <h1>Supplier atribut kedinasan yang fokus pada kelengkapan, kualitas, dan layanan cepat.</h1>
+      <p>
+        BAC melayani kebutuhan atribut seragam, katalog instansi, pemesanan grosir, reseller, dan
+        custom order untuk pelanggan personal maupun lembaga.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div>
+        <h2>CV. Berkah Abadi Creative</h2>
+        <p>
+          BAC hadir sebagai distributor dan toko supplier atribut kedinasan untuk berbagai kebutuhan
+          instansi. Produk yang disediakan mencakup badge, emblem, patch bordir, pin, papan nama,
+          tanda pengenal, dan perlengkapan seragam kedinasan.
+        </p>
+        <p>
+          Website ini menjadi pusat informasi resmi, katalog produk, dan jalur konsultasi pelanggan
+          melalui WhatsApp agar proses pencarian produk lebih cepat dan jelas.
+        </p>
+      </div>
+      <img class="detail-image" src="/images/bac-catalog.webp" alt="Katalog atribut kedinasan BAC" />
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Komitmen</p>
+          <h2>Dirancang untuk pelanggan personal, reseller, dan pengadaan instansi.</h2>
+        </div>
+      </div>
+      <div class="grid-4">
+        <div class="info-card"><h3>Katalog Rapi</h3><p>Kategori produk dibuat jelas berdasarkan kebutuhan instansi.</p></div>
+        <div class="info-card"><h3>Kualitas Detail</h3><p>Bahan, finishing, dan kelayakan produk diperiksa sebelum dikirim.</p></div>
+        <div class="info-card"><h3>Custom Order</h3><p>Pelanggan dapat mengirim referensi desain untuk atribut khusus.</p></div>
+        <div class="info-card"><h3>Siap Grosir</h3><p>Melayani kebutuhan toko, reseller, dan pembelian jumlah tertentu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-panel">
+      <h2>Butuh supplier atribut kedinasan?</h2>
+      <p>{site.name} siap membantu kebutuhan produk, pengadaan, dan custom order.</p>
+      <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi kebutuhan atribut kedinasan.")} target="_blank" rel="noreferrer">
+        Hubungi BAC
+      </a>
+    </div>
+  </section>
+</BaseLayout>
