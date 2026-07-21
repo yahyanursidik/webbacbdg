@@ -4,6 +4,7 @@ import Images from "@lucide/astro/icons/images";
 import MessageCircle from "@lucide/astro/icons/message-circle";
 import PackageSearch from "@lucide/astro/icons/package-search";
 import PencilRuler from "@lucide/astro/icons/pencil-ruler";
+import { products } from "@/data/products";
 import { site, whatsappUrl } from "@/data/site";
 
 const currentPath = Astro.url.pathname;
@@ -33,8 +34,8 @@ const mobileNavItems = [
 <header class="site-header" id="site-header">
   <div class="announcement" id="site-announcement">
     <p>
-      <span class="announcement-wide">647 referensi produk BAC kini tersedia.</span>
-      <span class="announcement-short">647 produk tersedia.</span>
+      <span class="announcement-wide">{products.length} referensi produk BAC kini tersedia.</span>
+      <span class="announcement-short">{products.length} produk tersedia.</span>
       <a href="/katalog/">Buka katalog</a>
     </p>
     <button class="announcement-close" id="announcement-close" type="button" aria-label="Tutup pengumuman">
