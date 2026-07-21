@@ -1,7 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProductCard from "@/components/ProductCard.astro";
-import { categories, products } from "@/data/products";
+import { attributeTypes, categories, products } from "@/data/products";
+
+const pageSize = 24;
 ---
 
 <BaseLayout
@@ -11,10 +13,10 @@ import { categories, products } from "@/data/products";
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">Katalog Produk</p>
-      <h1>Atribut kedinasan, perlengkapan seragam, dan custom order dalam satu katalog.</h1>
+      <h1>{products.length} referensi atribut BAC dalam satu katalog.</h1>
       <p>
-        Cari produk berdasarkan instansi, status stok, atau kebutuhan custom. Setiap produk memiliki
-        pesan WhatsApp otomatis dengan nama dan kategori produk.
+        Telusuri 17 kelompok instansi, jabatan, pangkat, dan jenis atribut. Detail bahan, ukuran,
+        ketersediaan, dan pemesanan dikonfirmasi langsung dengan admin BAC.
       </p>
     </div>
   </section>
@@ -27,10 +29,23 @@ import { categories, products } from "@/data/products";
           <option value="">Semua kategori</option>
           {categories.map((category) => <option value={category.slug}>{category.name}</option>)}
         </select>
+        <select id="type-filter" class="select" aria-label="Filter jenis atribut">
+          <option value="">Semua jenis atribut</option>
+          {attributeTypes.map((type) => <option value={type}>{type}</option>)}
+        </select>
+      </div>
+
+      <div class="catalog-results" aria-live="polite">
+        <p id="catalog-count">Menampilkan {Math.min(pageSize, products.length)} dari {products.length} produk</p>
+        <p>Data katalog diperbarui dari koleksi BAC.</p>
       </div>
 
       <div id="product-grid" class="product-grid">
-        {products.map((product) => <ProductCard product={product} />)}
+        {products.map((product, index) => <ProductCard product={product} hidden={index >= pageSize} />)}
+      </div>
+
+      <div class="catalog-more">
+        <button id="load-more" class="button button-secondary" type="button">Muat lebih banyak</button>
       </div>
 
       <p id="empty-state" class="contact-panel hidden" aria-live="polite">
@@ -67,35 +82,53 @@ import { categories, products } from "@/data/products";
   <script>
     const searchInput = document.querySelector("#product-search");
     const categoryFilter = document.querySelector("#category-filter");
+    const typeFilter = document.querySelector("#type-filter");
     const cards = Array.from(document.querySelectorAll(".product-card"));
     const emptyState = document.querySelector("#empty-state");
+    const countLabel = document.querySelector("#catalog-count");
+    const loadMore = document.querySelector("#load-more");
     const params = new URLSearchParams(window.location.search);
     const initialCategory = params.get("kategori");
+    const pageSize = 24;
+    let visibleLimit = pageSize;
 
     if (initialCategory && categoryFilter instanceof HTMLSelectElement) {
       categoryFilter.value = initialCategory;
     }
 
-    function updateCatalog() {
+    function updateCatalog(reset = false) {
+      if (reset) visibleLimit = pageSize;
       const query = searchInput instanceof HTMLInputElement ? searchInput.value.trim().toLowerCase() : "";
       const category = categoryFilter instanceof HTMLSelectElement ? categoryFilter.value : "";
-      let visibleCount = 0;
+      const type = typeFilter instanceof HTMLSelectElement ? typeFilter.value : "";
+      let matchedCount = 0;
 
       cards.forEach((card) => {
         const name = card.getAttribute("data-name") ?? "";
         const productCategory = card.getAttribute("data-category") ?? "";
+        const productType = card.getAttribute("data-type") ?? "";
         const matchesSearch = !query || name.includes(query);
         const matchesCategory = !category || productCategory === category;
-        const isVisible = matchesSearch && matchesCategory;
+        const matchesType = !type || productType === type;
+        const matches = matchesSearch && matchesCategory && matchesType;
+        const isVisible = matches && matchedCount < visibleLimit;
         card.classList.toggle("hidden", !isVisible);
-        if (isVisible) visibleCount += 1;
+        if (matches) matchedCount += 1;
       });
 
-      emptyState?.classList.toggle("hidden", visibleCount > 0);
+      const visibleCount = Math.min(matchedCount, visibleLimit);
+      emptyState?.classList.toggle("hidden", matchedCount > 0);
+      loadMore?.classList.toggle("hidden", visibleCount >= matchedCount);
+      if (countLabel) countLabel.textContent = `Menampilkan ${visibleCount} dari ${matchedCount} produk`;
     }
 
-    searchInput?.addEventListener("input", updateCatalog);
-    categoryFilter?.addEventListener("change", updateCatalog);
+    searchInput?.addEventListener("input", () => updateCatalog(true));
+    categoryFilter?.addEventListener("change", () => updateCatalog(true));
+    typeFilter?.addEventListener("change", () => updateCatalog(true));
+    loadMore?.addEventListener("click", () => {
+      visibleLimit += pageSize;
+      updateCatalog();
+    });
     updateCatalog();
   </script>
 </BaseLayout>

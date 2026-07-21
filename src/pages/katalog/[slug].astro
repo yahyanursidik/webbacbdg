@@ -18,7 +18,7 @@ type Props = {
 const { product } = Astro.props;
 const category = getCategory(product.category);
 const related = products
-  .filter((item) => item.category === product.category && item.slug !== product.slug)
+  .filter((item) => item.category === product.category && item.attributeType === product.attributeType && item.slug !== product.slug)
   .slice(0, 3);
 
 const productSchema = {
@@ -26,7 +26,7 @@ const productSchema = {
   "@type": "Product",
   name: product.name,
   description: product.fullDescription,
-  image: Astro.site ? new URL(product.image, Astro.site).toString() : product.image,
+  image: product.images.map((image) => Astro.site ? new URL(image, Astro.site).toString() : image),
   category: category?.name,
   brand: {
     "@type": "Brand",
@@ -63,8 +63,25 @@ const productSchema = {
 
   <section class="section">
     <div class="container detail-layout">
-      <div class="detail-image">
-        <img src={product.image} alt={`Foto utama ${product.name}`} />
+      <div class="detail-image product-gallery">
+        <img id="gallery-main" class="gallery-main" src={product.image} alt={`Foto utama ${product.name}`} width="1200" height="1200" />
+        {
+          product.images.length > 1 && (
+            <div class="gallery-thumbnails" aria-label={`Galeri ${product.name}`}>
+              {product.images.map((image, index) => (
+                <button
+                  class:list={["gallery-thumbnail", index === 0 && "active"]}
+                  type="button"
+                  data-gallery-image={image}
+                  data-gallery-alt={`Foto ${index + 1} ${product.name}`}
+                  aria-label={`Tampilkan foto ${index + 1}`}
+                >
+                  <img src={image} alt="" width="120" height="120" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )
+        }
       </div>
       <article>
         <p class="eyebrow">{product.status}</p>
@@ -72,12 +89,14 @@ const productSchema = {
         <p>{product.fullDescription}</p>
         <dl class="spec-list">
           <div><dt>Kategori</dt><dd>{category?.name}</dd></div>
+          <div><dt>Jenis Atribut</dt><dd>{product.attributeType}</dd></div>
           <div><dt>Bahan</dt><dd>{product.material}</dd></div>
           <div><dt>Ukuran</dt><dd>{product.size}</dd></div>
           <div><dt>Warna</dt><dd>{product.color}</dd></div>
           <div><dt>Varian</dt><dd>{product.variant}</dd></div>
           <div><dt>Status</dt><dd>{product.status}</dd></div>
           <div><dt>Minimal Order</dt><dd>{product.minOrder}</dd></div>
+          <div><dt>Foto Katalog</dt><dd>{product.images.length} foto</dd></div>
         </dl>
         <div class="inline-actions">
           <a class="button button-whatsapp" href={whatsappUrl(productWhatsappMessage(product))} target="_blank" rel="noreferrer">
@@ -106,4 +125,20 @@ const productSchema = {
       </section>
     )
   }
+
+  <script>
+    const galleryMain = document.querySelector("#gallery-main");
+    const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
+
+    galleryButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (!(galleryMain instanceof HTMLImageElement) || !(button instanceof HTMLButtonElement)) return;
+        const image = button.dataset.galleryImage;
+        if (!image) return;
+        galleryMain.src = image;
+        galleryMain.alt = button.dataset.galleryAlt ?? galleryMain.alt;
+        galleryButtons.forEach((item) => item.classList.toggle("active", item === button));
+      });
+    });
+  </script>
 </BaseLayout>

@@ -4,24 +4,29 @@ import { whatsappUrl } from "@/data/site";
 
 type Props = {
   product: Product;
+  hidden?: boolean;
 };
 
-const { product } = Astro.props;
+const { product, hidden = false } = Astro.props;
 const category = getCategory(product.category);
+const searchText = [product.name, product.institution, product.attributeType, product.sourceName]
+  .join(" ")
+  .toLowerCase();
 ---
 
 <article
-  class="product-card"
+  class:list={["product-card", hidden && "hidden"]}
   data-category={product.category}
-  data-name={product.name.toLowerCase()}
+  data-type={product.attributeType}
+  data-name={searchText}
   style={`--category-color: ${category?.color ?? "var(--service-charcoal)"}; --category-accent: ${category?.accent ?? "var(--service-gold)"};`}
 >
   <a class="product-media" href={`/katalog/${product.slug}/`} aria-label={`Lihat ${product.name}`}>
     <img src={product.image} alt={`Foto ${product.name}`} width="1536" height="1024" loading="lazy" />
-    <span>{product.status}</span>
+    <span>{product.status === "Konfirmasi Admin" ? "Konfirmasi" : product.status}</span>
   </a>
   <div class="product-body">
-    <p class="product-category">{category?.name}</p>
+    <p class="product-category">{category?.name} <span aria-hidden="true">/</span> {product.attributeType}</p>
     <h2><a href={`/katalog/${product.slug}/`}>{product.name}</a></h2>
     <p>{product.shortDescription}</p>
     <div class="product-actions">
