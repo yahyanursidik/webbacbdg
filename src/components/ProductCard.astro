@@ -14,20 +14,20 @@ const category = getCategory(product.category);
   class="product-card"
   data-category={product.category}
   data-name={product.name.toLowerCase()}
-  style={`--category-color: ${category?.color ?? "#25324a"}; --category-accent: ${category?.accent ?? "#d8a448"};`}
+  style={`--category-color: ${category?.color ?? "var(--service-charcoal)"}; --category-accent: ${category?.accent ?? "var(--service-gold)"};`}
 >
   <a class="product-media" href={`/katalog/${product.slug}/`} aria-label={`Lihat ${product.name}`}>
-    <img src={product.image} alt={`Foto ${product.name}`} loading="lazy" />
+    <img src={product.image} alt={`Foto ${product.name}`} width="1536" height="1024" loading="lazy" />
     <span>{product.status}</span>
   </a>
   <div class="product-body">
-    <p class="eyebrow">{category?.name}</p>
+    <p class="product-category">{category?.name}</p>
     <h2><a href={`/katalog/${product.slug}/`}>{product.name}</a></h2>
     <p>{product.shortDescription}</p>
     <div class="product-actions">
-      <a class="button button-secondary" href={`/katalog/${product.slug}/`}>Detail</a>
-      <a class="button button-whatsapp" href={whatsappUrl(productWhatsappMessage(product))} target="_blank" rel="noreferrer">
-        Tanya Produk
+      <a class="text-link" href={`/katalog/${product.slug}/`}>Lihat detail <span aria-hidden="true">&rarr;</span></a>
+      <a class="product-chat" href={whatsappUrl(productWhatsappMessage(product))} target="_blank" rel="noreferrer">
+        Tanya admin
       </a>
     </div>
   </div>

@@ -22,73 +22,62 @@ const localBusinessSchema = {
   description={site.description}
   schema={localBusinessSchema}
 >
-  <section class="hero">
-    <div class="container hero-content">
-      <p class="eyebrow">CV. Berkah Abadi Creative</p>
-      <h1>Pelopor Atribut Kedinasan & Kementerian Berkualitas</h1>
-      <p>
-        BAC menyediakan atribut dan perlengkapan kedinasan untuk Kejaksaan RI, Polri, Kemenhub,
-        Kemenkumham, Damkar, Satpol PP, ASN, PNS, Korpri, pejabat daerah, dan kebutuhan instansi
-        lainnya.
-      </p>
-      <div class="hero-actions">
-        <a class="button button-whatsapp" href={whatsappUrl(consultationMessage)} target="_blank" rel="noreferrer">
-          Konsultasi via WhatsApp
-        </a>
-        <a class="button button-secondary" href="/katalog/">Lihat Katalog Produk</a>
-      </div>
-      <div class="trust-strip" aria-label="Keunggulan BAC">
-        <div><strong>Produk Lengkap</strong><span>Atribut instansi dan seragam</span></div>
-        <div><strong>Kualitas Terjaga</strong><span>Detail bahan dan finishing</span></div>
-        <div><strong>Bisa Custom</strong><span>Patch, badge, pin, dan emblem</span></div>
-        <div><strong>Siap Grosir</strong><span>Reseller dan pengadaan</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container grid-2">
-      <div>
-        <p class="eyebrow">Tentang BAC</p>
-        <h2>Pusat katalog atribut kedinasan yang rapi, responsif, dan mudah dikonsultasikan.</h2>
-      </div>
-      <div>
-        <p>
-          CV. Berkah Abadi Creative membantu pelanggan personal, reseller, toko seragam, sekolah
-          kedinasan, lembaga pelatihan, dan tim pengadaan instansi menemukan atribut yang sesuai
-          dengan kebutuhan. Fokus BAC adalah katalog jelas, kualitas produk, dan follow-up cepat via
-          WhatsApp.
+  <section class="hero home-hero">
+    <div class="container hero-catalogue">
+      <div class="hero-copy">
+        <p class="brand-line">CV. Berkah Abadi Creative</p>
+        <h1>Atribut kedinasan untuk kebutuhan nyata.</h1>
+        <p class="hero-lede">
+          Katalog atribut instansi untuk pengadaan, reseller, dan custom. Pilih produk, lalu
+          konsultasikan bahan, ukuran, dan jumlah dengan admin BAC.
         </p>
-        <div class="inline-actions">
-          <a class="button button-primary" href="/tentang-bac/">Profil BAC</a>
-          <a class="button button-secondary" href="/proses-produksi/">Proses Produksi</a>
+        <div class="hero-actions">
+          <a class="button button-primary" href="/katalog/">Buka Katalog</a>
+          <a class="button button-whatsapp" href={whatsappUrl(consultationMessage)} target="_blank" rel="noreferrer">
+            Chat WhatsApp
+          </a>
         </div>
+        <dl class="hero-ledger" aria-label="Layanan utama BAC">
+          <div><dt>Siap order</dt><dd>Satuan dan grosir</dd></div>
+          <div><dt>Custom</dt><dd>Patch, badge, pin, emblem</dd></div>
+          <div><dt>Konsultasi</dt><dd>Stok, bahan, ukuran, jumlah</dd></div>
+        </dl>
       </div>
+      <figure class="hero-visual">
+        <img
+          src="/images/bac-hero.webp"
+          alt="Koleksi atribut kedinasan BAC"
+          width="1536"
+          height="1024"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <figcaption>Supplier atribut kedinasan dan kementerian</figcaption>
+        <div class="service-spectrum" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </figure>
     </div>
   </section>
 
-  <section class="section section-soft">
+  <section class="section category-section">
     <div class="container">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Kategori Produk</p>
-          <h2>Warna katalog mengikuti karakter layanan instansi.</h2>
-        </div>
-        <p>
-          Setiap kategori diberi aksen visual berbeda agar pengunjung cepat mengenali kelompok
-          produk tanpa memakai lambang resmi instansi.
-        </p>
+      <div class="section-head catalogue-head">
+        <h2>Temukan berdasarkan instansi.</h2>
+        <p>Warna membantu membedakan kelompok produk tanpa menggunakan lambang resmi.</p>
       </div>
-      <div class="grid-4">
+      <div class="category-index">
         {
-          categories.slice(0, 8).map((category) => (
+          categories.slice(0, 8).map((category, index) => (
             <a
               class="category-card"
               href={`/katalog/?kategori=${category.slug}`}
               style={`--category-color: ${category.color}; --category-accent: ${category.accent};`}
             >
+              <span class="category-number">{String(index + 1).padStart(2, "0")}</span>
               <h3>{category.name}</h3>
               <p>{category.description}</p>
+              <span class="category-link">Lihat produk <span aria-hidden="true">&rarr;</span></span>
             </a>
           ))
         }
@@ -96,14 +85,11 @@ const localBusinessSchema = {
     </div>
   </section>
 
-  <section class="section">
+  <section class="section product-section">
     <div class="container">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Produk Unggulan</p>
-          <h2>Katalog awal untuk kebutuhan instansi, grosir, dan custom order.</h2>
-        </div>
-        <a class="button button-primary" href="/katalog/">Semua Produk</a>
+      <div class="section-head catalogue-head">
+        <h2>Produk yang paling sering dicari.</h2>
+        <a class="text-link" href="/katalog/">Lihat seluruh katalog <span aria-hidden="true">&rarr;</span></a>
       </div>
       <div class="product-grid">
         {featuredProducts.slice(0, 6).map((product) => <ProductCard product={product} />)}
@@ -111,50 +97,63 @@ const localBusinessSchema = {
     </div>
   </section>
 
-  <section class="section section-soft">
-    <div class="container grid-2">
-      <div>
-        <p class="eyebrow">Proses Order</p>
-        <h2>Dari pilih produk sampai pengiriman dibuat sederhana.</h2>
-        <div class="grid-2">
-          <div class="step-card"><h3>1. Pilih Produk</h3><p>Cari kategori atau produk yang sesuai kebutuhan.</p></div>
-          <div class="step-card"><h3>2. Konsultasi</h3><p>Admin membantu cek stok, bahan, ukuran, dan jumlah.</p></div>
-          <div class="step-card"><h3>3. Konfirmasi</h3><p>Detail pesanan disepakati sebelum proses atau pengiriman.</p></div>
-          <div class="step-card"><h3>4. Kirim</h3><p>Produk dikemas rapi dan dikirim sesuai alamat pelanggan.</p></div>
-        </div>
+  <section class="section section-soft company-section">
+    <div class="container company-layout">
+      <div class="company-intro">
+        <h2>Katalog jelas. Detail pesanan tetap manusiawi.</h2>
+        <p>
+          BAC membantu tim pengadaan, pelanggan personal, reseller, toko seragam, sekolah kedinasan,
+          dan lembaga pelatihan memilih atribut yang sesuai kebutuhan.
+        </p>
+        <a class="text-link" href="/tentang-bac/">Baca profil BAC <span aria-hidden="true">&rarr;</span></a>
       </div>
-      <img class="detail-image" src="/images/bac-process.webp" alt="Meja proses produksi dan quality control atribut BAC" loading="lazy" />
+      <dl class="service-ledger">
+        <div><dt>Katalog</dt><dd>Produk dikelompokkan berdasarkan kebutuhan instansi.</dd></div>
+        <div><dt>Detail</dt><dd>Bahan, ukuran, warna, dan finishing dikonfirmasi sebelum diproses.</dd></div>
+        <div><dt>Jumlah</dt><dd>Melayani kebutuhan satuan, grosir, reseller, dan pengadaan.</dd></div>
+        <div><dt>Custom</dt><dd>Referensi khusus dapat dikonsultasikan langsung dengan admin.</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container grid-2">
+  <section class="section order-section">
+    <div class="container order-layout">
       <div>
-        <p class="eyebrow">Custom Order</p>
-        <h2>Butuh patch, badge, emblem, pin, atau atribut khusus?</h2>
-        <p>
-          Kirim referensi desain, ukuran, bahan, dan jumlah pesanan. Tim BAC akan membantu estimasi
-          dan pilihan produksi yang sesuai kebutuhan.
-        </p>
+        <h2>Empat langkah sampai pesanan dikirim.</h2>
+        <img
+          class="order-image"
+          src="/images/bac-process.webp"
+          alt="Meja proses produksi dan quality control atribut BAC"
+          width="1536"
+          height="1024"
+          loading="lazy"
+        />
       </div>
-      <div class="contact-panel">
-        <h3>Konsultasikan kebutuhan custom</h3>
-        <p>
-          Cocok untuk atribut instansi, organisasi resmi, acara kedinasan, sekolah kedinasan, toko,
-          dan reseller.
-        </p>
-        <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi custom order atribut.")} target="_blank" rel="noreferrer">
-          Konsultasi Custom Order
-        </a>
-      </div>
+      <ol class="order-flow">
+        <li><span>01</span><div><h3>Pilih produk</h3><p>Cari kategori atau produk yang sesuai kebutuhan.</p></div></li>
+        <li><span>02</span><div><h3>Konsultasikan detail</h3><p>Admin membantu mengecek stok, bahan, ukuran, dan jumlah.</p></div></li>
+        <li><span>03</span><div><h3>Konfirmasi pesanan</h3><p>Spesifikasi disepakati sebelum produksi atau penyiapan barang.</p></div></li>
+        <li><span>04</span><div><h3>Terima pengiriman</h3><p>Produk diperiksa, dikemas, lalu dikirim ke alamat pelanggan.</p></div></li>
+      </ol>
     </div>
   </section>
 
-  <section class="section section-soft">
-    <div class="container grid-2">
+  <section class="custom-band">
+    <div class="container custom-band-inner">
       <div>
-        <p class="eyebrow">Alamat Toko</p>
-        <h2>Kunjungi toko atau hubungi admin untuk penawaran.</h2>
+        <h2>Punya desain atau spesifikasi khusus?</h2>
+        <p>Kirim referensi, ukuran, bahan, dan jumlah. Tim BAC membantu menentukan opsi produksinya.</p>
+      </div>
+      <a class="button button-light" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi custom order atribut.")} target="_blank" rel="noreferrer">
+        Bahas Custom Order
+      </a>
+    </div>
+  </section>
+
+  <section class="section location-section">
+    <div class="container location-layout">
+      <div>
+        <h2>Kunjungi toko atau minta penawaran.</h2>
         <p>{site.address}</p>
         <p><strong>Jam operasional:</strong> {site.hours}</p>
         <div class="inline-actions">
