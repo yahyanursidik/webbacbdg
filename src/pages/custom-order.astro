@@ -1,75 +1,244 @@
 ---
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import Badge from "@lucide/astro/icons/badge";
+import Boxes from "@lucide/astro/icons/boxes";
+import CalendarCheck from "@lucide/astro/icons/calendar-check";
+import CircleDot from "@lucide/astro/icons/circle-dot";
+import ClipboardCheck from "@lucide/astro/icons/clipboard-check";
+import Factory from "@lucide/astro/icons/factory";
+import IdCard from "@lucide/astro/icons/id-card";
+import ImageUp from "@lucide/astro/icons/image-up";
+import Landmark from "@lucide/astro/icons/landmark";
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import PackageCheck from "@lucide/astro/icons/package-check";
+import Palette from "@lucide/astro/icons/palette";
+import Ruler from "@lucide/astro/icons/ruler";
+import ShieldCheck from "@lucide/astro/icons/shield-check";
+import Shirt from "@lucide/astro/icons/shirt";
+import Stamp from "@lucide/astro/icons/stamp";
+import Tag from "@lucide/astro/icons/tag";
+import Users from "@lucide/astro/icons/users";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { whatsappUrl } from "@/data/site";
 
 const customTypes = [
-  "Badge",
-  "Emblem",
-  "Patch bordir",
-  "Pin",
-  "Papan nama",
-  "Tanda pengenal",
-  "Atribut instansi",
-  "Atribut acara resmi",
-  "Perlengkapan seragam",
-  "Atribut organisasi resmi",
+  { name: "Badge", description: "Referensi bentuk, warna, dan ukuran badge.", icon: Badge },
+  { name: "Emblem", description: "Emblem sesuai identitas instansi atau unit.", icon: ShieldCheck },
+  { name: "Patch bordir", description: "Patch dari logo, tulisan, atau contoh visual.", icon: Stamp },
+  { name: "Pin", description: "Pin nama, logo, jabatan, atau kebutuhan acara.", icon: CircleDot },
+  { name: "Papan nama", description: "Papan nama dengan ukuran dan detail tulisan.", icon: Tag },
+  { name: "Tanda pengenal", description: "Atribut identitas untuk kebutuhan resmi.", icon: IdCard },
+  { name: "Atribut instansi", description: "Kebutuhan khusus lembaga atau unit kerja.", icon: Landmark },
+  { name: "Atribut acara resmi", description: "Atribut untuk kegiatan dan agenda kedinasan.", icon: CalendarCheck },
+  { name: "Perlengkapan seragam", description: "Detail pelengkap untuk seragam organisasi.", icon: Shirt },
+  { name: "Atribut organisasi", description: "Atribut identitas organisasi resmi.", icon: Users },
 ];
 
-const flow = [
-  "Kirim referensi desain",
-  "Tentukan ukuran, bahan, dan jumlah",
-  "Tim BAC memberikan estimasi",
-  "Pelanggan konfirmasi",
-  "Produksi",
-  "Quality control",
-  "Pengiriman",
+const briefItems = [
+  { title: "Referensi visual", description: "Kirim foto, logo, sketsa, atau contoh produk.", icon: ImageUp },
+  { title: "Ukuran", description: "Cantumkan dimensi atau ukuran perkiraan yang dibutuhkan.", icon: Ruler },
+  { title: "Bahan dan warna", description: "Sampaikan bahan pilihan dan acuan warna jika tersedia.", icon: Palette },
+  { title: "Jumlah dan target", description: "Informasikan jumlah pesanan serta waktu yang diharapkan.", icon: Boxes },
 ];
+
+const customFlow = [
+  {
+    title: "Kirim referensi",
+    description: "Bagikan foto, logo, atau contoh produk kepada admin BAC.",
+    icon: ImageUp,
+  },
+  {
+    title: "Rinci kebutuhan",
+    description: "Konfirmasi ukuran, bahan, warna, jumlah, dan target waktu.",
+    icon: Ruler,
+  },
+  {
+    title: "Review dan estimasi",
+    description: "Tim BAC meninjau detail dan menyampaikan opsi pengerjaan.",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Produksi dan QC",
+    description: "Pesanan dibuat sesuai detail yang disepakati lalu diperiksa.",
+    icon: Factory,
+  },
+  {
+    title: "Pengiriman",
+    description: "Pesanan dikemas dan dikirim sesuai kesepakatan.",
+    icon: PackageCheck,
+  },
+];
+
+const consultationMessage =
+  "Halo Admin BAC, saya ingin konsultasi custom order. Saya akan mengirim referensi desain dan detail kebutuhan.";
 ---
 
 <BaseLayout
   title="Custom Order"
   description="Layanan custom badge, emblem, patch bordir, pin, papan nama, dan atribut instansi BAC."
+  image="/images/bac-process.webp"
 >
-  <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Custom Order</p>
-      <h1>Buat atribut khusus berdasarkan referensi desain, bahan, ukuran, dan jumlah pesanan.</h1>
+  <section class="page-hero custom-page-hero">
+    <img
+      class="custom-hero-background"
+      src="/images/bac-process.webp"
+      alt=""
+      width="1200"
+      height="675"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="container custom-hero-content">
+      <p class="custom-hero-proof"><span aria-hidden="true"></span> Gambaran kebutuhan custom BAC</p>
+      <h1>Atribut custom untuk kebutuhan resmi.</h1>
       <p>
-        BAC melayani custom atribut untuk instansi, organisasi resmi, acara kedinasan, sekolah
-        kedinasan, reseller, dan toko seragam.
+        Mulai dari badge, emblem, patch, pin, hingga perlengkapan seragam. Kirim referensi dan
+        detail kebutuhan agar admin BAC dapat membantu menentukan opsi pengerjaan.
       </p>
-      <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi custom order. Saya akan mengirim referensi desain.")} target="_blank" rel="noreferrer">
-        Konsultasikan Custom Order
-      </a>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container grid-2">
-      <div>
-        <p class="eyebrow">Jenis Custom</p>
-        <h2>Produk yang bisa dikonsultasikan.</h2>
-        <div class="grid-2">
-          {customTypes.map((item) => <div class="info-card"><h3>{item}</h3><p>Detail mengikuti kebutuhan, referensi, dan jumlah pesanan.</p></div>)}
-        </div>
-      </div>
-      <div>
-        <img class="detail-image" src="/images/bac-catalog.webp" alt="Contoh atribut custom BAC" />
+      <div class="custom-hero-actions">
+        <a
+          class="button button-whatsapp"
+          href={whatsappUrl(consultationMessage)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
+          Konsultasi Custom
+        </a>
+        <a class="button button-light" href="#jenis-custom">
+          Pilih Jenis Custom
+          <ArrowRight size={18} strokeWidth={1.9} aria-hidden="true" />
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="section section-soft">
+  <nav class="custom-anchor-nav" aria-label="Navigasi custom order">
     <div class="container">
-      <div class="section-head">
+      <a href="#jenis-custom"><Badge size={19} strokeWidth={1.8} aria-hidden="true" />Jenis custom</a>
+      <a href="#brief-custom"><ClipboardCheck size={19} strokeWidth={1.8} aria-hidden="true" />Siapkan brief</a>
+      <a href="#alur-custom"><PackageCheck size={19} strokeWidth={1.8} aria-hidden="true" />Alur pengerjaan</a>
+    </div>
+  </nav>
+
+  <section class="section custom-types-section" id="jenis-custom">
+    <div class="container">
+      <div class="section-head custom-section-head">
         <div>
-          <p class="eyebrow">Alur Custom</p>
-          <h2>Dari referensi sampai pengiriman.</h2>
+          <p class="eyebrow">Jenis custom</p>
+          <h2>Pilih kebutuhan yang paling mendekati.</h2>
         </div>
+        <p>Belum yakin kategorinya? Pilih yang terdekat; detail akhir tetap dikonfirmasi bersama admin.</p>
       </div>
-      <div class="grid-3">
-        {flow.map((item, index) => <div class="step-card"><h3>{index + 1}. {item}</h3><p>Admin BAC akan mengonfirmasi detail sebelum masuk tahap berikutnya.</p></div>)}
+
+      <div class="custom-type-grid">
+        {
+          customTypes.map((item) => (
+            <a
+              class="custom-type-card"
+              href={whatsappUrl(
+                `Halo Admin BAC, saya ingin konsultasi custom ${item.name}. Saya akan mengirim referensi dan detail kebutuhan.`,
+              )}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="custom-type-icon" aria-hidden="true">
+                <item.icon size={25} strokeWidth={1.7} />
+              </span>
+              <span>
+                <strong>{item.name}</strong>
+                <small>{item.description}</small>
+              </span>
+              <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
+            </a>
+          ))
+        }
       </div>
+    </div>
+  </section>
+
+  <section class="section section-soft custom-brief-section" id="brief-custom">
+    <div class="container custom-brief-layout">
+      <div class="custom-brief-intro">
+        <p class="eyebrow">Siapkan brief</p>
+        <h2>Empat informasi mempercepat konsultasi.</h2>
+        <p>
+          Tidak harus lengkap sejak awal. Informasi berikut membantu admin memahami kebutuhan dan
+          mengurangi pertanyaan berulang.
+        </p>
+        <a
+          class="text-link"
+          href={whatsappUrl(consultationMessage)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Mulai kirim brief <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
+        </a>
+      </div>
+      <ol class="custom-brief-list">
+        {
+          briefItems.map((item, index) => (
+            <li>
+              <span class="custom-brief-icon" aria-hidden="true">
+                <item.icon size={23} strokeWidth={1.7} />
+              </span>
+              <div>
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section custom-flow-section" id="alur-custom">
+    <div class="container">
+      <div class="section-head custom-section-head">
+        <div>
+          <p class="eyebrow">Alur pengerjaan</p>
+          <h2>Dari referensi hingga pesanan dikirim.</h2>
+        </div>
+        <p>Setiap tahap berjalan setelah detail penting pada tahap sebelumnya dikonfirmasi.</p>
+      </div>
+
+      <ol class="custom-flowchart" aria-label="Lima tahap custom order BAC">
+        {
+          customFlow.map((step, index) => (
+            <li style={`--custom-step: ${index};`}>
+              <div class="custom-flow-node">
+                <step.icon size={25} strokeWidth={1.75} aria-hidden="true" />
+                <span>{String(index + 1).padStart(2, "0")}</span>
+              </div>
+              <div class="custom-flow-copy">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="custom-band custom-order-cta">
+    <div class="container custom-band-inner">
+      <div>
+        <p class="eyebrow">Mulai konsultasi</p>
+        <h2>Referensi belum sempurna tidak masalah.</h2>
+        <p>Kirim contoh yang tersedia. Admin BAC membantu merinci kebutuhan sebelum proses dimulai.</p>
+      </div>
+      <a
+        class="button button-light"
+        href={whatsappUrl(consultationMessage)}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
+        Chat Admin BAC
+      </a>
     </div>
   </section>
 </BaseLayout>
