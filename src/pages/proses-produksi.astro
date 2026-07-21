@@ -1,62 +1,266 @@
 ---
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import BadgeCheck from "@lucide/astro/icons/badge-check";
+import Boxes from "@lucide/astro/icons/boxes";
+import CalendarClock from "@lucide/astro/icons/calendar-clock";
+import Check from "@lucide/astro/icons/check";
+import Factory from "@lucide/astro/icons/factory";
+import ListChecks from "@lucide/astro/icons/list-checks";
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import PackageSearch from "@lucide/astro/icons/package-search";
+import PencilRuler from "@lucide/astro/icons/pencil-ruler";
+import SwatchBook from "@lucide/astro/icons/swatch-book";
+import Truck from "@lucide/astro/icons/truck";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { whatsappUrl } from "@/data/site";
 
-const steps = [
-  ["Konsultasi Kebutuhan", "Pelanggan menyampaikan jenis atribut, kategori instansi, jumlah, dan target pemakaian."],
-  ["Pemeriksaan Referensi", "Tim BAC mengecek desain, warna, ukuran, bahan, dan detail teknis lain."],
-  ["Pemilihan Bahan", "Opsi bahan disesuaikan dengan fungsi produk, tampilan, dan anggaran."],
-  ["Produksi atau Stok", "Pesanan dipenuhi dari stok tersedia atau diproses sebagai pre-order/custom."],
-  ["Quality Control", "Detail, kerapian, jumlah, dan kelayakan produk diperiksa sebelum pengemasan."],
-  ["Pengemasan", "Produk dikemas rapi agar aman saat diambil atau dikirim."],
-  ["Pengiriman", "Pesanan dikirim sesuai alamat dan konfirmasi pelanggan."],
+const fulfilmentModes = [
+  {
+    title: "Ready stock",
+    description: "Produk tersedia diperiksa, dikemas, lalu disiapkan untuk pengiriman.",
+    note: "Jalur paling singkat",
+    icon: PackageSearch,
+    color: "green",
+  },
+  {
+    title: "Pre-order",
+    description: "Ketersediaan dan estimasi waktu dikonfirmasi sebelum pengerjaan dimulai.",
+    note: "Waktu disepakati di awal",
+    icon: CalendarClock,
+    color: "blue",
+  },
+  {
+    title: "Custom",
+    description: "Referensi, ukuran, bahan, warna, dan jumlah ditinjau lebih dahulu.",
+    note: "Detail dikunci bersama",
+    icon: PencilRuler,
+    color: "maroon",
+  },
 ];
+
+const productionFlow = [
+  {
+    title: "Konsultasi",
+    description: "Jenis atribut, jumlah, dan target pemakaian dicatat.",
+    icon: MessageCircle,
+  },
+  {
+    title: "Review detail",
+    description: "Referensi, ukuran, warna, dan kebutuhan teknis diperiksa.",
+    icon: ListChecks,
+  },
+  {
+    title: "Bahan & estimasi",
+    description: "Opsi bahan serta waktu pengerjaan disepakati.",
+    icon: SwatchBook,
+  },
+  {
+    title: "Pemenuhan",
+    description: "Pesanan diproses dari stok atau masuk ke produksi.",
+    icon: Factory,
+  },
+  {
+    title: "Quality control",
+    description: "Detail, jumlah, dan kondisi produk diperiksa.",
+    icon: BadgeCheck,
+  },
+  {
+    title: "Kemas & kirim",
+    description: "Produk diamankan dan dikirim sesuai konfirmasi.",
+    icon: Truck,
+  },
+];
+
+const qualityChecks = [
+  {
+    title: "Sesuai referensi",
+    description: "Bentuk, ukuran, tulisan, dan detail visual dibandingkan dengan acuan pesanan.",
+  },
+  {
+    title: "Rapi saat digunakan",
+    description: "Bordir, jahitan, tepi, perekat, atau finishing diperiksa sesuai jenis produk.",
+  },
+  {
+    title: "Warna dan jumlah tepat",
+    description: "Warna, varian, dan kuantitas dicocokkan kembali sebelum pengemasan.",
+  },
+  {
+    title: "Aman untuk dikirim",
+    description: "Kondisi akhir dan kemasan diperiksa agar produk terlindungi selama perjalanan.",
+  },
+];
+
+const consultationMessage =
+  "Halo Admin BAC, saya ingin konsultasi proses produksi atribut. Kebutuhan saya adalah ...";
 ---
 
 <BaseLayout
   title="Proses Produksi"
-  description="Alur produksi, quality control, dan pengemasan atribut kedinasan BAC."
+  description="Alur produksi BAC dari konsultasi, peninjauan detail, quality control, pengemasan, hingga pengiriman atribut kedinasan."
+  image="/images/bac-workshop-hero-v2.webp"
 >
-  <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Proses Produksi</p>
-      <h1>Alur kerja yang jelas untuk atribut ready stock, pre-order, dan custom.</h1>
+  <section class="page-hero process-page-hero">
+    <img
+      class="process-hero-background"
+      src="/images/bac-workshop-hero-v2.webp"
+      alt=""
+      width="1672"
+      height="941"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="container process-hero-content">
+      <p class="process-hero-proof"><span aria-hidden="true"></span> Workshop produksi atribut</p>
+      <h1>Dari detail pesanan hingga siap dikirim.</h1>
       <p>
-        BAC menjaga komunikasi dari awal konsultasi sampai pengiriman agar detail produk sesuai
-        referensi dan kebutuhan pelanggan.
+        Setiap pesanan mengikuti jalur yang sesuai: ready stock, pre-order, atau custom. Detail
+        penting dikonfirmasi sebelum produksi dan diperiksa kembali sebelum pengiriman.
       </p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container grid-2">
-      <img class="detail-image" src="/images/bac-process.webp" alt="Proses produksi dan quality control atribut BAC" />
-      <div>
-        <p class="eyebrow">Quality Control</p>
-        <h2>Detail diperiksa sebelum produk sampai ke pelanggan.</h2>
-        <p>
-          Pemeriksaan mencakup kesesuaian desain, kerapian bordir atau finishing, warna, jumlah,
-          dan kondisi produk. Untuk pesanan custom, referensi pelanggan menjadi acuan utama dalam
-          proses produksi.
-        </p>
-        <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi proses produksi atau custom atribut.")} target="_blank" rel="noreferrer">
-          Konsultasi Produksi
+      <div class="process-hero-actions">
+        <a
+          class="button button-whatsapp"
+          href={whatsappUrl(consultationMessage)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
+          Konsultasi Pesanan
+        </a>
+        <a class="button button-light" href="#alur-produksi">
+          Lihat Alur
+          <ArrowRight size={18} strokeWidth={1.9} aria-hidden="true" />
         </a>
       </div>
+      <ul class="process-hero-modes" aria-label="Jalur pemenuhan pesanan BAC">
+        <li><PackageSearch size={17} strokeWidth={1.8} aria-hidden="true" /> Ready stock</li>
+        <li><CalendarClock size={17} strokeWidth={1.8} aria-hidden="true" /> Pre-order</li>
+        <li><PencilRuler size={17} strokeWidth={1.8} aria-hidden="true" /> Custom</li>
+      </ul>
     </div>
   </section>
 
-  <section class="section section-soft">
+  <nav class="process-anchor-nav" aria-label="Navigasi proses produksi">
     <div class="container">
-      <div class="section-head">
+      <a href="#jalur-pesanan"><Boxes size={19} strokeWidth={1.8} aria-hidden="true" />Jalur pesanan</a>
+      <a href="#alur-produksi"><Factory size={19} strokeWidth={1.8} aria-hidden="true" />Tahapan produksi</a>
+      <a href="#quality-control"><BadgeCheck size={19} strokeWidth={1.8} aria-hidden="true" />Quality control</a>
+    </div>
+  </nav>
+
+  <section class="section process-modes-section" id="jalur-pesanan">
+    <div class="container">
+      <div class="section-head process-section-head">
         <div>
-          <p class="eyebrow">Alur</p>
-          <h2>Proses pesanan BAC.</h2>
+          <p class="eyebrow">Jalur pesanan</p>
+          <h2>Satu kebutuhan, alur pemenuhan yang berbeda.</h2>
         </div>
+        <p>
+          Admin BAC membantu menentukan jalur berdasarkan ketersediaan produk, tingkat penyesuaian,
+          jumlah, dan target waktu.
+        </p>
       </div>
-      <div class="grid-3">
-        {steps.map(([title, text], index) => <div class="step-card"><h3>{index + 1}. {title}</h3><p>{text}</p></div>)}
+
+      <div class="process-mode-grid">
+        {
+          fulfilmentModes.map((mode, index) => (
+            <article class={`process-mode-item process-mode-${mode.color}`}>
+              <div class="process-mode-topline">
+                <span class="process-mode-icon" aria-hidden="true">
+                  <mode.icon size={27} strokeWidth={1.7} />
+                </span>
+                <small>{String(index + 1).padStart(2, "0")}</small>
+              </div>
+              <h3>{mode.title}</h3>
+              <p>{mode.description}</p>
+              <strong><Check size={16} strokeWidth={2} aria-hidden="true" />{mode.note}</strong>
+            </article>
+          ))
+        }
       </div>
+    </div>
+  </section>
+
+  <section class="section section-soft process-flow-section" id="alur-produksi">
+    <div class="container">
+      <div class="section-head process-section-head">
+        <div>
+          <p class="eyebrow">Alur produksi</p>
+          <h2>Enam tahap yang mudah diikuti.</h2>
+        </div>
+        <p>Dua titik kendali utama menjaga proses tetap jelas: konfirmasi detail dan quality control.</p>
+      </div>
+
+      <ol class="process-flowchart" aria-label="Enam tahap proses pesanan BAC">
+        {
+          productionFlow.map((step, index) => (
+            <li style={`--process-step: ${index};`}>
+              <div class="process-flow-node">
+                <step.icon size={24} strokeWidth={1.75} aria-hidden="true" />
+                <span>{String(index + 1).padStart(2, "0")}</span>
+              </div>
+              <div class="process-flow-copy">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="process-checkpoints" aria-label="Titik kendali proses">
+        <p><ListChecks size={19} strokeWidth={1.8} aria-hidden="true" /><strong>Konfirmasi detail</strong> sebelum bahan atau stok diproses.</p>
+        <p><BadgeCheck size={19} strokeWidth={1.8} aria-hidden="true" /><strong>Pemeriksaan akhir</strong> sebelum produk dikemas.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section process-qc-section" id="quality-control">
+    <div class="container process-qc-layout">
+      <div class="process-qc-intro">
+        <p class="eyebrow">Quality control</p>
+        <h2>Empat pemeriksaan sebelum pengemasan.</h2>
+        <p>
+          Produk tidak langsung masuk ke paket. Tim memeriksa kesesuaian detail dan kondisi akhir
+          berdasarkan jenis pesanan serta referensi yang telah dikonfirmasi.
+        </p>
+        <a class="text-link" href="/custom-order/">
+          Pelajari custom order <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
+        </a>
+      </div>
+
+      <ol class="process-qc-list">
+        {
+          qualityChecks.map((item, index) => (
+            <li>
+              <span class="process-qc-number">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+              <BadgeCheck size={23} strokeWidth={1.7} aria-hidden="true" />
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="process-cta-band">
+    <div class="container process-cta-inner">
+      <div>
+        <p class="eyebrow">Siapkan pesanan</p>
+        <h2>Mulai dari kebutuhan yang sudah Anda ketahui.</h2>
+        <p>Jenis produk, jumlah, dan target waktu sudah cukup untuk membuka konsultasi.</p>
+      </div>
+      <a
+        class="button button-light"
+        href={whatsappUrl(consultationMessage)}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
+        Chat Admin BAC
+      </a>
     </div>
   </section>
 </BaseLayout>
