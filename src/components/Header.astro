@@ -7,9 +7,27 @@ const generalMessage =
 
 const isActive = (href: string) =>
   href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+
+const mobileNavItems = [
+  { label: "Beranda", href: "/" },
+  { label: "Katalog", href: "/katalog/" },
+  { label: "Custom", href: "/custom-order/" },
+  { label: "Galeri", href: "/galeri/" },
+  { label: "Kontak", href: "/kontak/" },
+];
 ---
 
-<header class="site-header">
+<header class="site-header" id="site-header">
+  <div class="announcement" id="site-announcement">
+    <p>
+      <span class="announcement-wide">Katalog pengadaan 2026 tersedia.</span>
+      <span class="announcement-short">Katalog 2026 tersedia.</span>
+      <a href="/katalog/">Buka katalog</a>
+    </p>
+    <button class="announcement-close" id="announcement-close" type="button" aria-label="Tutup pengumuman">
+      &times;
+    </button>
+  </div>
   <div class="container header-inner">
     <a class="brand" href="/" aria-label="Beranda BAC">
       <span class="brand-mark">BAC</span>
@@ -37,11 +55,31 @@ const isActive = (href: string) =>
 
 <nav class="mobile-bottom-nav" aria-label="Navigasi mobile bawah">
   {
-    navItems.map((item) => (
+    mobileNavItems.map((item) => (
       <a class:list={[isActive(item.href) && "active"]} href={item.href}>
         <span class="nav-dot" aria-hidden="true"></span>
-        <span>{item.label.replace(" BAC", "")}</span>
+        <span>{item.label}</span>
       </a>
     ))
   }
 </nav>
+
+<script is:inline>
+  (() => {
+    const header = document.querySelector("#site-header");
+    const closeButton = document.querySelector("#announcement-close");
+    let lastScroll = window.scrollY;
+
+    const updateHeader = () => {
+      const currentScroll = window.scrollY;
+      header?.classList.toggle("is-compact", currentScroll > 48 && currentScroll > lastScroll);
+      lastScroll = currentScroll;
+    };
+
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    closeButton?.addEventListener("click", () => {
+      header?.classList.add("is-dismissed");
+      document.documentElement.style.setProperty("--announcement-height", "0px");
+    });
+  })();
+</script>

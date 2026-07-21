@@ -1,53 +1,32 @@
 ---
-import { categories } from "@/data/products";
-import { navItems, site, whatsappUrl } from "@/data/site";
+import { site, whatsappUrl } from "@/data/site";
 
 const message = "Halo Admin BAC, saya ingin bertanya tentang katalog atribut kedinasan.";
 ---
 
 <footer class="site-footer">
-  <div class="container footer-grid">
-    <section>
-      <a class="brand footer-brand" href="/">
+  <div class="container footer-statement">
+    <p class="footer-statement-line">Atribut yang rapi, untuk identitas yang dibawa setiap hari.</p>
+    <div class="footer-contact">
+      <a class="brand footer-brand" href="/" aria-label="Beranda BAC">
         <span class="brand-mark">BAC</span>
         <span>
           <strong>{site.name}</strong>
           <small>{site.tagline}</small>
         </span>
       </a>
-      <p>{site.description}</p>
-      <a class="button button-whatsapp" href={whatsappUrl(message)} target="_blank" rel="noreferrer">
-        Chat WhatsApp
-      </a>
-    </section>
-
-    <section>
-      <h2>Menu</h2>
-      <ul>
-        {navItems.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-        <li><a href="/alamat-toko/">Alamat Toko</a></li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Kategori</h2>
-      <ul>
-        {categories.slice(0, 8).map((category) => <li><a href={`/katalog/?kategori=${category.slug}`}>{category.name}</a></li>)}
-      </ul>
-    </section>
-
-    <section>
-      <h2>Kontak</h2>
-      <ul>
-        <li><a href={whatsappUrl(message)} target="_blank" rel="noreferrer">WhatsApp Admin</a></li>
-        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-        <li><a href={site.mapsUrl} target="_blank" rel="noreferrer">Buka Google Maps</a></li>
-      </ul>
-      <p>{site.address}</p>
-    </section>
+      <div class="footer-actions">
+        <a href="/katalog/">Katalog</a>
+        <a href="/tentang-bac/">Profil</a>
+        <a href="/kontak/">Kontak</a>
+        <a class="button button-whatsapp" href={whatsappUrl(message)} target="_blank" rel="noreferrer">
+          Chat WhatsApp
+        </a>
+      </div>
+    </div>
   </div>
   <div class="container footer-bottom">
-    <span>© {new Date().getFullYear()} {site.name}</span>
-    <span>Website katalog statis siap deploy Vercel</span>
+    <span>&copy; {new Date().getFullYear()} {site.name}</span>
+    <span>{site.email}</span>
   </div>
 </footer>

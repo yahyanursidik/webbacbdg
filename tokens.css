@@ -1,0 +1,88 @@
+/* Hallmark · tokens · theme: BAC Coral Utility */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=IBM+Plex+Sans:wght@400;600;700&display=swap");
+
+:root {
+  --color-paper: oklch(97.5% 0.008 72);
+  --color-paper-2: oklch(94.5% 0.012 72);
+  --color-paper-3: oklch(90.5% 0.014 72);
+  --color-ink: oklch(21% 0.04 252);
+  --color-ink-2: oklch(32% 0.032 252);
+  --color-muted: oklch(43% 0.022 252);
+  --color-rule: oklch(84% 0.014 72);
+  --color-rule-2: oklch(73% 0.02 72);
+  --color-accent: oklch(46% 0.16 28);
+  --color-accent-deep: oklch(34% 0.12 28);
+  --color-accent-ink: oklch(97.5% 0.008 72);
+  --color-focus: oklch(52% 0.18 252);
+  --color-success: oklch(42% 0.12 151);
+  --color-success-deep: oklch(32% 0.1 151);
+  --color-error: oklch(48% 0.17 28);
+  --color-graphite: oklch(18% 0.025 252);
+  --color-graphite-2: oklch(25% 0.03 252);
+  --color-on-dark: oklch(95% 0.012 72);
+  --color-on-dark-muted: oklch(78% 0.016 72);
+
+  --service-maroon: oklch(40% 0.14 27);
+  --service-gold: oklch(67% 0.13 78);
+  --service-blue: oklch(48% 0.13 252);
+  --service-orange: oklch(65% 0.16 53);
+  --service-green: oklch(43% 0.1 151);
+  --service-purple: oklch(40% 0.09 320);
+  --service-sky: oklch(67% 0.1 226);
+  --service-leaf: oklch(63% 0.1 133);
+  --service-charcoal: oklch(30% 0.02 252);
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, sans-serif;
+  --font-body: "IBM Plex Sans", ui-sans-serif, sans-serif;
+
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5625rem;
+  --text-xl: 1.953rem;
+  --text-2xl: 2.441rem;
+  --text-3xl: 3.052rem;
+  --text-display: clamp(2.65rem, 5vw + 0.5rem, 5.1rem);
+  --text-display-s: clamp(2.35rem, 4vw + 0.4rem, 4.1rem);
+  --text-mobile-display: clamp(2.25rem, 9vw, 2.5rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  --rule-hair: 1px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --size-control: 2.75rem;
+  --size-brand: 2.75rem;
+  --layout-wide: 74rem;
+  --announcement-height: 2.25rem;
+  --shadow-whisper: 0 1px 2px oklch(21% 0.04 252 / 0.06);
+
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}

@@ -1,0 +1,14 @@
+{
+  "scanned_at": "2026-07-21",
+  "framework": "Astro 7.0.6",
+  "font_stack_before": "Inter and system UI fallbacks",
+  "palette_before": "Hex custom properties for navy, maroon, gold, blue, orange, and green",
+  "motion_before": "CSS-only hero animation; no motion library",
+  "spacing_before": "Ad hoc values following an approximate 8px rhythm",
+  "preserved": [
+    "Astro routes and static Vercel output",
+    "BAC institutional service colours",
+    "mobile bottom navigation",
+    "catalogue, contact, maps, and WhatsApp flows"
+  ]
+}
