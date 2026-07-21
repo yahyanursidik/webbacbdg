@@ -54,7 +54,7 @@ const pageSize = 24;
     </div>
   </section>
 
-  <section class="section section-soft">
+  <section class="section section-soft" id="semua-kategori">
     <div class="container">
       <div class="section-head">
         <div>
@@ -89,11 +89,21 @@ const pageSize = 24;
     const loadMore = document.querySelector("#load-more");
     const params = new URLSearchParams(window.location.search);
     const initialCategory = params.get("kategori");
+    const initialQuery = params.get("q");
+    const initialType = params.get("jenis");
     const pageSize = 24;
     let visibleLimit = pageSize;
 
     if (initialCategory && categoryFilter instanceof HTMLSelectElement) {
       categoryFilter.value = initialCategory;
+    }
+
+    if (initialQuery && searchInput instanceof HTMLInputElement) {
+      searchInput.value = initialQuery;
+    }
+
+    if (initialType && typeFilter instanceof HTMLSelectElement) {
+      typeFilter.value = initialType;
     }
 
     function updateCatalog(reset = false) {

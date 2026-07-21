@@ -1,5 +1,10 @@
 ---
-import { navItems, site, whatsappUrl } from "@/data/site";
+import House from "@lucide/astro/icons/house";
+import Images from "@lucide/astro/icons/images";
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import PackageSearch from "@lucide/astro/icons/package-search";
+import PencilRuler from "@lucide/astro/icons/pencil-ruler";
+import { site, whatsappUrl } from "@/data/site";
 
 const currentPath = Astro.url.pathname;
 const generalMessage =
@@ -8,20 +13,28 @@ const generalMessage =
 const isActive = (href: string) =>
   href === "/" ? currentPath === "/" : currentPath.startsWith(href);
 
-const mobileNavItems = [
-  { label: "Beranda", href: "/" },
+const desktopNavItems = [
   { label: "Katalog", href: "/katalog/" },
-  { label: "Custom", href: "/custom-order/" },
-  { label: "Galeri", href: "/galeri/" },
+  { label: "Custom Order", href: "/custom-order/" },
+  { label: "Proses Produksi", href: "/proses-produksi/" },
+  { label: "Tentang BAC", href: "/tentang-bac/" },
   { label: "Kontak", href: "/kontak/" },
+];
+
+const mobileNavItems = [
+  { label: "Beranda", href: "/", icon: House },
+  { label: "Katalog", href: "/katalog/", icon: PackageSearch },
+  { label: "Custom", href: "/custom-order/", icon: PencilRuler },
+  { label: "Galeri", href: "/galeri/", icon: Images },
+  { label: "Kontak", href: "/kontak/", icon: MessageCircle },
 ];
 ---
 
 <header class="site-header" id="site-header">
   <div class="announcement" id="site-announcement">
     <p>
-      <span class="announcement-wide">Katalog pengadaan 2026 tersedia.</span>
-      <span class="announcement-short">Katalog 2026 tersedia.</span>
+      <span class="announcement-wide">647 referensi produk BAC kini tersedia.</span>
+      <span class="announcement-short">647 produk tersedia.</span>
       <a href="/katalog/">Buka katalog</a>
     </p>
     <button class="announcement-close" id="announcement-close" type="button" aria-label="Tutup pengumuman">
@@ -39,7 +52,7 @@ const mobileNavItems = [
 
     <nav class="desktop-nav" aria-label="Navigasi utama">
       {
-        navItems.map((item) => (
+        desktopNavItems.map((item) => (
           <a class:list={[isActive(item.href) && "active"]} href={item.href}>
             {item.label}
           </a>
@@ -57,7 +70,7 @@ const mobileNavItems = [
   {
     mobileNavItems.map((item) => (
       <a class:list={[isActive(item.href) && "active"]} href={item.href}>
-        <span class="nav-dot" aria-hidden="true"></span>
+        <item.icon class="mobile-nav-icon" size={20} strokeWidth={1.8} aria-hidden="true" />
         <span>{item.label}</span>
       </a>
     ))

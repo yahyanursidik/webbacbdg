@@ -1,10 +1,51 @@
 ---
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import Building2 from "@lucide/astro/icons/building-2";
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import PackageSearch from "@lucide/astro/icons/package-search";
+import PencilRuler from "@lucide/astro/icons/pencil-ruler";
+import Search from "@lucide/astro/icons/search";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProductCard from "@/components/ProductCard.astro";
-import { categories, featuredProducts } from "@/data/products";
+import { categories, products } from "@/data/products";
 import { site, whatsappUrl } from "@/data/site";
 
 const consultationMessage = "Halo Admin BAC, saya ingin konsultasi kebutuhan atribut kedinasan.";
+const procurementMessage =
+  "Halo Admin BAC, saya ingin meminta informasi untuk kebutuhan grosir atau pengadaan instansi.";
+
+const categoryCounts = products.reduce<Record<string, number>>((counts, product) => {
+  counts[product.category] = (counts[product.category] ?? 0) + 1;
+  return counts;
+}, {});
+
+const homeCategories = [...categories]
+  .sort((a, b) => (categoryCounts[b.slug] ?? 0) - (categoryCounts[a.slug] ?? 0))
+  .slice(0, 8);
+
+const homeProductSlugs = [
+  "polisi-pangkat-pdu-polisi-komisaris-jenderal",
+  "jaksa-pangkat-pdh-jaksa-3a",
+  "pemadam-emblem-pemadam",
+  "sabuk-logo-daerah-sabuk-kabupaten-bandung-barat-kbb",
+  "dishub-pin-dishub-corak-ak",
+  "satpam-pin-kew-satpam-besar-anhas",
+];
+const homeProducts = homeProductSlugs
+  .map((slug) => products.find((product) => product.slug === slug))
+  .filter((product) => product !== undefined);
+
+const heroProductSlugs = [
+  "polisi-pangkat-pdu-polisi-komisaris-jenderal",
+  "pemadam-emblem-pemadam",
+  "atr-bpn-emblem-bpn",
+];
+const heroProducts = heroProductSlugs
+  .map((slug) => products.find((product) => product.slug === slug))
+  .filter((product) => product !== undefined);
+
+const attributeTypeCount = new Set(products.map((product) => product.attributeType)).size;
+
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -20,64 +61,139 @@ const localBusinessSchema = {
 <BaseLayout
   title="BAC - Supplier Atribut Kedinasan & Kementerian Berkualitas"
   description={site.description}
+  image="/catalog/polisi/polisi-pangkat-pdu-polisi-komisaris-jenderal-01.webp"
   schema={localBusinessSchema}
 >
   <section class="hero home-hero">
     <div class="container hero-catalogue">
       <div class="hero-copy">
         <p class="brand-line">CV. Berkah Abadi Creative</p>
-        <h1>Atribut kedinasan untuk kebutuhan nyata.</h1>
+        <h1>Temukan atribut kedinasan yang tepat, lebih cepat.</h1>
         <p class="hero-lede">
-          Katalog atribut instansi untuk pengadaan, reseller, dan custom. Pilih produk, lalu
-          konsultasikan bahan, ukuran, dan jumlah dengan admin BAC.
+          Cari koleksi asli BAC berdasarkan instansi, jabatan, pangkat, atau jenis atribut. Detail
+          pesanan dikonfirmasi langsung bersama admin.
         </p>
+
+        <form class="hero-search" action="/katalog/" method="get" role="search">
+          <Search size={21} strokeWidth={1.9} aria-hidden="true" />
+          <label class="sr-only" for="home-product-search">Cari produk BAC</label>
+          <input
+            id="home-product-search"
+            name="q"
+            type="search"
+            placeholder="Contoh: pangkat polisi, pin jaksa, sabuk daerah"
+            autocomplete="off"
+          />
+          <button type="submit" aria-label="Cari di katalog BAC">
+            <span>Cari produk</span>
+            <ArrowRight size={18} strokeWidth={2} aria-hidden="true" />
+          </button>
+        </form>
+
         <div class="hero-actions">
-          <a class="button button-primary" href="/katalog/">Buka Katalog</a>
-          <a class="button button-whatsapp" href={whatsappUrl(consultationMessage)} target="_blank" rel="noreferrer">
+          <a class="button button-primary" href="/katalog/">
+            <PackageSearch size={19} strokeWidth={1.9} aria-hidden="true" />
+            Buka Katalog
+          </a>
+          <a
+            class="button button-whatsapp"
+            href={whatsappUrl(consultationMessage)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
             Chat WhatsApp
           </a>
         </div>
-        <dl class="hero-ledger" aria-label="Layanan utama BAC">
-          <div><dt>Siap order</dt><dd>Satuan dan grosir</dd></div>
-          <div><dt>Custom</dt><dd>Patch, badge, pin, emblem</dd></div>
-          <div><dt>Konsultasi</dt><dd>Stok, bahan, ukuran, jumlah</dd></div>
+
+        <dl class="hero-ledger" aria-label="Ringkasan katalog BAC">
+          <div><dt>{products.length}</dt><dd>Referensi produk</dd></div>
+          <div><dt>{categories.length}</dt><dd>Kelompok instansi</dd></div>
+          <div><dt>{attributeTypeCount}</dt><dd>Jenis atribut</dd></div>
         </dl>
       </div>
-      <figure class="hero-visual">
-        <img
-          src="/images/bac-hero.webp"
-          alt="Koleksi atribut kedinasan BAC"
-          width="1536"
-          height="1024"
-          fetchpriority="high"
-          decoding="async"
-        />
-        <figcaption>Supplier atribut kedinasan dan kementerian</figcaption>
-        <div class="service-spectrum" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-        </div>
-      </figure>
+
+      <div class="hero-product-showcase" aria-label="Produk asli dari katalog BAC">
+        {
+          heroProducts.map((product, index) => (
+            <a
+              class:list={["hero-product-tile", index === 0 && "hero-product-main"]}
+              href={`/katalog/${product.slug}/`}
+            >
+              <img
+                src={product.image}
+                alt={`Foto asli ${product.name}`}
+                width="1200"
+                height="1200"
+                fetchpriority={index === 0 ? "high" : "auto"}
+                decoding="async"
+              />
+              <span>
+                <small>{product.institution}</small>
+                <strong>{product.name}</strong>
+              </span>
+            </a>
+          ))
+        }
+        <p class="showcase-note"><span aria-hidden="true"></span> Foto katalog BAC</p>
+      </div>
     </div>
   </section>
 
-  <section class="section category-section">
+  <section class="home-pathways" aria-labelledby="pathway-title">
+    <div class="container">
+      <div class="pathway-intro">
+        <p class="eyebrow">Mulai dari kebutuhan Anda</p>
+        <h2 id="pathway-title">Tiga jalur, satu admin yang membantu.</h2>
+      </div>
+      <div class="pathway-list">
+        <a href="/katalog/">
+          <PackageSearch size={24} strokeWidth={1.7} aria-hidden="true" />
+          <span><strong>Cari produk tersedia</strong><small>Telusuri katalog berdasarkan instansi dan jenis.</small></span>
+          <ArrowRight size={20} strokeWidth={1.8} aria-hidden="true" />
+        </a>
+        <a href={whatsappUrl(procurementMessage)} target="_blank" rel="noreferrer">
+          <Building2 size={24} strokeWidth={1.7} aria-hidden="true" />
+          <span><strong>Grosir & pengadaan</strong><small>Diskusikan jumlah, kebutuhan lembaga, dan penawaran.</small></span>
+          <ArrowRight size={20} strokeWidth={1.8} aria-hidden="true" />
+        </a>
+        <a href="/custom-order/">
+          <PencilRuler size={24} strokeWidth={1.7} aria-hidden="true" />
+          <span><strong>Pesanan custom</strong><small>Kirim referensi untuk bahan, ukuran, atau desain khusus.</small></span>
+          <ArrowRight size={20} strokeWidth={1.8} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section category-section" id="kategori-utama">
     <div class="container">
       <div class="section-head catalogue-head">
-        <h2>Temukan berdasarkan instansi.</h2>
-        <p>Warna membantu membedakan kelompok produk tanpa menggunakan lambang resmi.</p>
+        <div>
+          <p class="eyebrow">Direktori katalog</p>
+          <h2>Cari berdasarkan instansi.</h2>
+        </div>
+        <div class="section-support">
+          <p>Mulai dari kelompok dengan koleksi terbanyak, atau buka seluruh 17 kategori.</p>
+          <a class="text-link" href="/katalog/#semua-kategori">
+            Semua kategori <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
+          </a>
+        </div>
       </div>
-      <div class="category-index">
+      <div class="category-index home-category-index">
         {
-          categories.slice(0, 8).map((category, index) => (
+          homeCategories.map((category, index) => (
             <a
-              class="category-card"
+              class="category-card home-category-card"
               href={`/katalog/?kategori=${category.slug}`}
               style={`--category-color: ${category.color}; --category-accent: ${category.accent};`}
             >
               <span class="category-number">{String(index + 1).padStart(2, "0")}</span>
-              <h3>{category.name}</h3>
-              <p>{category.description}</p>
-              <span class="category-link">Lihat produk <span aria-hidden="true">&rarr;</span></span>
+              <div>
+                <h3>{category.name}</h3>
+                <p>{categoryCounts[category.slug]} produk</p>
+              </div>
+              <ArrowRight size={19} strokeWidth={1.8} aria-hidden="true" />
             </a>
           ))
         }
@@ -88,11 +204,19 @@ const localBusinessSchema = {
   <section class="section product-section">
     <div class="container">
       <div class="section-head catalogue-head">
-        <h2>Produk yang paling sering dicari.</h2>
-        <a class="text-link" href="/katalog/">Lihat seluruh katalog <span aria-hidden="true">&rarr;</span></a>
+        <div>
+          <p class="eyebrow">Produk lintas instansi</p>
+          <h2>Lihat detail produk yang sebenarnya.</h2>
+        </div>
+        <div class="section-support">
+          <p>Foto berikut berasal langsung dari koleksi katalog BAC yang telah diunggah.</p>
+          <a class="text-link" href="/katalog/">
+            Lihat seluruh katalog <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
+          </a>
+        </div>
       </div>
       <div class="product-grid">
-        {featuredProducts.slice(0, 6).map((product) => <ProductCard product={product} />)}
+        {homeProducts.map((product) => <ProductCard product={product} />)}
       </div>
     </div>
   </section>
@@ -100,68 +224,41 @@ const localBusinessSchema = {
   <section class="section section-soft company-section">
     <div class="container company-layout">
       <div class="company-intro">
+        <p class="eyebrow">Cara BAC membantu</p>
         <h2>Katalog jelas. Detail pesanan tetap manusiawi.</h2>
         <p>
-          BAC membantu tim pengadaan, pelanggan personal, reseller, toko seragam, sekolah kedinasan,
-          dan lembaga pelatihan memilih atribut yang sesuai kebutuhan.
+          Produk atribut sering memiliki detail yang tidak cukup diputuskan dari foto. Admin BAC
+          membantu mengonfirmasi spesifikasi sebelum pesanan diproses.
         </p>
-        <a class="text-link" href="/tentang-bac/">Baca profil BAC <span aria-hidden="true">&rarr;</span></a>
+        <a class="text-link" href="/tentang-bac/">
+          Baca profil BAC <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
+        </a>
       </div>
       <dl class="service-ledger">
-        <div><dt>Katalog</dt><dd>Produk dikelompokkan berdasarkan kebutuhan instansi.</dd></div>
-        <div><dt>Detail</dt><dd>Bahan, ukuran, warna, dan finishing dikonfirmasi sebelum diproses.</dd></div>
-        <div><dt>Jumlah</dt><dd>Melayani kebutuhan satuan, grosir, reseller, dan pengadaan.</dd></div>
-        <div><dt>Custom</dt><dd>Referensi khusus dapat dikonsultasikan langsung dengan admin.</dd></div>
+        <div><dt>01 · Pilih</dt><dd>Cari produk melalui nama instansi, jabatan, pangkat, atau jenis atribut.</dd></div>
+        <div><dt>02 · Tanyakan</dt><dd>Kirim produk pilihan ke WhatsApp tanpa perlu mengetik ulang namanya.</dd></div>
+        <div><dt>03 · Konfirmasi</dt><dd>Pastikan bahan, ukuran, warna, ketersediaan, jumlah, dan waktu pengerjaan.</dd></div>
+        <div><dt>04 · Proses</dt><dd>Pesanan disiapkan atau diproduksi, diperiksa, kemudian dikirim.</dd></div>
       </dl>
-    </div>
-  </section>
-
-  <section class="section order-section">
-    <div class="container order-layout">
-      <div>
-        <h2>Empat langkah sampai pesanan dikirim.</h2>
-        <img
-          class="order-image"
-          src="/images/bac-process.webp"
-          alt="Meja proses produksi dan quality control atribut BAC"
-          width="1536"
-          height="1024"
-          loading="lazy"
-        />
-      </div>
-      <ol class="order-flow">
-        <li><span>01</span><div><h3>Pilih produk</h3><p>Cari kategori atau produk yang sesuai kebutuhan.</p></div></li>
-        <li><span>02</span><div><h3>Konsultasikan detail</h3><p>Admin membantu mengecek stok, bahan, ukuran, dan jumlah.</p></div></li>
-        <li><span>03</span><div><h3>Konfirmasi pesanan</h3><p>Spesifikasi disepakati sebelum produksi atau penyiapan barang.</p></div></li>
-        <li><span>04</span><div><h3>Terima pengiriman</h3><p>Produk diperiksa, dikemas, lalu dikirim ke alamat pelanggan.</p></div></li>
-      </ol>
     </div>
   </section>
 
   <section class="custom-band">
     <div class="container custom-band-inner">
       <div>
-        <h2>Punya desain atau spesifikasi khusus?</h2>
-        <p>Kirim referensi, ukuran, bahan, dan jumlah. Tim BAC membantu menentukan opsi produksinya.</p>
+        <p class="eyebrow">Kebutuhan khusus</p>
+        <h2>Belum menemukan atribut yang dicari?</h2>
+        <p>Kirim foto referensi, ukuran, bahan, dan jumlah. Tim BAC membantu menentukan opsinya.</p>
       </div>
-      <a class="button button-light" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi custom order atribut.")} target="_blank" rel="noreferrer">
-        Bahas Custom Order
+      <a
+        class="button button-light"
+        href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi custom order atribut.")}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
+        Konsultasi Custom
       </a>
-    </div>
-  </section>
-
-  <section class="section location-section">
-    <div class="container location-layout">
-      <div>
-        <h2>Kunjungi toko atau minta penawaran.</h2>
-        <p>{site.address}</p>
-        <p><strong>Jam operasional:</strong> {site.hours}</p>
-        <div class="inline-actions">
-          <a class="button button-primary" href="/alamat-toko/">Lihat Alamat</a>
-          <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Buka Maps</a>
-        </div>
-      </div>
-      <iframe class="map-frame" src={site.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Maps BAC"></iframe>
     </div>
   </section>
 </BaseLayout>
