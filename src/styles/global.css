@@ -882,6 +882,135 @@ h3 {
   }
 }
 
+/* Imported catalogue extension. */
+.catalog-toolbar {
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(12rem, 0.8fr));
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.catalog-results {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  padding-bottom: var(--space-md);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+.catalog-results p {
+  margin: 0;
+}
+
+.catalog-results p:first-child {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.catalog-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-2xl);
+}
+
+.product-media > span {
+  white-space: nowrap;
+}
+
+.product-gallery {
+  overflow: visible;
+  border: 0;
+  background: transparent;
+}
+
+.gallery-main {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  background: var(--color-paper-2);
+  object-fit: contain;
+}
+
+.gallery-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.gallery-thumbnail {
+  min-width: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-xs);
+  background: var(--color-paper);
+  cursor: pointer;
+}
+
+.gallery-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-thumbnail:hover {
+  border-color: var(--color-rule-2);
+}
+
+.gallery-thumbnail:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: var(--space-2xs);
+}
+
+.gallery-thumbnail:active,
+.gallery-thumbnail.active {
+  border-color: var(--color-accent);
+}
+
+.gallery-thumbnail:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.page-hero .button-secondary {
+  border-color: var(--color-on-dark-muted);
+  background: transparent;
+  color: var(--color-on-dark);
+}
+
+.page-hero .button-secondary:hover {
+  border-color: var(--color-on-dark);
+  background: var(--color-graphite-2);
+  color: var(--color-on-dark);
+}
+
+@media (max-width: 64rem) {
+  .catalog-toolbar {
+    grid-template-columns: minmax(0, 1fr) repeat(2, minmax(11rem, 0.7fr));
+  }
+}
+
+@media (max-width: 48rem) {
+  .catalog-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .catalog-results {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .gallery-thumbnails {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 /* Hallmark visual layer. Existing selectors remain above for route compatibility. */
 :root {
   --navy: var(--color-ink);
