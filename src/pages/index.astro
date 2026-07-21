@@ -1,7 +1,9 @@
 ---
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import Building2 from "@lucide/astro/icons/building-2";
+import ClipboardCheck from "@lucide/astro/icons/clipboard-check";
 import MessageCircle from "@lucide/astro/icons/message-circle";
+import PackageCheck from "@lucide/astro/icons/package-check";
 import PackageSearch from "@lucide/astro/icons/package-search";
 import PencilRuler from "@lucide/astro/icons/pencil-ruler";
 import Search from "@lucide/astro/icons/search";
@@ -22,6 +24,27 @@ const categoryCounts = products.reduce<Record<string, number>>((counts, product)
 const homeCategories = [...categories]
   .sort((a, b) => (categoryCounts[b.slug] ?? 0) - (categoryCounts[a.slug] ?? 0))
   .slice(0, 8);
+
+const categoryRepresentativeSlugs: Record<string, string> = {
+  polisi: "polisi-pangkat-pdu-polisi-komisaris-jenderal",
+  "sabuk-logo-daerah": "sabuk-logo-daerah-sabuk-kabupaten-bandung-barat-kbb",
+  jaksa: "jaksa-pangkat-pdh-jaksa-3a",
+  "pol-pp": "pol-pp-emblem-pol-pp-bulat-warna",
+  pemadam: "pemadam-emblem-pemadam",
+  dishub: "dishub-pin-dishub-corak-ak",
+  "atr-bpn": "atr-bpn-emblem-bpn",
+  imipas: "imipas-box-satu-set",
+};
+
+const categoryImages = Object.fromEntries(
+  homeCategories.map((category) => {
+    const representative = products.find(
+      (product) => product.slug === categoryRepresentativeSlugs[category.slug],
+    );
+    const fallback = products.find((product) => product.category === category.slug);
+    return [category.slug, representative?.image ?? fallback?.image ?? "/images/bac-catalog.webp"];
+  }),
+);
 
 const homeProductSlugs = [
   "polisi-pangkat-pdu-polisi-komisaris-jenderal",
@@ -45,6 +68,29 @@ const heroProducts = heroProductSlugs
   .filter((product) => product !== undefined);
 
 const attributeTypeCount = new Set(products.map((product) => product.attributeType)).size;
+
+const orderSteps = [
+  {
+    title: "Cari produk",
+    description: "Telusuri katalog berdasarkan instansi, jabatan, pangkat, atau jenis atribut.",
+    icon: Search,
+  },
+  {
+    title: "Tanya admin",
+    description: "Kirim produk pilihan ke WhatsApp dan sampaikan jumlah yang dibutuhkan.",
+    icon: MessageCircle,
+  },
+  {
+    title: "Konfirmasi detail",
+    description: "Pastikan bahan, ukuran, warna, ketersediaan, dan waktu pengerjaan.",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Pesanan diproses",
+    description: "Produk disiapkan atau dibuat, diperiksa, dikemas, lalu dikirim.",
+    icon: PackageCheck,
+  },
+];
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
@@ -182,13 +228,22 @@ const localBusinessSchema = {
       </div>
       <div class="category-index home-category-index">
         {
-          homeCategories.map((category, index) => (
+          homeCategories.map((category) => (
             <a
               class="category-card home-category-card"
               href={`/katalog/?kategori=${category.slug}`}
               style={`--category-color: ${category.color}; --category-accent: ${category.accent};`}
             >
-              <span class="category-number">{String(index + 1).padStart(2, "0")}</span>
+              <span class="category-attribute-icon" aria-hidden="true">
+                <img
+                  src={categoryImages[category.slug]}
+                  alt=""
+                  width="96"
+                  height="96"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
               <div>
                 <h3>{category.name}</h3>
                 <p>{categoryCounts[category.slug]} produk</p>
@@ -221,25 +276,44 @@ const localBusinessSchema = {
     </div>
   </section>
 
-  <section class="section section-soft company-section">
-    <div class="container company-layout">
-      <div class="company-intro">
-        <p class="eyebrow">Cara BAC membantu</p>
-        <h2>Katalog jelas. Detail pesanan tetap manusiawi.</h2>
+  <section class="section section-soft company-section" id="alur-pemesanan">
+    <div class="container order-process">
+      <div class="order-process-head">
+        <div>
+          <p class="eyebrow">Alur pemesanan</p>
+          <h2>Dari produk pilihan hingga pesanan siap dikirim.</h2>
+        </div>
         <p>
-          Produk atribut sering memiliki detail yang tidak cukup diputuskan dari foto. Admin BAC
-          membantu mengonfirmasi spesifikasi sebelum pesanan diproses.
+          Empat langkah sederhana dengan konfirmasi langsung bersama admin BAC pada detail yang
+          penting.
         </p>
+      </div>
+
+      <ol class="order-flowchart" aria-label="Empat langkah pemesanan di BAC">
+        {
+          orderSteps.map((step, index) => (
+            <li style={`--step-index: ${index};`}>
+              <div class="flow-node">
+                <step.icon size={25} strokeWidth={1.8} aria-hidden="true" />
+                <span>{String(index + 1).padStart(2, "0")}</span>
+              </div>
+              <div class="flow-copy">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="order-process-actions">
+        <a class="text-link" href="/proses-produksi/">
+          Lihat proses produksi <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
+        </a>
         <a class="text-link" href="/tentang-bac/">
-          Baca profil BAC <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
+          Kenali BAC <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
         </a>
       </div>
-      <dl class="service-ledger">
-        <div><dt>01 · Pilih</dt><dd>Cari produk melalui nama instansi, jabatan, pangkat, atau jenis atribut.</dd></div>
-        <div><dt>02 · Tanyakan</dt><dd>Kirim produk pilihan ke WhatsApp tanpa perlu mengetik ulang namanya.</dd></div>
-        <div><dt>03 · Konfirmasi</dt><dd>Pastikan bahan, ukuran, warna, ketersediaan, jumlah, dan waktu pengerjaan.</dd></div>
-        <div><dt>04 · Proses</dt><dd>Pesanan disiapkan atau diproduksi, diperiksa, kemudian dikirim.</dd></div>
-      </dl>
     </div>
   </section>
 
