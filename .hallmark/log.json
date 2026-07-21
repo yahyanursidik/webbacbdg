@@ -1,6 +1,13 @@
 [
   {
     "date": "2026-07-21",
+    "macrostructure": "Catalogue workspace",
+    "theme": "Coral",
+    "enrichment": "E8 existing photography",
+    "brief": "BAC catalogue discovery, category navigation, and filtering"
+  },
+  {
+    "date": "2026-07-21",
     "macrostructure": "Catalogue",
     "theme": "Coral",
     "enrichment": "E8 existing photography",

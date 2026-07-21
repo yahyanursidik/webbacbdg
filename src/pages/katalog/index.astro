@@ -1,46 +1,162 @@
 ---
+import ChevronLeft from "@lucide/astro/icons/chevron-left";
+import ChevronRight from "@lucide/astro/icons/chevron-right";
+import Layers3 from "@lucide/astro/icons/layers-2";
+import RotateCcw from "@lucide/astro/icons/rotate-ccw";
+import Search from "@lucide/astro/icons/search";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import { attributeTypes, categories, products } from "@/data/products";
 
 const pageSize = 24;
+const categoryCounts = products.reduce<Record<string, number>>((counts, product) => {
+  counts[product.category] = (counts[product.category] ?? 0) + 1;
+  return counts;
+}, {});
+
+const categoryRepresentativeSlugs: Record<string, string> = {
+  polisi: "polisi-pangkat-pdu-polisi-komisaris-jenderal",
+  "sabuk-logo-daerah": "sabuk-logo-daerah-sabuk-kabupaten-bandung-barat-kbb",
+  jaksa: "jaksa-pangkat-pdh-jaksa-3a",
+  "pol-pp": "pol-pp-emblem-pol-pp-bulat-warna",
+  pemadam: "pemadam-emblem-pemadam",
+  dishub: "dishub-pin-dishub-corak-ak",
+  "atr-bpn": "atr-bpn-emblem-bpn",
+  imipas: "imipas-box-satu-set",
+};
+
+const categoryImages = Object.fromEntries(
+  categories.map((category) => {
+    const representative = products.find(
+      (product) => product.slug === categoryRepresentativeSlugs[category.slug],
+    );
+    const fallback = products.find((product) => product.category === category.slug);
+    return [category.slug, representative?.image ?? fallback?.image ?? "/images/bac-catalog.webp"];
+  }),
+);
 ---
 
 <BaseLayout
   title="Katalog Produk"
   description="Katalog atribut kedinasan BAC berdasarkan kategori instansi, lengkap dengan tombol tanya produk via WhatsApp."
+  image="/catalog/camat/camat-pangkat-pdh-camat-kheki-06.webp"
 >
-  <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Katalog Produk</p>
-      <h1>{products.length} referensi atribut BAC dalam satu katalog.</h1>
+  <section class="page-hero catalog-page-hero">
+    <img
+      class="catalog-hero-background"
+      src="/catalog/camat/camat-pangkat-pdh-camat-kheki-06.webp"
+      alt=""
+      width="1200"
+      height="878"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="container catalog-hero-content">
+      <p class="catalog-photo-proof"><span aria-hidden="true"></span> Foto produk asli katalog BAC</p>
+      <h1>Katalog atribut kedinasan BAC.</h1>
       <p>
-        Telusuri 17 kelompok instansi, jabatan, pangkat, dan jenis atribut. Detail bahan, ukuran,
-        ketersediaan, dan pemesanan dikonfirmasi langsung dengan admin BAC.
+        Telusuri {products.length} referensi dari {categories.length} kelompok instansi. Gunakan ikon
+        kategori, pencarian nama, atau jenis atribut untuk menemukan produk yang dibutuhkan.
       </p>
+      <dl class="catalog-hero-facts" aria-label="Ringkasan katalog BAC">
+        <div><dt>{products.length}</dt><dd>Produk</dd></div>
+        <div><dt>{categories.length}</dt><dd>Instansi</dd></div>
+        <div><dt>{attributeTypes.length}</dt><dd>Jenis atribut</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section catalog-workspace">
     <div class="container">
-      <div class="catalog-toolbar">
-        <input id="product-search" class="input" type="search" placeholder="Cari produk atau instansi" aria-label="Cari produk" />
-        <select id="category-filter" class="select" aria-label="Filter kategori">
-          <option value="">Semua kategori</option>
-          {categories.map((category) => <option value={category.slug}>{category.name}</option>)}
-        </select>
-        <select id="type-filter" class="select" aria-label="Filter jenis atribut">
-          <option value="">Semua jenis atribut</option>
-          {attributeTypes.map((type) => <option value={type}>{type}</option>)}
-        </select>
+      <div class="catalog-category-head">
+        <div>
+          <p class="eyebrow">Kategori instansi</p>
+          <h2>Pilih instansi untuk mempersempit katalog.</h2>
+          <p>Geser daftar atau gunakan tombol panah untuk melihat seluruh kategori.</p>
+        </div>
+        <div class="catalog-rail-controls" aria-label="Kontrol kategori">
+          <button id="category-previous" type="button" aria-label="Kategori sebelumnya" title="Kategori sebelumnya">
+            <ChevronLeft size={20} strokeWidth={1.9} aria-hidden="true" />
+          </button>
+          <button id="category-next" type="button" aria-label="Kategori berikutnya" title="Kategori berikutnya">
+            <ChevronRight size={20} strokeWidth={1.9} aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
-      <div class="catalog-results" aria-live="polite">
-        <p id="catalog-count">Menampilkan {Math.min(pageSize, products.length)} dari {products.length} produk</p>
-        <p>Data katalog diperbarui dari koleksi BAC.</p>
+      <div class="catalog-category-rail" id="category-rail" aria-label="Filter berdasarkan instansi">
+        <button
+          class="catalog-category-shortcut active"
+          type="button"
+          data-category-shortcut=""
+          aria-pressed="true"
+          style="--category-color: var(--color-accent);"
+        >
+          <span class="catalog-category-icon catalog-category-icon-all" aria-hidden="true">
+            <Layers3 size={24} strokeWidth={1.7} />
+          </span>
+          <span><strong>Semua</strong><small>{products.length} produk</small></span>
+        </button>
+        {
+          categories.map((category) => (
+            <button
+              class="catalog-category-shortcut"
+              type="button"
+              data-category-shortcut={category.slug}
+              aria-pressed="false"
+              style={`--category-color: ${category.color};`}
+            >
+              <span class="catalog-category-icon" aria-hidden="true">
+                <img
+                  src={categoryImages[category.slug]}
+                  alt=""
+                  width="96"
+                  height="96"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              <span><strong>{category.name}</strong><small>{categoryCounts[category.slug]} produk</small></span>
+            </button>
+          ))
+        }
       </div>
 
-      <div id="product-grid" class="product-grid">
+      <div class="catalog-filter-panel">
+        <div class="catalog-toolbar" role="search" aria-label="Cari dan filter katalog">
+          <label class="catalog-field catalog-search-field" for="product-search">
+            <span>Cari nama produk atau instansi</span>
+            <span class="catalog-control-with-icon">
+              <Search size={19} strokeWidth={1.8} aria-hidden="true" />
+              <input
+                id="product-search"
+                class="input"
+                type="search"
+                placeholder="Contoh: pangkat polisi atau pin jaksa"
+                autocomplete="off"
+              />
+            </span>
+          </label>
+          <label class="catalog-field" for="type-filter">
+            <span>Jenis atribut</span>
+            <select id="type-filter" class="select">
+              <option value="">Semua jenis atribut</option>
+              {attributeTypes.map((type) => <option value={type}>{type}</option>)}
+            </select>
+          </label>
+          <button id="reset-filters" class="button button-secondary catalog-reset hidden" type="button">
+            <RotateCcw size={18} strokeWidth={1.9} aria-hidden="true" />
+            Reset filter
+          </button>
+        </div>
+
+        <div class="catalog-results" aria-live="polite">
+          <p id="catalog-count">Menampilkan {Math.min(pageSize, products.length)} dari {products.length} produk</p>
+          <p id="catalog-filter-summary">Semua kategori dan jenis atribut</p>
+        </div>
+      </div>
+
+      <div id="product-grid" class="product-grid catalog-product-grid">
         {products.map((product, index) => <ProductCard product={product} hidden={index >= pageSize} />)}
       </div>
 
@@ -48,68 +164,69 @@ const pageSize = 24;
         <button id="load-more" class="button button-secondary" type="button">Muat lebih banyak</button>
       </div>
 
-      <p id="empty-state" class="contact-panel hidden" aria-live="polite">
-        Produk belum ditemukan. Admin BAC dapat membantu mencarikan stok atau opsi custom.
-      </p>
-    </div>
-  </section>
-
-  <section class="section section-soft" id="semua-kategori">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Kategori</p>
-          <h2>Kelompok produk utama BAC.</h2>
-        </div>
-      </div>
-      <div class="grid-4">
-        {
-          categories.map((category) => (
-            <a
-              class="category-card"
-              href={`/katalog/?kategori=${category.slug}`}
-              style={`--category-color: ${category.color}; --category-accent: ${category.accent};`}
-            >
-              <h3>{category.name}</h3>
-              <p>{category.description}</p>
-            </a>
-          ))
-        }
+      <div id="empty-state" class="catalog-empty hidden" aria-live="polite">
+        <h2>Produk belum ditemukan.</h2>
+        <p>Coba kata kunci yang lebih singkat, pilih kategori lain, atau hapus filter aktif.</p>
+        <button id="empty-reset" class="button button-secondary" type="button">
+          <RotateCcw size={18} strokeWidth={1.9} aria-hidden="true" />
+          Hapus semua filter
+        </button>
       </div>
     </div>
   </section>
 
   <script>
     const searchInput = document.querySelector("#product-search");
-    const categoryFilter = document.querySelector("#category-filter");
     const typeFilter = document.querySelector("#type-filter");
+    const categoryRail = document.querySelector("#category-rail");
+    const categoryButtons = Array.from(document.querySelectorAll("[data-category-shortcut]"));
+    const previousCategory = document.querySelector("#category-previous");
+    const nextCategory = document.querySelector("#category-next");
     const cards = Array.from(document.querySelectorAll(".product-card"));
     const emptyState = document.querySelector("#empty-state");
     const countLabel = document.querySelector("#catalog-count");
+    const filterSummary = document.querySelector("#catalog-filter-summary");
     const loadMore = document.querySelector("#load-more");
+    const resetFilters = document.querySelector("#reset-filters");
+    const emptyReset = document.querySelector("#empty-reset");
     const params = new URLSearchParams(window.location.search);
-    const initialCategory = params.get("kategori");
-    const initialQuery = params.get("q");
-    const initialType = params.get("jenis");
     const pageSize = 24;
     let visibleLimit = pageSize;
+    let selectedCategory = params.get("kategori") ?? "";
 
-    if (initialCategory && categoryFilter instanceof HTMLSelectElement) {
-      categoryFilter.value = initialCategory;
+    if (searchInput instanceof HTMLInputElement) searchInput.value = params.get("q") ?? "";
+    if (typeFilter instanceof HTMLSelectElement) typeFilter.value = params.get("jenis") ?? "";
+    if (!categoryButtons.some((button) => button.getAttribute("data-category-shortcut") === selectedCategory)) {
+      selectedCategory = "";
     }
 
-    if (initialQuery && searchInput instanceof HTMLInputElement) {
-      searchInput.value = initialQuery;
+    function categoryName(value) {
+      const activeButton = categoryButtons.find(
+        (button) => button.getAttribute("data-category-shortcut") === value,
+      );
+      return activeButton?.querySelector("strong")?.textContent?.trim() ?? "Semua";
     }
 
-    if (initialType && typeFilter instanceof HTMLSelectElement) {
-      typeFilter.value = initialType;
+    function syncUrl(query, type) {
+      const nextParams = new URLSearchParams();
+      if (query) nextParams.set("q", query);
+      if (selectedCategory) nextParams.set("kategori", selectedCategory);
+      if (type) nextParams.set("jenis", type);
+      const nextUrl = nextParams.size ? `${window.location.pathname}?${nextParams}` : window.location.pathname;
+      window.history.replaceState({}, "", nextUrl);
+    }
+
+    function updateCategoryState() {
+      categoryButtons.forEach((button) => {
+        const active = button.getAttribute("data-category-shortcut") === selectedCategory;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
     }
 
     function updateCatalog(reset = false) {
       if (reset) visibleLimit = pageSize;
       const query = searchInput instanceof HTMLInputElement ? searchInput.value.trim().toLowerCase() : "";
-      const category = categoryFilter instanceof HTMLSelectElement ? categoryFilter.value : "";
       const type = typeFilter instanceof HTMLSelectElement ? typeFilter.value : "";
       let matchedCount = 0;
 
@@ -118,7 +235,7 @@ const pageSize = 24;
         const productCategory = card.getAttribute("data-category") ?? "";
         const productType = card.getAttribute("data-type") ?? "";
         const matchesSearch = !query || name.includes(query);
-        const matchesCategory = !category || productCategory === category;
+        const matchesCategory = !selectedCategory || productCategory === selectedCategory;
         const matchesType = !type || productType === type;
         const matches = matchesSearch && matchesCategory && matchesType;
         const isVisible = matches && matchedCount < visibleLimit;
@@ -127,18 +244,67 @@ const pageSize = 24;
       });
 
       const visibleCount = Math.min(matchedCount, visibleLimit);
+      const hasFilters = Boolean(query || selectedCategory || type);
+      const summaryParts = [];
+      if (selectedCategory) summaryParts.push(categoryName(selectedCategory));
+      if (type) summaryParts.push(type);
+      if (query) summaryParts.push(`“${query}”`);
+
       emptyState?.classList.toggle("hidden", matchedCount > 0);
-      loadMore?.classList.toggle("hidden", visibleCount >= matchedCount);
+      loadMore?.classList.toggle("hidden", visibleCount >= matchedCount || matchedCount === 0);
+      resetFilters?.classList.toggle("hidden", !hasFilters);
       if (countLabel) countLabel.textContent = `Menampilkan ${visibleCount} dari ${matchedCount} produk`;
+      if (filterSummary) {
+        filterSummary.textContent = summaryParts.length
+          ? `Filter aktif: ${summaryParts.join(" / ")}`
+          : "Semua kategori dan jenis atribut";
+      }
+
+      updateCategoryState();
+      syncUrl(query, type);
     }
 
+    function clearFilters() {
+      selectedCategory = "";
+      if (searchInput instanceof HTMLInputElement) searchInput.value = "";
+      if (typeFilter instanceof HTMLSelectElement) typeFilter.value = "";
+      updateCatalog(true);
+    }
+
+    categoryButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedCategory = button.getAttribute("data-category-shortcut") ?? "";
+        updateCatalog(true);
+      });
+    });
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function scrollCategories(direction) {
+      if (!(categoryRail instanceof HTMLElement)) return;
+      categoryRail.scrollBy({
+        left: direction * Math.max(280, categoryRail.clientWidth * 0.72),
+        behavior: reducedMotion.matches ? "auto" : "smooth",
+      });
+    }
+
+    previousCategory?.addEventListener("click", () => scrollCategories(-1));
+    nextCategory?.addEventListener("click", () => scrollCategories(1));
     searchInput?.addEventListener("input", () => updateCatalog(true));
-    categoryFilter?.addEventListener("change", () => updateCatalog(true));
     typeFilter?.addEventListener("change", () => updateCatalog(true));
+    resetFilters?.addEventListener("click", clearFilters);
+    emptyReset?.addEventListener("click", clearFilters);
     loadMore?.addEventListener("click", () => {
       visibleLimit += pageSize;
       updateCatalog();
     });
+
     updateCatalog();
+    const activeCategory = categoryButtons.find((button) => button.getAttribute("aria-pressed") === "true");
+    if (activeCategory instanceof HTMLElement && categoryRail instanceof HTMLElement) {
+      categoryRail.scrollLeft = Math.max(
+        0,
+        activeCategory.offsetLeft - (categoryRail.clientWidth - activeCategory.clientWidth) / 2,
+      );
+    }
   </script>
 </BaseLayout>
