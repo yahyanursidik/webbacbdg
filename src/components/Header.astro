@@ -15,6 +15,7 @@ const isActive = (href: string) =>
   href === "/" ? currentPath === "/" : currentPath.startsWith(href);
 
 const desktopNavItems = [
+  { label: "Beranda", href: "/" },
   { label: "Katalog", href: "/katalog/" },
   { label: "Custom Order", href: "/custom-order/" },
   { label: "Proses Produksi", href: "/proses-produksi/" },
