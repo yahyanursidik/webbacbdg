@@ -4792,30 +4792,19 @@ textarea:focus-visible {
 }
 
 .about-profile-mark {
-  display: grid;
-  grid-template-rows: repeat(3, minmax(0, 1fr));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-lg);
   border-top: var(--rule-hair) solid var(--color-rule-2);
   border-bottom: var(--rule-hair) solid var(--color-rule-2);
+  background: var(--color-paper);
 }
 
-.about-profile-mark span {
-  display: grid;
-  place-items: center;
-  min-height: 7rem;
-  border-bottom: var(--rule-hair) solid var(--color-rule);
-  color: var(--color-ink);
-  font-family: var(--font-display);
-  font-size: 5rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.about-profile-mark span:nth-child(2) {
-  color: var(--color-accent);
-}
-
-.about-profile-mark span:last-child {
-  border-bottom: 0;
+.about-profile-mark img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .about-profile-copy h2 {
@@ -5283,19 +5272,12 @@ textarea:focus-visible {
   }
 
   .about-profile-mark {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: none;
+    justify-content: flex-start;
+    padding: var(--space-md) 0;
   }
 
-  .about-profile-mark span {
-    min-height: 5rem;
-    border-right: var(--rule-hair) solid var(--color-rule);
-    border-bottom: 0;
-    font-size: var(--text-3xl);
-  }
-
-  .about-profile-mark span:last-child {
-    border-right: 0;
+  .about-profile-mark img {
+    width: min(24rem, 100%);
   }
 
   .about-section-head {
@@ -5368,5 +5350,66 @@ textarea:focus-visible {
   .about-flow-node {
     animation: none;
     transform: none;
+  }
+}
+
+/* BAC official brand assets */
+.brand-logo-lockup,
+.brand-logo-monogram,
+.footer-brand-logo img {
+  display: block;
+  height: auto;
+}
+
+.brand-logo-lockup {
+  width: 10.75rem;
+}
+
+.brand-logo-monogram {
+  display: none;
+}
+
+.footer-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  width: min(18rem, 100%);
+  min-height: var(--space-2xl);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-xs);
+  background: var(--color-paper);
+}
+
+.footer-brand-logo img {
+  width: 100%;
+}
+
+@media (max-width: 64rem) and (min-width: 48.0625rem) {
+  .brand-logo-lockup {
+    width: 8.5rem;
+  }
+
+  .header-inner {
+    gap: var(--space-sm);
+  }
+
+  .desktop-nav a {
+    padding-inline: var(--space-xs);
+  }
+}
+
+@media (max-width: 48rem) {
+  .brand-logo-lockup {
+    display: none;
+  }
+
+  .brand-logo-monogram {
+    display: block;
+    width: 3rem;
+    height: 2.6rem;
+    object-fit: contain;
+  }
+
+  .footer-brand-logo {
+    width: min(20rem, 100%);
   }
 }
