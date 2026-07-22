@@ -1,6 +1,13 @@
 [
   {
     "date": "2026-07-22",
+    "macrostructure": "Visual evidence index",
+    "theme": "Coral",
+    "enrichment": "E8 generated curation photography",
+    "brief": "BAC gallery filtering, in-page image viewer, catalogue context, and animated inspection flow"
+  },
+  {
+    "date": "2026-07-22",
     "macrostructure": "Guided consultation desk",
     "theme": "Coral",
     "enrichment": "E8 generated consultation photography",
