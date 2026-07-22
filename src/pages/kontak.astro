@@ -1,92 +1,445 @@
 ---
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import BookOpenText from "@lucide/astro/icons/book-open-text";
+import Boxes from "@lucide/astro/icons/boxes";
+import Building2 from "@lucide/astro/icons/building-2";
+import Check from "@lucide/astro/icons/check";
+import ClipboardCheck from "@lucide/astro/icons/clipboard-check";
+import Clock3 from "@lucide/astro/icons/clock-3";
+import Mail from "@lucide/astro/icons/mail";
+import MapPin from "@lucide/astro/icons/map-pin";
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import PencilRuler from "@lucide/astro/icons/pencil-ruler";
+import Send from "@lucide/astro/icons/send";
+import Store from "@lucide/astro/icons/store";
+import UserRound from "@lucide/astro/icons/user-round";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { site, whatsappUrl } from "@/data/site";
+import { chiefMarketingWhatsappUrl, site, whatsappUrl } from "@/data/site";
+
+const contactTopics = [
+  {
+    value: "Kebutuhan personal",
+    title: "Personal & satuan",
+    description: "Atribut untuk kebutuhan pribadi atau pembelian satuan.",
+    icon: UserRound,
+    color: "blue",
+  },
+  {
+    value: "Pengadaan instansi",
+    title: "Pengadaan instansi",
+    description: "Kebutuhan lembaga, unit kerja, atau kegiatan kedinasan.",
+    icon: Building2,
+    color: "maroon",
+  },
+  {
+    value: "Grosir atau reseller",
+    title: "Grosir & reseller",
+    description: "Permintaan kuantitas, pilihan produk, dan harga grosir.",
+    icon: Boxes,
+    color: "green",
+  },
+  {
+    value: "Custom order",
+    title: "Custom order",
+    description: "Atribut dengan desain, ukuran, bahan, atau detail khusus.",
+    icon: PencilRuler,
+    color: "gold",
+  },
+];
+
+const contactFlow = [
+  {
+    title: "Pilih kebutuhan",
+    description: "Tentukan jalur personal, instansi, grosir, atau custom.",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Lengkapi ringkasan",
+    description: "Isi produk, jumlah, referensi, dan target waktu bila ada.",
+    icon: BookOpenText,
+  },
+  {
+    title: "Kirim ke WhatsApp",
+    description: "Form menyusun pesan agar mudah dibaca oleh admin BAC.",
+    icon: Send,
+  },
+  {
+    title: "Konfirmasi admin",
+    description: "Ketersediaan, detail, serta langkah berikutnya dibahas langsung.",
+    icon: MessageCircle,
+  },
+];
+
+const consultationMessage =
+  "Halo Admin BAC, saya ingin konsultasi kebutuhan atribut kedinasan. Jenis kebutuhan saya adalah ...";
 ---
 
 <BaseLayout
   title="Kontak"
-  description="Hubungi BAC melalui WhatsApp, email, formulir inquiry, alamat toko, dan Google Maps."
+  description="Hubungi BAC untuk konsultasi atribut kedinasan, pengadaan instansi, grosir, reseller, dan custom order melalui WhatsApp."
+  image="/images/bac-contact-consultation.webp"
 >
-  <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Kontak</p>
-      <h1>Hubungi BAC untuk produk, pengadaan, grosir, reseller, dan custom order.</h1>
+  <section class="page-hero contact-page-hero">
+    <img
+      class="contact-hero-background"
+      src="/images/bac-contact-consultation.webp"
+      alt=""
+      width="1823"
+      height="863"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="container contact-hero-content">
+      <p class="contact-hero-proof"><span aria-hidden="true"></span> Konsultasi langsung dengan admin BAC</p>
+      <h1>Sampaikan kebutuhan dengan lebih jelas.</h1>
       <p>
-        Form inquiry di halaman ini mengirim ringkasan kebutuhan langsung ke WhatsApp admin BAC.
+        Pilih jenis kebutuhan, isi ringkasan singkat, lalu lanjutkan percakapan di WhatsApp.
+        Admin BAC membantu mengecek referensi produk, jumlah, dan opsi pemenuhan.
       </p>
-      <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin konsultasi kebutuhan atribut kedinasan.")} target="_blank" rel="noreferrer">
-        WhatsApp Admin
-      </a>
+      <div class="contact-hero-actions">
+        <a class="button button-light" href="#form-permintaan">
+          <ClipboardCheck size={19} strokeWidth={1.9} aria-hidden="true" />
+          Isi Form Permintaan
+        </a>
+        <a
+          class="button button-whatsapp"
+          href={whatsappUrl(consultationMessage)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
+          Chat Langsung
+        </a>
+      </div>
+      <ul class="contact-hero-modes" aria-label="Jenis kebutuhan yang dilayani">
+        <li><UserRound size={17} strokeWidth={1.8} aria-hidden="true" /> Personal</li>
+        <li><Building2 size={17} strokeWidth={1.8} aria-hidden="true" /> Instansi</li>
+        <li><Boxes size={17} strokeWidth={1.8} aria-hidden="true" /> Grosir</li>
+        <li><PencilRuler size={17} strokeWidth={1.8} aria-hidden="true" /> Custom</li>
+      </ul>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container grid-2">
-      <form class="contact-panel contact-form" id="contact-form" data-phone={site.whatsappNumber}>
-        <h2>Form Permintaan</h2>
-        <label>
-          Nama
-          <input class="input" name="name" required placeholder="Nama lengkap" />
-        </label>
-        <label>
-          Nomor WhatsApp
-          <input class="input" name="whatsapp" required placeholder="08xxxxxxxxxx" />
-        </label>
-        <label>
-          Instansi / kebutuhan
-          <input class="input" name="institution" placeholder="Instansi, toko, reseller, atau personal" />
-        </label>
-        <label>
-          Produk yang dicari
-          <input class="input" name="product" required placeholder="Contoh: patch bordir, atribut Polri, pin" />
-        </label>
-        <label>
-          Jumlah pesanan
-          <input class="input" name="quantity" placeholder="Contoh: 10 pcs, 100 pcs, grosir" />
-        </label>
-        <label>
-          Pesan tambahan
-          <textarea class="textarea" name="message" placeholder="Detail bahan, ukuran, warna, atau deadline"></textarea>
-        </label>
-        <button class="button button-whatsapp" type="submit">Kirim ke WhatsApp</button>
-      </form>
+  <nav class="contact-anchor-nav" aria-label="Navigasi halaman kontak">
+    <div class="container">
+      <a href="#pilih-kebutuhan">
+        <ClipboardCheck size={17} aria-hidden="true" />
+        <span class="contact-anchor-wide">Pilih kebutuhan</span>
+        <span class="contact-anchor-short">Kebutuhan</span>
+      </a>
+      <a href="#form-permintaan">
+        <MessageCircle size={17} aria-hidden="true" />
+        <span class="contact-anchor-wide">Form WhatsApp</span>
+        <span class="contact-anchor-short">Form WA</span>
+      </a>
+      <a href="#kontak-utama">
+        <MapPin size={17} aria-hidden="true" />
+        <span class="contact-anchor-wide">Kontak & lokasi</span>
+        <span class="contact-anchor-short">Lokasi</span>
+      </a>
+    </div>
+  </nav>
 
-      <div class="contact-panel">
-        <h2>Kontak Utama</h2>
-        <p><strong>WhatsApp:</strong> <a href={whatsappUrl("Halo Admin BAC, saya ingin bertanya tentang katalog BAC.")} target="_blank" rel="noreferrer">Chat Admin BAC</a></p>
-        <p><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></p>
-        <p><strong>Alamat:</strong> {site.address}</p>
-        <p><strong>Jam operasional:</strong> {site.hours}</p>
-        <div class="inline-actions">
-          <a class="button button-primary" href="/alamat-toko/">Alamat Toko</a>
-          <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Google Maps</a>
+  <section class="section contact-topic-section" id="pilih-kebutuhan">
+    <div class="container">
+      <div class="section-head contact-section-head">
+        <div>
+          <p class="eyebrow">Mulai dari sini</p>
+          <h2>Pilih jenis kebutuhan Anda.</h2>
         </div>
+        <p>Pilihan ini akan langsung mengisi kategori pada form dan membantu admin memahami konteks permintaan.</p>
+      </div>
+
+      <div class="contact-topic-grid">
+        {
+          contactTopics.map((topic) => (
+            <button
+              class={`contact-topic-item contact-topic-${topic.color}`}
+              type="button"
+              data-contact-topic={topic.value}
+              aria-label={`Pilih ${topic.title}`}
+            >
+              <span class="contact-topic-icon" aria-hidden="true">
+                <topic.icon size={25} strokeWidth={1.7} />
+              </span>
+              <span class="contact-topic-copy">
+                <strong>{topic.title}</strong>
+                <small>{topic.description}</small>
+              </span>
+              <ArrowRight size={19} strokeWidth={1.8} aria-hidden="true" />
+            </button>
+          ))
+        }
       </div>
     </div>
   </section>
 
+  <section class="section section-soft contact-request-section" id="form-permintaan">
+    <div class="container">
+      <div class="contact-request-head">
+        <div>
+          <p class="eyebrow">Form permintaan</p>
+          <h2>Susun pesan sebelum membuka WhatsApp.</h2>
+        </div>
+        <p>Kolom bertanda wajib perlu diisi. Data tetap berada di perangkat Anda sampai tombol kirim ditekan.</p>
+      </div>
+
+      <div class="contact-request-layout">
+        <form class="contact-request-form" id="contact-form" data-phone={site.whatsappNumber} novalidate>
+          <div class="contact-field contact-field-wide">
+            <label for="contact-topic">Jenis kebutuhan <span aria-hidden="true">*</span></label>
+            <select class="select" id="contact-topic" name="topic" required>
+              <option value="">Pilih jenis kebutuhan</option>
+              {contactTopics.map((topic) => <option value={topic.value}>{topic.title}</option>)}
+            </select>
+          </div>
+
+          <div class="contact-field">
+            <label for="contact-name">Nama <span aria-hidden="true">*</span></label>
+            <input class="input" id="contact-name" name="name" autocomplete="name" required placeholder="Nama lengkap" />
+          </div>
+
+          <div class="contact-field">
+            <label for="contact-whatsapp">Nomor WhatsApp <span aria-hidden="true">*</span></label>
+            <input
+              class="input"
+              id="contact-whatsapp"
+              name="whatsapp"
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel"
+              required
+              placeholder="08xxxxxxxxxx"
+            />
+          </div>
+
+          <div class="contact-field contact-field-wide">
+            <label for="contact-institution">Instansi / toko</label>
+            <input
+              class="input"
+              id="contact-institution"
+              name="institution"
+              autocomplete="organization"
+              placeholder="Nama instansi, unit kerja, toko, atau personal"
+            />
+          </div>
+
+          <div class="contact-field contact-field-wide">
+            <label for="contact-product">Produk yang dicari <span aria-hidden="true">*</span></label>
+            <input
+              class="input"
+              id="contact-product"
+              name="product"
+              required
+              placeholder="Contoh: patch bordir, papan nama, pin, atau kopel"
+            />
+          </div>
+
+          <div class="contact-field">
+            <label for="contact-quantity">Jumlah</label>
+            <input class="input" id="contact-quantity" name="quantity" placeholder="Contoh: 10 pcs" />
+          </div>
+
+          <div class="contact-field">
+            <label for="contact-deadline">Target waktu</label>
+            <input class="input" id="contact-deadline" name="deadline" placeholder="Contoh: sebelum 20 Agustus" />
+          </div>
+
+          <div class="contact-field contact-field-wide">
+            <label for="contact-message">Detail tambahan</label>
+            <textarea
+              class="textarea"
+              id="contact-message"
+              name="message"
+              placeholder="Tuliskan bahan, ukuran, warna, referensi, atau pertanyaan lainnya"
+            ></textarea>
+          </div>
+
+          <div class="contact-form-footer contact-field-wide">
+            <p><Check size={17} strokeWidth={2} aria-hidden="true" /> Pesan dapat dilengkapi dengan foto referensi setelah WhatsApp terbuka.</p>
+            <button class="button button-whatsapp contact-submit" type="submit">
+              <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
+              Buka WhatsApp & Kirim
+            </button>
+            <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <aside class="contact-message-preview" aria-labelledby="preview-title">
+          <div class="contact-preview-heading">
+            <span><MessageCircle size={21} strokeWidth={1.8} aria-hidden="true" /></span>
+            <div>
+              <p class="eyebrow">Pratinjau pesan</p>
+              <h3 id="preview-title">Ringkasan untuk Admin BAC</h3>
+            </div>
+          </div>
+          <dl class="contact-preview-list">
+            <div><dt>Kebutuhan</dt><dd data-preview="topic">Belum dipilih</dd></div>
+            <div><dt>Nama</dt><dd data-preview="name">Belum diisi</dd></div>
+            <div><dt>Instansi / toko</dt><dd data-preview="institution">Personal / belum diisi</dd></div>
+            <div><dt>Produk</dt><dd data-preview="product">Belum diisi</dd></div>
+            <div><dt>Jumlah</dt><dd data-preview="quantity">Belum diisi</dd></div>
+            <div><dt>Target waktu</dt><dd data-preview="deadline">Belum diisi</dd></div>
+          </dl>
+          <p class="contact-preview-note">
+            WhatsApp tidak langsung terkirim. Anda masih dapat memeriksa dan mengubah pesan sebelum menekan kirim.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-flow-section" aria-labelledby="contact-flow-title">
+    <div class="container">
+      <div class="section-head contact-section-head">
+        <div>
+          <p class="eyebrow">Alur konsultasi</p>
+          <h2 id="contact-flow-title">Dari kebutuhan ke percakapan yang terarah.</h2>
+        </div>
+        <p>Form hanya mempersingkat pembukaan. Konfirmasi detail, ketersediaan, dan penawaran tetap dilakukan bersama admin BAC.</p>
+      </div>
+
+      <ol class="contact-flowchart" aria-label="Empat tahap konsultasi BAC">
+        {
+          contactFlow.map((step, index) => (
+            <li style={`--contact-step: ${index};`}>
+              <span class="contact-flow-node">
+                <step.icon size={24} strokeWidth={1.75} aria-hidden="true" />
+                <small>{String(index + 1).padStart(2, "0")}</small>
+              </span>
+              <div class="contact-flow-copy">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="contact-details-band" id="kontak-utama">
+    <div class="container contact-details-layout">
+      <div class="contact-details-intro">
+        <p class="eyebrow">Kontak utama</p>
+        <h2>Butuh jalur lain untuk menghubungi BAC?</h2>
+        <p>WhatsApp disarankan untuk konsultasi produk. Gunakan alamat dan peta untuk merencanakan kunjungan workshop.</p>
+      </div>
+      <div class="contact-details-list">
+        <a href={whatsappUrl("Halo Admin BAC, saya ingin bertanya tentang katalog BAC.")} target="_blank" rel="noreferrer">
+          <span><MessageCircle size={22} strokeWidth={1.8} aria-hidden="true" /></span>
+          <div><small>Admin Toko</small><strong>{site.whatsappDisplay}</strong></div>
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+        <a
+          href={chiefMarketingWhatsappUrl("Halo Chief Marketing Officer BAC, saya ingin berdiskusi mengenai kebutuhan instansi atau kerja sama.")}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span><Building2 size={22} strokeWidth={1.8} aria-hidden="true" /></span>
+          <div><small>Chief Marketing Officer</small><strong>{site.chiefMarketingWhatsappDisplay}</strong></div>
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+        <a href={`mailto:${site.email}`}>
+          <span><Mail size={22} strokeWidth={1.8} aria-hidden="true" /></span>
+          <div><small>Email</small><strong>{site.email}</strong></div>
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+        <a href="/alamat-toko/">
+          <span><Store size={22} strokeWidth={1.8} aria-hidden="true" /></span>
+          <div><small>Workshop BAC</small><strong>{site.address}</strong></div>
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+        <div class="contact-detail-static">
+          <span><Clock3 size={22} strokeWidth={1.8} aria-hidden="true" /></span>
+          <div><small>Jam operasional</small><strong>{site.hours}</strong></div>
+        </div>
+      </div>
+      <a class="button button-light contact-map-button" href={site.mapsUrl} target="_blank" rel="noreferrer">
+        <MapPin size={19} strokeWidth={1.9} aria-hidden="true" />
+        Buka Google Maps
+      </a>
+    </div>
+  </section>
+
   <script>
-    const form = document.querySelector("#contact-form");
+    const form = document.querySelector<HTMLFormElement>("#contact-form");
+    const topicSelect = document.querySelector<HTMLSelectElement>("#contact-topic");
+    const topicButtons = document.querySelectorAll<HTMLButtonElement>("[data-contact-topic]");
+    const status = document.querySelector<HTMLElement>("#contact-form-status");
+    const submitButton = form?.querySelector<HTMLButtonElement>(".contact-submit");
+
+    const previewFallbacks: Record<string, string> = {
+      topic: "Belum dipilih",
+      name: "Belum diisi",
+      institution: "Personal / belum diisi",
+      product: "Belum diisi",
+      quantity: "Belum diisi",
+      deadline: "Belum diisi",
+    };
+
+    const updatePreview = () => {
+      if (!form) return;
+      const data = new FormData(form);
+
+      Object.entries(previewFallbacks).forEach(([field, fallback]) => {
+        const output = document.querySelector<HTMLElement>(`[data-preview="${field}"]`);
+        const value = String(data.get(field) ?? "").trim();
+        if (output) output.textContent = value || fallback;
+      });
+    };
+
+    topicButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (!topicSelect || !form) return;
+        const topic = button.dataset.contactTopic ?? "";
+        topicSelect.value = topic;
+        topicSelect.dispatchEvent(new Event("change", { bubbles: true }));
+
+        topicButtons.forEach((item) => item.classList.toggle("is-selected", item === button));
+        form.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+          block: "start",
+        });
+        window.setTimeout(() => topicSelect.focus({ preventScroll: true }), 450);
+      });
+    });
+
+    form?.addEventListener("input", updatePreview);
+    form?.addEventListener("change", updatePreview);
+    updatePreview();
 
     form?.addEventListener("submit", (event) => {
       event.preventDefault();
-
-      if (!(form instanceof HTMLFormElement)) return;
+      if (!form.reportValidity()) {
+        if (status) status.textContent = "Lengkapi kolom wajib sebelum membuka WhatsApp.";
+        return;
+      }
 
       const data = new FormData(form);
-      const phone = form.getAttribute("data-phone");
+      const phone = form.dataset.phone;
+      if (!phone) return;
+
       const message = [
-        "Halo Admin BAC, saya ingin mengirim permintaan penawaran:",
+        "Halo Admin BAC, saya ingin mengirim permintaan:",
         "",
+        `Jenis kebutuhan: ${data.get("topic") ?? ""}`,
         `Nama: ${data.get("name") ?? ""}`,
         `Nomor WhatsApp: ${data.get("whatsapp") ?? ""}`,
-        `Instansi / kebutuhan: ${data.get("institution") ?? ""}`,
+        `Instansi / toko: ${data.get("institution") || "Personal / tidak diisi"}`,
         `Produk yang dicari: ${data.get("product") ?? ""}`,
-        `Jumlah pesanan: ${data.get("quantity") ?? ""}`,
-        `Pesan tambahan: ${data.get("message") ?? ""}`,
+        `Jumlah: ${data.get("quantity") || "Belum ditentukan"}`,
+        `Target waktu: ${data.get("deadline") || "Belum ditentukan"}`,
+        `Detail tambahan: ${data.get("message") || "-"}`,
       ].join("\n");
 
-      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.dataset.state = "loading";
+      }
+      if (status) status.textContent = "Membuka WhatsApp dengan ringkasan permintaan Anda...";
+
+      window.location.assign(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
     });
   </script>
 </BaseLayout>

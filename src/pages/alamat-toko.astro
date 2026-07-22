@@ -1,19 +1,19 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { site, whatsappUrl } from "@/data/site";
+import { chiefMarketingWhatsappUrl, site, whatsappUrl } from "@/data/site";
 ---
 
 <BaseLayout
-  title="Alamat Toko"
-  description="Alamat toko BAC, Google Maps, jam operasional, dan jalur WhatsApp admin."
+  title="Alamat Workshop"
+  description="Alamat workshop BAC, Google Maps, jam operasional, dan jalur WhatsApp Admin Toko serta Chief Marketing Officer."
 >
   <section class="page-hero">
     <div class="container">
-      <p class="eyebrow">Alamat Toko</p>
-      <h1>Lokasi BAC dan kontak utama untuk kunjungan toko.</h1>
+      <p class="eyebrow">Alamat Workshop</p>
+      <h1>Lokasi BAC dan kontak utama untuk kunjungan workshop.</h1>
       <p>{site.address}</p>
       <div class="inline-actions">
-        <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin bertanya alamat toko dan jam operasional.")} target="_blank" rel="noreferrer">
+        <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin bertanya alamat workshop dan jam operasional.")} target="_blank" rel="noreferrer">
           Tanya Alamat
         </a>
         <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Buka Maps</a>
@@ -24,19 +24,21 @@ import { site, whatsappUrl } from "@/data/site";
   <section class="section">
     <div class="container grid-2">
       <div class="contact-panel">
-        <h2>Informasi Toko</h2>
+        <h2>Informasi Workshop</h2>
         <p><strong>Nama:</strong> {site.name}</p>
         <p><strong>Alamat:</strong> {site.address}</p>
         <p><strong>Jam operasional:</strong> {site.hours}</p>
+        <p><strong>Admin Toko:</strong> <a href={whatsappUrl("Halo Admin BAC, saya ingin bertanya tentang produk BAC.")} target="_blank" rel="noreferrer">{site.whatsappDisplay}</a></p>
+        <p><strong>Chief Marketing Officer:</strong> <a href={chiefMarketingWhatsappUrl("Halo Chief Marketing Officer BAC, saya ingin berdiskusi mengenai kebutuhan instansi atau kerja sama.")} target="_blank" rel="noreferrer">{site.chiefMarketingWhatsappDisplay}</a></p>
         <p><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></p>
         <div class="inline-actions">
-          <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin datang ke toko BAC.")} target="_blank" rel="noreferrer">
-            Chat Admin
+          <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin datang ke workshop BAC.")} target="_blank" rel="noreferrer">
+            Chat Admin Toko
           </a>
           <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Arahkan ke Lokasi</a>
         </div>
       </div>
-      <img class="detail-image" src="/images/bac-hero.webp" alt="Display toko dan katalog atribut BAC" />
+      <img class="detail-image" src="/images/bac-hero.webp" alt="Display workshop dan katalog atribut BAC" />
     </div>
   </section>
 
