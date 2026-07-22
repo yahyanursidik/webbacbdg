@@ -45,14 +45,6 @@ const mobileNavItems = [
   <div class="container header-inner">
     <a class="brand" href="/" aria-label="Beranda BAC">
       <img
-        class="brand-logo-lockup"
-        src="/brand/bac-lockup.webp"
-        alt=""
-        width="900"
-        height="319"
-        decoding="async"
-      />
-      <img
         class="brand-logo-monogram"
         src="/brand/bac-monogram.webp"
         alt=""
@@ -60,7 +52,10 @@ const mobileNavItems = [
         height="441"
         decoding="async"
       />
-      <span class="sr-only">{site.name} - {site.tagline}</span>
+      <span class="header-brand-copy">
+        <strong>{site.shortName}</strong>
+        <small>{site.tagline}</small>
+      </span>
     </a>
 
     <nav class="desktop-nav" aria-label="Navigasi utama">
