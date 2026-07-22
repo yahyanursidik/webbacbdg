@@ -5354,19 +5354,40 @@ textarea:focus-visible {
 }
 
 /* BAC official brand assets */
-.brand-logo-lockup,
 .brand-logo-monogram,
 .footer-brand-logo img {
   display: block;
   height: auto;
 }
 
-.brand-logo-lockup {
-  width: 10.75rem;
+.brand-logo-monogram {
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 2.6rem;
+  object-fit: contain;
 }
 
-.brand-logo-monogram {
-  display: none;
+.header-brand-copy {
+  display: grid;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.header-brand-copy strong,
+.header-brand-copy small {
+  display: block;
+  margin: 0;
+}
+
+.header-brand-copy strong {
+  font-size: var(--text-base);
+  line-height: 1;
+}
+
+.header-brand-copy small {
+  max-width: 13.5rem;
+  font-size: var(--text-xs);
+  line-height: 1.15;
 }
 
 .footer-brand-logo {
@@ -5384,10 +5405,6 @@ textarea:focus-visible {
 }
 
 @media (max-width: 64rem) and (min-width: 48.0625rem) {
-  .brand-logo-lockup {
-    width: 8.5rem;
-  }
-
   .header-inner {
     gap: var(--space-sm);
   }
@@ -5398,15 +5415,17 @@ textarea:focus-visible {
 }
 
 @media (max-width: 48rem) {
-  .brand-logo-lockup {
+  .brand-logo-monogram {
+    width: 2.75rem;
+    height: 2.4rem;
+  }
+
+  .header-brand-copy small {
     display: none;
   }
 
-  .brand-logo-monogram {
-    display: block;
-    width: 3rem;
-    height: 2.6rem;
-    object-fit: contain;
+  .header-brand-copy strong {
+    font-size: var(--text-md);
   }
 
   .footer-brand-logo {
