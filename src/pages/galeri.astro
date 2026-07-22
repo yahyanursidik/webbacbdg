@@ -1,43 +1,426 @@
 ---
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import Badge from "@lucide/astro/icons/badge";
+import BookOpenText from "@lucide/astro/icons/book-open-text";
+import Boxes from "@lucide/astro/icons/boxes";
+import Eye from "@lucide/astro/icons/eye";
+import Factory from "@lucide/astro/icons/factory";
+import Images from "@lucide/astro/icons/images";
+import Layers from "@lucide/astro/icons/layers";
+import Maximize2 from "@lucide/astro/icons/maximize-2";
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import PackageCheck from "@lucide/astro/icons/package-check";
+import Search from "@lucide/astro/icons/search";
+import Send from "@lucide/astro/icons/send";
+import X from "@lucide/astro/icons/x";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { whatsappUrl } from "@/data/site";
+
+const filters = [
+  { id: "all", label: "Semua", icon: Images },
+  { id: "metal", label: "Atribut logam", icon: Badge },
+  { id: "bordir", label: "Emblem & bordir", icon: Layers },
+  { id: "set", label: "Pangkat & set", icon: Boxes },
+  { id: "process", label: "Proses & workshop", icon: Factory },
+];
 
 const gallery = [
-  ["Produk atribut", "/images/bac-catalog.webp", "Katalog atribut kedinasan BAC"],
-  ["Proses produksi", "/images/bac-process.webp", "Meja proses produksi dan quality control BAC"],
-  ["Custom order", "/images/bac-catalog.webp", "Contoh atribut custom untuk instansi"],
-  ["Pengemasan", "/images/bac-process.webp", "Persiapan pengemasan produk BAC"],
-  ["Display toko", "/images/bac-hero.webp", "Display produk atribut kedinasan"],
-  ["Pesanan grosir", "/images/bac-catalog.webp", "Rangkaian produk untuk kebutuhan grosir"],
+  {
+    title: "Emblem BPN",
+    institution: "ATR/BPN",
+    category: "metal",
+    categoryLabel: "Atribut logam",
+    image: "/catalog/atr-bpn/atr-bpn-emblem-bpn-01.webp",
+    alt: "Emblem BPN berwarna emas dalam kemasan BAC",
+    detail: "/katalog/atr-bpn-emblem-bpn/",
+  },
+  {
+    title: "Kancing PDU Dishub",
+    institution: "Dinas Perhubungan",
+    category: "metal",
+    categoryLabel: "Atribut logam",
+    image: "/catalog/dishub/dishub-kancing-pdu-dishub-01.webp",
+    alt: "Susunan kancing PDU Dishub berwarna emas",
+    detail: "/katalog/dishub-kancing-pdu-dishub/",
+  },
+  {
+    title: "Gesper PDU",
+    institution: "Kejaksaan",
+    category: "metal",
+    categoryLabel: "Atribut logam",
+    image: "/catalog/jaksa/jaksa-gesper-pdu-01.webp",
+    alt: "Gesper PDU Kejaksaan berwarna emas",
+    detail: "/katalog/jaksa-gesper-pdu/",
+  },
+  {
+    title: "Kepala Kopel Motif",
+    institution: "Satpam",
+    category: "metal",
+    categoryLabel: "Atribut logam",
+    image: "/catalog/satpam/satpam-kepala-kopel-satpam-motif-01.webp",
+    alt: "Kepala kopel Satpam dengan permukaan bermotif",
+    detail: "/katalog/satpam-kepala-kopel-satpam-motif/",
+  },
+  {
+    title: "Emblem Pol PP Bulat Warna",
+    institution: "Satpol PP",
+    category: "bordir",
+    categoryLabel: "Emblem & bordir",
+    image: "/catalog/pol-pp/pol-pp-emblem-pol-pp-bulat-warna-01.webp",
+    alt: "Emblem Pol PP bulat berwarna",
+    detail: "/katalog/pol-pp-emblem-pol-pp-bulat-warna/",
+  },
+  {
+    title: "Emblem Baret Polisi",
+    institution: "Polri",
+    category: "bordir",
+    categoryLabel: "Emblem & bordir",
+    image: "/catalog/polisi/polisi-emblem-baret-polisi-01.webp",
+    alt: "Emblem baret Polisi dalam kemasan BAC",
+    detail: "/katalog/polisi-emblem-baret-polisi/",
+  },
+  {
+    title: "Emblem Pemadam",
+    institution: "Pemadam Kebakaran",
+    category: "bordir",
+    categoryLabel: "Emblem & bordir",
+    image: "/catalog/pemadam/pemadam-emblem-pemadam-01.webp",
+    alt: "Emblem untuk perlengkapan Pemadam Kebakaran",
+    detail: "/katalog/pemadam-emblem-pemadam/",
+  },
+  {
+    title: "Koleksi Atribut BPBD",
+    institution: "BPBD",
+    category: "set",
+    categoryLabel: "Pangkat & set",
+    image: "/catalog/bpbd/bpbd-img-20260717-wa0065-01.webp",
+    alt: "Sepasang atribut pangkat BPBD di atas kotak BAC",
+    detail: "/katalog/bpbd-img-20260717-wa0065/",
+  },
+  {
+    title: "Box Satu Set",
+    institution: "Imigrasi & Pemasyarakatan",
+    category: "set",
+    categoryLabel: "Pangkat & set",
+    image: "/catalog/imipas/imipas-box-satu-set-01.webp",
+    alt: "Satu set atribut Imigrasi dan Pemasyarakatan dalam kotak",
+    detail: "/katalog/imipas-box-satu-set/",
+  },
+  {
+    title: "Pangkat Kemenhub 2A",
+    institution: "Kementerian Perhubungan",
+    category: "set",
+    categoryLabel: "Pangkat & set",
+    image: "/catalog/kemenhub/kemenhub-pangkat-kemenhub-2a-01.webp",
+    alt: "Sepasang pangkat Kementerian Perhubungan tipe 2A",
+    detail: "/katalog/kemenhub-pangkat-kemenhub-2a/",
+  },
+  {
+    title: "Pemeriksaan hasil produksi",
+    institution: "Workshop BAC",
+    category: "process",
+    categoryLabel: "Proses & workshop",
+    image: "/images/bac-process.webp",
+    alt: "Pemeriksaan hasil produksi atribut di workshop BAC",
+    detail: "/proses-produksi/",
+  },
+  {
+    title: "Pengerjaan di workshop",
+    institution: "Workshop BAC",
+    category: "process",
+    categoryLabel: "Proses & workshop",
+    image: "/images/bac-workshop-hero-male.webp",
+    alt: "Staf laki-laki mengerjakan atribut di workshop BAC",
+    detail: "/proses-produksi/",
+  },
+  {
+    title: "Kurasi dan quality control",
+    institution: "Workshop BAC",
+    category: "process",
+    categoryLabel: "Proses & workshop",
+    image: "/images/bac-gallery-curation.webp",
+    alt: "Staf BAC mengurasi dan memeriksa detail atribut di meja kerja",
+    detail: "/proses-produksi/",
+  },
 ];
+
+const inspectionFlow = [
+  {
+    title: "Pilih kategori",
+    description: "Saring dokumentasi berdasarkan jenis atribut yang paling relevan.",
+    icon: Search,
+  },
+  {
+    title: "Periksa visual",
+    description: "Buka foto untuk melihat bentuk, warna, dan penyajian produk lebih dekat.",
+    icon: Eye,
+  },
+  {
+    title: "Catat detail",
+    description: "Simpan nama produk, instansi, jumlah, serta detail yang perlu dikonfirmasi.",
+    icon: PackageCheck,
+  },
+  {
+    title: "Konsultasikan",
+    description: "Kirim referensi pilihan ke admin untuk mengecek spesifikasi dan ketersediaan.",
+    icon: Send,
+  },
+];
+
+const consultationMessage =
+  "Halo Admin BAC, saya sudah melihat galeri dan ingin konsultasi mengenai produk atribut berikut: ...";
 ---
 
 <BaseLayout
-  title="Galeri"
-  description="Galeri produk atribut, proses produksi, custom order, pengemasan, display toko, dan pesanan grosir BAC."
+  title="Galeri Produk & Workshop"
+  description="Lihat dokumentasi produk atribut kedinasan, set pangkat, emblem, proses produksi, dan workshop BAC dalam galeri yang mudah ditelusuri."
+  image="/images/bac-gallery-curation.webp"
 >
-  <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Galeri</p>
-      <h1>Dokumentasi produk, proses, pengemasan, dan contoh pesanan.</h1>
+  <section class="page-hero gallery-page-hero">
+    <img
+      class="gallery-hero-background"
+      src="/images/bac-gallery-curation.webp"
+      alt=""
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="container gallery-hero-content">
+      <p class="gallery-hero-proof"><span aria-hidden="true"></span> Dokumentasi produk dan workshop BAC</p>
+      <h1>Lihat detail produk lebih dekat.</h1>
       <p>
-        Galeri awal memakai visual katalog BAC yang dapat diganti dengan foto produk asli, foto toko,
-        dan dokumentasi pesanan pelanggan.
+        Telusuri contoh atribut, set pangkat, emblem, dan suasana pengerjaan sebagai referensi awal
+        sebelum menentukan kebutuhan personal, grosir, atau instansi.
       </p>
+      <div class="gallery-hero-actions">
+        <a class="button button-light" href="#koleksi-galeri">
+          <Images size={19} strokeWidth={1.9} aria-hidden="true" />
+          Lihat Dokumentasi
+        </a>
+        <a class="button button-secondary" href="/katalog/">
+          <BookOpenText size={19} strokeWidth={1.9} aria-hidden="true" />
+          Buka Katalog
+        </a>
+      </div>
+      <ul class="gallery-hero-index" aria-label="Isi dokumentasi galeri">
+        <li><Badge size={17} strokeWidth={1.8} aria-hidden="true" /> Produk</li>
+        <li><Layers size={17} strokeWidth={1.8} aria-hidden="true" /> Emblem</li>
+        <li><Boxes size={17} strokeWidth={1.8} aria-hidden="true" /> Set atribut</li>
+        <li><Factory size={17} strokeWidth={1.8} aria-hidden="true" /> Workshop</li>
+      </ul>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container gallery-grid">
-      {
-        gallery.map(([title, image, alt]) => (
-          <figure class="gallery-item">
-            <a href={image} target="_blank" rel="noreferrer">
-              <img src={image} alt={alt} loading="lazy" />
-            </a>
-            <figcaption>{title}</figcaption>
-          </figure>
-        ))
-      }
+  <nav class="gallery-anchor-nav" aria-label="Navigasi halaman galeri">
+    <div class="container">
+      <a href="#koleksi-galeri"><Images size={18} strokeWidth={1.8} aria-hidden="true" />Koleksi</a>
+      <a href="#panduan-galeri"><Eye size={18} strokeWidth={1.8} aria-hidden="true" />Cara melihat</a>
+      <a href="#konsultasi-galeri"><MessageCircle size={18} strokeWidth={1.8} aria-hidden="true" />Konsultasi</a>
+    </div>
+  </nav>
+
+  <section class="section gallery-collection-section" id="koleksi-galeri">
+    <div class="container">
+      <div class="section-head gallery-section-head">
+        <div>
+          <p class="eyebrow">Koleksi dokumentasi</p>
+          <h2>Temukan referensi berdasarkan jenis atribut.</h2>
+        </div>
+        <p>
+          Gunakan filter untuk mempersempit pilihan. Tekan foto untuk melihatnya lebih besar dan
+          menuju detail produk terkait.
+        </p>
+      </div>
+
+      <div class="gallery-filter-shell" aria-label="Filter kategori galeri">
+        <div class="gallery-filter-list" role="group" aria-label="Pilih kategori dokumentasi">
+          {
+            filters.map((filter, index) => (
+              <button
+                class="gallery-filter"
+                type="button"
+                data-gallery-filter={filter.id}
+                aria-pressed={index === 0 ? "true" : "false"}
+              >
+                <filter.icon size={19} strokeWidth={1.8} aria-hidden="true" />
+                <span>{filter.label}</span>
+              </button>
+            ))
+          }
+        </div>
+        <p class="gallery-result-count" role="status" aria-live="polite">
+          Menampilkan <strong data-gallery-count>{gallery.length}</strong> dokumentasi
+        </p>
+      </div>
+
+      <div class="gallery-document-grid">
+        {
+          gallery.map((item, index) => (
+            <article class="gallery-document" data-gallery-category={item.category}>
+              <button
+                class="gallery-document-media"
+                type="button"
+                data-gallery-open
+                data-title={item.title}
+                data-institution={item.institution}
+                data-category-label={item.categoryLabel}
+                data-image={item.image}
+                data-alt={item.alt}
+                data-detail={item.detail}
+                aria-label={`Perbesar foto ${item.title}`}
+              >
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  width="720"
+                  height="540"
+                  loading={index < 3 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+                <span class="gallery-expand" aria-hidden="true">
+                  <Maximize2 size={18} strokeWidth={1.9} />
+                </span>
+              </button>
+              <div class="gallery-document-copy">
+                <p>{item.categoryLabel}</p>
+                <h3>{item.title}</h3>
+                <small>{item.institution}</small>
+              </div>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
+
+  <section class="section section-soft gallery-guide-section" id="panduan-galeri">
+    <div class="container">
+      <div class="section-head gallery-section-head">
+        <div>
+          <p class="eyebrow">Panduan melihat galeri</p>
+          <h2>Dari referensi visual ke kebutuhan yang jelas.</h2>
+        </div>
+        <p>
+          Foto membantu mengenali pilihan awal. Ukuran, bahan, warna, stok, dan detail pesanan tetap
+          dikonfirmasi bersama admin BAC.
+        </p>
+      </div>
+
+      <ol class="gallery-flowchart" aria-label="Empat langkah menggunakan galeri BAC">
+        {
+          inspectionFlow.map((step, index) => (
+            <li style={`--gallery-step: ${index};`}>
+              <span class="gallery-flow-node" aria-hidden="true">
+                <step.icon size={23} strokeWidth={1.75} />
+              </span>
+              <small>{String(index + 1).padStart(2, "0")}</small>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+              {index < inspectionFlow.length - 1 && <ArrowRight class="gallery-flow-arrow" size={20} aria-hidden="true" />}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="gallery-cta-band" id="konsultasi-galeri">
+    <div class="container gallery-cta-inner">
+      <div>
+        <p class="eyebrow">Lanjutkan pencarian</p>
+        <h2>Sudah menemukan referensi yang mendekati?</h2>
+        <p>Sebutkan nama produk atau kirim tangkapan layar agar admin dapat membantu mengecek detailnya.</p>
+      </div>
+      <div class="gallery-cta-actions">
+        <a class="button button-light" href="/katalog/">
+          <BookOpenText size={19} strokeWidth={1.9} aria-hidden="true" />
+          Jelajahi Katalog
+        </a>
+        <a
+          class="button button-whatsapp"
+          href={whatsappUrl(consultationMessage)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <MessageCircle size={19} strokeWidth={1.9} aria-hidden="true" />
+          Konsultasi via WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="gallery-viewer" aria-labelledby="gallery-viewer-title">
+    <div class="gallery-viewer-panel">
+      <button class="gallery-viewer-close" type="button" data-gallery-close aria-label="Tutup tampilan foto">
+        <X size={22} strokeWidth={1.9} aria-hidden="true" />
+      </button>
+      <div class="gallery-viewer-media">
+        <img
+          data-gallery-viewer-image
+          src="/catalog/atr-bpn/atr-bpn-emblem-bpn-01.webp"
+          alt="Emblem BPN berwarna emas dalam kemasan BAC"
+        />
+      </div>
+      <div class="gallery-viewer-copy">
+        <p data-gallery-viewer-category></p>
+        <h2 id="gallery-viewer-title" data-gallery-viewer-title></h2>
+        <span data-gallery-viewer-institution></span>
+        <p class="gallery-viewer-note">
+          Foto merupakan referensi visual. Konfirmasikan spesifikasi, ketersediaan, dan jumlah kepada admin BAC.
+        </p>
+        <a class="button button-primary" data-gallery-viewer-link href="/katalog/">
+          Lihat Detail Terkait
+          <ArrowRight size={18} strokeWidth={1.9} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>("[data-gallery-filter]");
+    const galleryItems = document.querySelectorAll<HTMLElement>("[data-gallery-category]");
+    const galleryCount = document.querySelector<HTMLElement>("[data-gallery-count]");
+    const viewer = document.querySelector<HTMLDialogElement>(".gallery-viewer");
+    const viewerImage = document.querySelector<HTMLImageElement>("[data-gallery-viewer-image]");
+    const viewerTitle = document.querySelector<HTMLElement>("[data-gallery-viewer-title]");
+    const viewerInstitution = document.querySelector<HTMLElement>("[data-gallery-viewer-institution]");
+    const viewerCategory = document.querySelector<HTMLElement>("[data-gallery-viewer-category]");
+    const viewerLink = document.querySelector<HTMLAnchorElement>("[data-gallery-viewer-link]");
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const selected = button.dataset.galleryFilter ?? "all";
+        let visibleCount = 0;
+
+        filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        galleryItems.forEach((item) => {
+          const isVisible = selected === "all" || item.dataset.galleryCategory === selected;
+          item.hidden = !isVisible;
+          if (isVisible) visibleCount += 1;
+        });
+
+        if (galleryCount) galleryCount.textContent = String(visibleCount);
+      });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>("[data-gallery-open]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (!viewer || !viewerImage || !viewerTitle || !viewerInstitution || !viewerCategory || !viewerLink) return;
+
+        viewerImage.src = button.dataset.image ?? "";
+        viewerImage.alt = button.dataset.alt ?? "";
+        viewerTitle.textContent = button.dataset.title ?? "Dokumentasi BAC";
+        viewerInstitution.textContent = button.dataset.institution ?? "BAC";
+        viewerCategory.textContent = button.dataset.categoryLabel ?? "Dokumentasi";
+        viewerLink.href = button.dataset.detail ?? "/katalog/";
+        viewer.showModal();
+      });
+    });
+
+    document.querySelector<HTMLButtonElement>("[data-gallery-close]")?.addEventListener("click", () => viewer?.close());
+    viewer?.addEventListener("click", (event) => {
+      if (event.target === viewer) viewer.close();
+    });
+  </script>
 </BaseLayout>
