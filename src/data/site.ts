@@ -8,7 +8,7 @@ export const site = {
   whatsappDisplay: "+62 878-2544-2104",
   chiefMarketingWhatsappNumber: "62895404673700",
   chiefMarketingWhatsappDisplay: "+62 895-4046-73700",
-  email: "admin@berkahabadicreative.id",
+  email: "bac.atribut@gmail.com",
   instagram: "https://instagram.com/",
   address:
     "Jati Tangatangan No.22, Bongas, Kec. Cililin, Kabupaten Bandung Barat, Jawa Barat 40562",
