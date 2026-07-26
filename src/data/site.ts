@@ -4,8 +4,8 @@ export const site = {
   tagline: "Supplier Atribut Kedinasan & Kementerian",
   description:
     "CV. Berkah Abadi Creative menyediakan atribut kedinasan dan perlengkapan instansi untuk Kejaksaan RI, Polri, Kemenhub, Kemenkumham, Damkar, Satpol PP, ASN, PNS, Korpri, pejabat daerah, dan custom order.",
-  whatsappNumber: "6287825442104",
-  whatsappDisplay: "+62 878-2544-2104",
+  whatsappNumber: "62895404673700",
+  whatsappDisplay: "+62 895-4046-73700",
   chiefMarketingWhatsappNumber: "62895404673700",
   chiefMarketingWhatsappDisplay: "+62 895-4046-73700",
   email: "bac.atribut@gmail.com",
