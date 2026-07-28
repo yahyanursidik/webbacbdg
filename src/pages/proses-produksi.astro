@@ -4,13 +4,18 @@ import BadgeCheck from "@lucide/astro/icons/badge-check";
 import Boxes from "@lucide/astro/icons/boxes";
 import CalendarClock from "@lucide/astro/icons/calendar-clock";
 import Check from "@lucide/astro/icons/check";
+import Camera from "@lucide/astro/icons/camera";
 import Factory from "@lucide/astro/icons/factory";
+import Film from "@lucide/astro/icons/film";
+import Images from "@lucide/astro/icons/images";
 import ListChecks from "@lucide/astro/icons/list-checks";
+import Maximize2 from "@lucide/astro/icons/maximize-2";
 import MessageCircle from "@lucide/astro/icons/message-circle";
 import PackageSearch from "@lucide/astro/icons/package-search";
 import PencilRuler from "@lucide/astro/icons/pencil-ruler";
 import SwatchBook from "@lucide/astro/icons/swatch-book";
 import Truck from "@lucide/astro/icons/truck";
+import X from "@lucide/astro/icons/x";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { whatsappUrl } from "@/data/site";
 
@@ -90,6 +95,96 @@ const qualityChecks = [
   },
 ];
 
+const mediaFilters = [
+  { id: "all", label: "Semua", icon: Images },
+  { id: "workshop", label: "Workshop", icon: Factory },
+  { id: "fulfilment", label: "Pemenuhan", icon: PackageSearch },
+  { id: "packing", label: "Pengepakan", icon: Boxes },
+  { id: "video", label: "Video", icon: Film },
+];
+
+const workshopPhotos = [
+  {
+    title: "Area mesin dan finishing",
+    description: "Ruang kerja untuk pengoperasian mesin dan penyelesaian detail produk.",
+    category: "workshop",
+    orientation: "landscape",
+    image: "/media/process-production/workshop-laser-wide.jpg",
+    alt: "Dua staf bekerja pada mesin di area produksi dan finishing BAC",
+  },
+  {
+    title: "Area mesin bordir",
+    description: "Dokumentasi jalur mesin dan ruang kerja bordir BAC.",
+    category: "workshop",
+    orientation: "portrait",
+    image: "/media/process-production/workshop-embroidery-line-02.jpg",
+    alt: "Jalur panjang mesin bordir multi-head di workshop BAC",
+  },
+  {
+    title: "Pengerjaan bordir",
+    description: "Operator memantau pengerjaan pada salah satu lini mesin bordir.",
+    category: "workshop",
+    orientation: "portrait",
+    image: "/media/process-production/workshop-embroidery-line-03.jpg",
+    alt: "Operator memantau proses pada mesin bordir BAC",
+  },
+  {
+    title: "Lini bordir dari dekat",
+    description: "Area kerja mesin bordir multi-head untuk pengerjaan atribut tekstil.",
+    category: "workshop",
+    orientation: "portrait",
+    image: "/media/process-production/workshop-embroidery-line-01.jpg",
+    alt: "Operator bekerja di antara lini mesin bordir multi-head BAC",
+  },
+  {
+    title: "Pengoperasian mesin",
+    description: "Tim mengatur pekerjaan melalui perangkat komputer yang terhubung ke mesin.",
+    category: "workshop",
+    orientation: "portrait",
+    image: "/media/process-production/workshop-laser-operation.jpg",
+    alt: "Dua staf mengoperasikan komputer dan mesin produksi BAC",
+  },
+];
+
+const processVideos = [
+  {
+    title: "Ketersediaan produk jadi",
+    description: "Peninjauan koleksi dan stok atribut yang telah selesai.",
+    category: "fulfilment",
+    video: "/media/process-production/production-video-01.mp4",
+  },
+  {
+    title: "Pelabelan paket",
+    description: "Label pengiriman disiapkan dan ditempelkan pada paket.",
+    category: "packing",
+    video: "/media/process-production/production-video-02.mp4",
+  },
+  {
+    title: "Paket siap dikirim",
+    description: "Paket yang telah tertutup dan berlabel dikumpulkan untuk pengiriman.",
+    category: "packing",
+    video: "/media/process-production/production-video-03.mp4",
+  },
+  {
+    title: "Penyortiran berdasarkan instansi",
+    description: "Produk dikelompokkan agar jenis atribut tetap mudah ditelusuri.",
+    category: "fulfilment",
+    video: "/media/process-production/production-video-04.mp4",
+  },
+  {
+    title: "Perakitan dan pengemasan akhir",
+    description: "Produk disusun dan diperiksa sebelum masuk ke kemasan.",
+    category: "fulfilment",
+    video: "/media/process-production/production-video-05.mp4",
+  },
+  {
+    title: "Pencatatan pesanan",
+    description: "Tim mencocokkan catatan pesanan dengan produk yang sedang disiapkan.",
+    category: "fulfilment",
+    video: "/media/process-production/production-video-06.mp4",
+  },
+];
+
 const consultationMessage =
   "Halo Admin BAC, saya ingin konsultasi proses produksi atribut. Kebutuhan saya adalah ...";
 ---
@@ -97,21 +192,21 @@ const consultationMessage =
 <BaseLayout
   title="Proses Produksi"
   description="Alur produksi BAC dari konsultasi, peninjauan detail, quality control, pengemasan, hingga pengiriman atribut kedinasan."
-  image="/images/bac-workshop-hero-male.webp"
+  image="/media/process-production/workshop-embroidery-wide.jpg"
 >
   <section class="page-hero process-page-hero">
     <img
       class="process-hero-background"
-      src="/images/bac-workshop-hero-male.webp"
+      src="/media/process-production/workshop-embroidery-wide.jpg"
       alt=""
-      width="1672"
-      height="941"
+      width="1600"
+      height="900"
       fetchpriority="high"
       decoding="async"
     />
     <div class="container process-hero-content">
-      <p class="process-hero-proof"><span aria-hidden="true"></span> Workshop produksi atribut</p>
-      <h1>Dari detail pesanan hingga siap dikirim.</h1>
+      <p class="process-hero-proof"><span aria-hidden="true"></span> Dokumentasi workshop BAC</p>
+      <h1>Dari workshop BAC hingga siap dikirim.</h1>
       <p>
         Setiap pesanan mengikuti jalur yang sesuai: ready stock, pre-order, atau custom. Detail
         penting dikonfirmasi sebelum produksi dan diperiksa kembali sebelum pengiriman.
@@ -137,12 +232,14 @@ const consultationMessage =
         <li><PencilRuler size={17} strokeWidth={1.8} aria-hidden="true" /> Custom</li>
       </ul>
     </div>
+    <span class="process-hero-caption">Area mesin bordir BAC</span>
   </section>
 
   <nav class="process-anchor-nav" aria-label="Navigasi proses produksi">
     <div class="container">
       <a href="#jalur-pesanan"><Boxes size={19} strokeWidth={1.8} aria-hidden="true" />Jalur pesanan</a>
       <a href="#alur-produksi"><Factory size={19} strokeWidth={1.8} aria-hidden="true" />Tahapan produksi</a>
+      <a href="#dokumentasi-workshop"><Images size={19} strokeWidth={1.8} aria-hidden="true" />Dokumentasi</a>
       <a href="#quality-control"><BadgeCheck size={19} strokeWidth={1.8} aria-hidden="true" />Quality control</a>
     </div>
   </nav>
@@ -214,6 +311,109 @@ const consultationMessage =
     </div>
   </section>
 
+  <section class="section process-media-section" id="dokumentasi-workshop">
+    <div class="container">
+      <div class="section-head process-section-head">
+        <div>
+          <p class="eyebrow">Dokumentasi aktual</p>
+          <h2>Lihat proses yang benar-benar berjalan.</h2>
+        </div>
+        <p>
+          Foto dan video berikut merekam area workshop, penyortiran, pencatatan, hingga pengepakan
+          pesanan BAC. Gunakan filter untuk langsung menuju tahap yang ingin Anda periksa.
+        </p>
+      </div>
+
+      <div class="process-media-toolbar">
+        <div class="process-media-filters" role="group" aria-label="Filter dokumentasi produksi">
+          {
+            mediaFilters.map((filter, index) => (
+              <button
+                class="process-media-filter"
+                type="button"
+                data-process-filter={filter.id}
+                aria-pressed={index === 0 ? "true" : "false"}
+              >
+                <filter.icon size={18} strokeWidth={1.8} aria-hidden="true" />
+                <span>{filter.label}</span>
+              </button>
+            ))
+          }
+        </div>
+        <p class="process-media-count" role="status" aria-live="polite">
+          <strong data-process-count>{workshopPhotos.length + processVideos.length}</strong> dokumentasi
+        </p>
+      </div>
+
+      <div class="process-media-grid">
+        {
+          workshopPhotos.map((item, index) => (
+            <article
+              class={`process-media-item process-media-photo process-media-${item.orientation}${index === 0 ? " process-media-featured" : ""}`}
+              data-process-category={item.category}
+              data-process-type="photo"
+            >
+              <button
+                class="process-media-visual"
+                type="button"
+                data-process-open
+                data-title={item.title}
+                data-description={item.description}
+                data-image={item.image}
+                data-alt={item.alt}
+                aria-label={`Perbesar foto ${item.title}`}
+              >
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  width="900"
+                  height="1200"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="process-media-expand" aria-hidden="true">
+                  <Maximize2 size={18} strokeWidth={1.9} />
+                </span>
+              </button>
+              <div class="process-media-copy">
+                <p><Camera size={15} strokeWidth={1.9} aria-hidden="true" /> Foto workshop</p>
+                <h3>{item.title}</h3>
+                <span>{item.description}</span>
+              </div>
+            </article>
+          ))
+        }
+
+        {
+          processVideos.map((item) => (
+            <article
+              class="process-media-item process-media-video"
+              data-process-category={item.category}
+              data-process-type="video"
+            >
+              <div class="process-media-visual">
+                <video
+                  controls
+                  preload="metadata"
+                  playsinline
+                  aria-label={`Video ${item.title}`}
+                >
+                  <source src={item.video} type="video/mp4" />
+                  Browser Anda belum mendukung pemutaran video.
+                </video>
+              </div>
+              <div class="process-media-copy">
+                <p><Film size={15} strokeWidth={1.9} aria-hidden="true" /> Video proses</p>
+                <h3>{item.title}</h3>
+                <span>{item.description}</span>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <section class="section process-qc-section" id="quality-control">
     <div class="container process-qc-layout">
       <div class="process-qc-intro">
@@ -263,4 +463,102 @@ const consultationMessage =
       </a>
     </div>
   </section>
+
+  <dialog class="process-media-viewer" aria-labelledby="process-media-viewer-title">
+    <div class="process-media-viewer-panel">
+      <button
+        class="process-media-viewer-close"
+        type="button"
+        data-process-close
+        aria-label="Tutup tampilan foto"
+      >
+        <X size={22} strokeWidth={1.9} aria-hidden="true" />
+      </button>
+      <div class="process-media-viewer-image">
+        <img data-process-viewer-image src="" alt="" />
+      </div>
+      <div class="process-media-viewer-copy">
+        <p>Dokumentasi workshop BAC</p>
+        <h2 id="process-media-viewer-title" data-process-viewer-title></h2>
+        <span data-process-viewer-description></span>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const processFilterButtons =
+      document.querySelectorAll<HTMLButtonElement>("[data-process-filter]");
+    const processMediaItems =
+      document.querySelectorAll<HTMLElement>("[data-process-category]");
+    const processMediaCount =
+      document.querySelector<HTMLElement>("[data-process-count]");
+    const processVideos =
+      document.querySelectorAll<HTMLVideoElement>(".process-media-video video");
+    const processViewer =
+      document.querySelector<HTMLDialogElement>(".process-media-viewer");
+    const processViewerImage =
+      document.querySelector<HTMLImageElement>("[data-process-viewer-image]");
+    const processViewerTitle =
+      document.querySelector<HTMLElement>("[data-process-viewer-title]");
+    const processViewerDescription =
+      document.querySelector<HTMLElement>("[data-process-viewer-description]");
+
+    processFilterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const selected = button.dataset.processFilter ?? "all";
+        let visibleCount = 0;
+
+        processFilterButtons.forEach((item) =>
+          item.setAttribute("aria-pressed", String(item === button)),
+        );
+
+        processMediaItems.forEach((item) => {
+          const itemType = item.dataset.processType;
+          const isVisible =
+            selected === "all" ||
+            item.dataset.processCategory === selected ||
+            (selected === "video" && itemType === "video");
+
+          item.hidden = !isVisible;
+          if (isVisible) visibleCount += 1;
+          if (!isVisible) item.querySelector("video")?.pause();
+        });
+
+        if (processMediaCount) processMediaCount.textContent = String(visibleCount);
+      });
+    });
+
+    processVideos.forEach((video) => {
+      video.addEventListener("play", () => {
+        processVideos.forEach((item) => {
+          if (item !== video) item.pause();
+        });
+      });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>("[data-process-open]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (
+          !processViewer ||
+          !processViewerImage ||
+          !processViewerTitle ||
+          !processViewerDescription
+        ) return;
+
+        processViewerImage.src = button.dataset.image ?? "";
+        processViewerImage.alt = button.dataset.alt ?? "";
+        processViewerTitle.textContent = button.dataset.title ?? "Dokumentasi workshop BAC";
+        processViewerDescription.textContent = button.dataset.description ?? "";
+        processViewer.showModal();
+      });
+    });
+
+    document
+      .querySelector<HTMLButtonElement>("[data-process-close]")
+      ?.addEventListener("click", () => processViewer?.close());
+
+    processViewer?.addEventListener("click", (event) => {
+      if (event.target === processViewer) processViewer.close();
+    });
+  </script>
 </BaseLayout>
