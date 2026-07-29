@@ -1,11 +1,16 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { chiefMarketingWhatsappUrl, site, whatsappUrl } from "@/data/site";
+import {
+  site,
+  whatsappAdmins,
+  whatsappAdminUrl,
+  whatsappUrl,
+} from "@/data/site";
 ---
 
 <BaseLayout
   title="Alamat Workshop"
-  description="Alamat workshop BAC, Google Maps, jam operasional, dan jalur WhatsApp Admin Toko serta Chief Marketing Officer."
+  description="Alamat workshop BAC, Google Maps, jam operasional, serta kontak Admin Bandung dan Admin Jakarta."
 >
   <section class="page-hero">
     <div class="container">
@@ -28,12 +33,28 @@ import { chiefMarketingWhatsappUrl, site, whatsappUrl } from "@/data/site";
         <p><strong>Nama:</strong> {site.name}</p>
         <p><strong>Alamat:</strong> {site.address}</p>
         <p><strong>Jam operasional:</strong> {site.hours}</p>
-        <p><strong>Admin Toko:</strong> <a href={whatsappUrl("Halo Admin BAC, saya ingin bertanya tentang produk BAC.")} target="_blank" rel="noreferrer">{site.whatsappDisplay}</a></p>
-        <p><strong>Chief Marketing Officer:</strong> <a href={chiefMarketingWhatsappUrl("Halo Chief Marketing Officer BAC, saya ingin berdiskusi mengenai kebutuhan instansi atau kerja sama.")} target="_blank" rel="noreferrer">{site.chiefMarketingWhatsappDisplay}</a></p>
+        {
+          whatsappAdmins.map((admin) => (
+            <p>
+              <strong>Admin {admin.city}:</strong>{" "}
+              <a
+                href={whatsappAdminUrl(
+                  admin.id,
+                  `Halo ${admin.name}, saya ingin bertanya tentang produk BAC.`,
+                )}
+                target="_blank"
+                rel="noreferrer"
+                data-wa-direct
+              >
+                {admin.name} · {admin.display}
+              </a>
+            </p>
+          ))
+        }
         <p><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></p>
         <div class="inline-actions">
           <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin datang ke workshop BAC.")} target="_blank" rel="noreferrer">
-            Chat Admin Toko
+            Pilih Admin WhatsApp
           </a>
           <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Arahkan ke Lokasi</a>
         </div>
