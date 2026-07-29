@@ -34,6 +34,7 @@ const categoryRepresentativeSlugs: Record<string, string> = {
   dishub: "dishub-pin-dishub-corak-ak",
   "atr-bpn": "atr-bpn-emblem-bpn",
   imipas: "imipas-box-satu-set",
+  "produk-custom": "nametag-papan-nama-berbagai-model",
 };
 
 const categoryImages = Object.fromEntries(
@@ -165,7 +166,7 @@ const localBusinessSchema = {
 
         <dl class="hero-ledger" aria-label="Ringkasan katalog BAC">
           <div><dt>{products.length}</dt><dd>Referensi produk</dd></div>
-          <div><dt>{categories.length}</dt><dd>Kelompok instansi</dd></div>
+          <div><dt>{categories.length}</dt><dd>Kategori produk</dd></div>
           <div><dt>{attributeTypeCount}</dt><dd>Jenis atribut</dd></div>
         </dl>
       </div>
@@ -228,10 +229,10 @@ const localBusinessSchema = {
       <div class="section-head catalogue-head">
         <div>
           <p class="eyebrow">Direktori katalog</p>
-          <h2>Cari berdasarkan instansi.</h2>
+          <h2>Cari berdasarkan kategori.</h2>
         </div>
         <div class="section-support">
-          <p>Mulai dari kelompok dengan koleksi terbanyak, atau buka seluruh 17 kategori.</p>
+          <p>Mulai dari koleksi terbanyak, atau buka seluruh {categories.length} kategori.</p>
           <a class="text-link" href="/katalog/#semua-kategori">
             Semua kategori <ArrowRight size={17} strokeWidth={1.9} aria-hidden="true" />
           </a>

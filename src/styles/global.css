@@ -1086,7 +1086,7 @@ h3 {
   .detail-layout,
   .footer-grid,
   .catalog-toolbar {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .trust-strip {
@@ -1623,6 +1623,7 @@ h3 {
 }
 
 .product-gallery {
+  min-width: 0;
   overflow: visible;
   border: 0;
   background: transparent;
@@ -1630,6 +1631,7 @@ h3 {
 
 .gallery-main {
   width: 100%;
+  height: auto;
   aspect-ratio: 4 / 3;
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-sm);
@@ -1639,9 +1641,15 @@ h3 {
 
 .gallery-thumbnails {
   display: grid;
+  width: 100%;
+  min-width: 0;
   grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
   gap: var(--space-sm);
+  max-height: 18.5rem;
   margin-top: var(--space-sm);
+  padding-right: var(--space-2xs);
+  overflow-y: auto;
+  scrollbar-color: var(--color-rule-2) transparent;
 }
 
 .gallery-thumbnail {
@@ -1709,7 +1717,19 @@ h3 {
   }
 
   .gallery-thumbnails {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: none;
+    grid-auto-columns: 4.5rem;
+    grid-auto-flow: column;
+    max-height: none;
+    padding-right: 0;
+    padding-bottom: var(--space-xs);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+  }
+
+  .gallery-thumbnail {
+    scroll-snap-align: start;
   }
 }
 
