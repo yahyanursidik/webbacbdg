@@ -43,6 +43,15 @@ const imageUrl = Astro.site ? new URL(image, Astro.site).toString() : image;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#10233f" />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGDL6HMJCG" is:inline></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-SGDL6HMJCG");
+    </script>
   </head>
   <body>
     <Header />

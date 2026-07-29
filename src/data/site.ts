@@ -1,13 +1,32 @@
+export const whatsappAdmins = [
+  {
+    id: "bandung",
+    city: "Bandung",
+    name: "Marwan",
+    number: "62895404673700",
+    display: "+62 895-4046-73700",
+  },
+  {
+    id: "jakarta",
+    city: "Jakarta",
+    name: "Melania",
+    number: "6287740070047",
+    display: "0877-4007-0047",
+  },
+] as const;
+
+export type WhatsappAdminId = (typeof whatsappAdmins)[number]["id"];
+
 export const site = {
   name: "CV. Berkah Abadi Creative",
   shortName: "BAC",
   tagline: "Supplier Atribut Kedinasan & Kementerian",
   description:
     "CV. Berkah Abadi Creative menyediakan atribut kedinasan dan perlengkapan instansi untuk Kejaksaan RI, Polri, Kemenhub, Kemenkumham, Damkar, Satpol PP, ASN, PNS, Korpri, pejabat daerah, dan custom order.",
-  whatsappNumber: "62895404673700",
-  whatsappDisplay: "+62 895-4046-73700",
-  chiefMarketingWhatsappNumber: "62895404673700",
-  chiefMarketingWhatsappDisplay: "+62 895-4046-73700",
+  whatsappNumber: whatsappAdmins[0].number,
+  whatsappDisplay: whatsappAdmins[0].display,
+  chiefMarketingWhatsappNumber: whatsappAdmins[0].number,
+  chiefMarketingWhatsappDisplay: whatsappAdmins[0].display,
   email: "bac.atribut@gmail.com",
   instagram: "https://instagram.com/",
   address:
@@ -20,6 +39,11 @@ export const site = {
 
 export function whatsappUrl(message: string) {
   return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
+export function whatsappAdminUrl(adminId: WhatsappAdminId, message: string) {
+  const admin = whatsappAdmins.find((item) => item.id === adminId) ?? whatsappAdmins[0];
+  return `https://wa.me/${admin.number}?text=${encodeURIComponent(message)}`;
 }
 
 export function chiefMarketingWhatsappUrl(message: string) {

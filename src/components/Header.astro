@@ -1,4 +1,5 @@
 ---
+import ChevronDown from "@lucide/astro/icons/chevron-down";
 import House from "@lucide/astro/icons/house";
 import Images from "@lucide/astro/icons/images";
 import MessageCircle from "@lucide/astro/icons/message-circle";
@@ -69,8 +70,17 @@ const mobileNavItems = [
       }
     </nav>
 
-    <a class="button button-whatsapp header-cta" href={whatsappUrl(generalMessage)} target="_blank" rel="noreferrer">
+    <a
+      class="button button-whatsapp header-cta"
+      href={whatsappUrl(generalMessage)}
+      target="_blank"
+      rel="noreferrer"
+      aria-haspopup="dialog"
+      aria-controls="whatsapp-admin-chooser"
+    >
+      <MessageCircle size={18} strokeWidth={1.9} aria-hidden="true" />
       WhatsApp Admin
+      <ChevronDown size={16} strokeWidth={2} aria-hidden="true" />
     </a>
   </div>
 </header>

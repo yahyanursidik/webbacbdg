@@ -14,7 +14,12 @@ import Send from "@lucide/astro/icons/send";
 import Store from "@lucide/astro/icons/store";
 import UserRound from "@lucide/astro/icons/user-round";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { chiefMarketingWhatsappUrl, site, whatsappUrl } from "@/data/site";
+import {
+  site,
+  whatsappAdmins,
+  whatsappAdminUrl,
+  whatsappUrl,
+} from "@/data/site";
 
 const contactTopics = [
   {
@@ -326,15 +331,26 @@ const consultationMessage =
         <p>WhatsApp disarankan untuk konsultasi produk. Gunakan alamat dan peta untuk merencanakan kunjungan workshop.</p>
       </div>
       <div class="contact-details-list">
-        <a
-          href={chiefMarketingWhatsappUrl("Halo Chief Marketing Officer BAC, saya ingin berdiskusi mengenai kebutuhan instansi atau kerja sama.")}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span><Building2 size={22} strokeWidth={1.8} aria-hidden="true" /></span>
-          <div><small>Chief Marketing Officer</small><strong>{site.chiefMarketingWhatsappDisplay}</strong></div>
-          <ArrowRight size={18} aria-hidden="true" />
-        </a>
+        {
+          whatsappAdmins.map((admin) => (
+            <a
+              href={whatsappAdminUrl(
+                admin.id,
+                `Halo ${admin.name}, saya ingin konsultasi kebutuhan atribut kedinasan dengan Admin BAC ${admin.city}.`,
+              )}
+              target="_blank"
+              rel="noreferrer"
+              data-wa-direct
+            >
+              <span><MessageCircle size={22} strokeWidth={1.8} aria-hidden="true" /></span>
+              <div>
+                <small>Admin {admin.city}</small>
+                <strong>{admin.name} · {admin.display}</strong>
+              </div>
+              <ArrowRight size={18} aria-hidden="true" />
+            </a>
+          ))
+        }
         <a href={`mailto:${site.email}`}>
           <span><Mail size={22} strokeWidth={1.8} aria-hidden="true" /></span>
           <div><small>Email</small><strong>{site.email}</strong></div>
@@ -413,7 +429,6 @@ const consultationMessage =
 
       const data = new FormData(form);
       const phone = form.dataset.phone;
-      if (!phone) return;
 
       const message = [
         "Halo Admin BAC, saya ingin mengirim permintaan:",
@@ -429,12 +444,23 @@ const consultationMessage =
       ].join("\n");
 
       if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.dataset.state = "loading";
+        submitButton.dataset.state = "success";
       }
-      if (status) status.textContent = "Membuka WhatsApp dengan ringkasan permintaan Anda...";
+      if (status) status.textContent = "Pesan siap. Pilih Admin Bandung atau Admin Jakarta.";
 
-      window.location.assign(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
+      const chooserEvent = new CustomEvent("bac:open-whatsapp", {
+        cancelable: true,
+        detail: { message },
+      });
+      const handledByChooser = !window.dispatchEvent(chooserEvent);
+
+      if (!handledByChooser && phone) {
+        window.location.assign(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
+      }
+
+      window.setTimeout(() => {
+        if (submitButton) delete submitButton.dataset.state;
+      }, 1600);
     });
   </script>
 </BaseLayout>
