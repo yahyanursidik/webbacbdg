@@ -115,12 +115,18 @@ const message = "Halo Admin BAC, saya ingin konsultasi kebutuhan atribut kedinas
     ) return;
 
     const target = event.target as HTMLElement | null;
-    const link = target?.closest<HTMLAnchorElement>('a[href*="wa.me/"]');
+    const link = target?.closest<HTMLAnchorElement>(
+      'a[href*="pilihAdmin=1"], a[href*="wa.me/"]',
+    );
     if (!link || link.hasAttribute("data-wa-direct")) return;
 
     event.preventDefault();
     const url = new URL(link.href);
-    openChooser(url.searchParams.get("text") || defaultMessage);
+    openChooser(
+      url.searchParams.get("pesan") ||
+        url.searchParams.get("text") ||
+        defaultMessage,
+    );
   });
 
   window.addEventListener("bac:open-whatsapp", (event) => {
@@ -140,4 +146,17 @@ const message = "Halo Admin BAC, saya ingin konsultasi kebutuhan atribut kedinas
   chooser?.addEventListener("click", (event) => {
     if (event.target === chooser) chooser.close();
   });
+
+  const currentUrl = new URL(window.location.href);
+  if (currentUrl.searchParams.get("pilihAdmin") === "1") {
+    openChooser(currentUrl.searchParams.get("pesan") || defaultMessage);
+    currentUrl.searchParams.delete("pilihAdmin");
+    currentUrl.searchParams.delete("pesan");
+    if (currentUrl.hash === "#pilih-admin") currentUrl.hash = "";
+    window.history.replaceState(
+      {},
+      "",
+      `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`,
+    );
+  }
 </script>
