@@ -23,6 +23,7 @@ const categoryRepresentativeSlugs: Record<string, string> = {
   dishub: "dishub-pin-dishub-corak-ak",
   "atr-bpn": "atr-bpn-emblem-bpn",
   imipas: "imipas-box-satu-set",
+  "produk-custom": "nametag-papan-nama-berbagai-model",
 };
 
 const categoryImages = Object.fromEntries(
@@ -55,12 +56,12 @@ const categoryImages = Object.fromEntries(
       <p class="catalog-photo-proof"><span aria-hidden="true"></span> Foto produk asli katalog BAC</p>
       <h1>Katalog atribut kedinasan BAC.</h1>
       <p>
-        Telusuri {products.length} referensi dari {categories.length} kelompok instansi. Gunakan ikon
+        Telusuri {products.length} referensi dari {categories.length} kategori produk. Gunakan ikon
         kategori, pencarian nama, atau jenis atribut untuk menemukan produk yang dibutuhkan.
       </p>
       <dl class="catalog-hero-facts" aria-label="Ringkasan katalog BAC">
         <div><dt>{products.length}</dt><dd>Produk</dd></div>
-        <div><dt>{categories.length}</dt><dd>Instansi</dd></div>
+        <div><dt>{categories.length}</dt><dd>Kategori</dd></div>
         <div><dt>{attributeTypes.length}</dt><dd>Jenis atribut</dd></div>
       </dl>
     </div>
@@ -70,8 +71,8 @@ const categoryImages = Object.fromEntries(
     <div class="container">
       <div class="catalog-category-head">
         <div>
-          <p class="eyebrow">Kategori instansi</p>
-          <h2>Pilih instansi untuk mempersempit katalog.</h2>
+          <p class="eyebrow">Kategori produk</p>
+          <h2>Pilih kategori untuk mempersempit katalog.</h2>
           <p>Geser daftar atau gunakan tombol panah untuk melihat seluruh kategori.</p>
         </div>
         <div class="catalog-rail-controls" aria-label="Kontrol kategori">
@@ -84,7 +85,7 @@ const categoryImages = Object.fromEntries(
         </div>
       </div>
 
-      <div class="catalog-category-rail" id="category-rail" aria-label="Filter berdasarkan instansi">
+      <div class="catalog-category-rail" id="category-rail" aria-label="Filter berdasarkan kategori">
         <button
           class="catalog-category-shortcut active"
           type="button"
@@ -125,14 +126,14 @@ const categoryImages = Object.fromEntries(
       <div class="catalog-filter-panel">
         <div class="catalog-toolbar" role="search" aria-label="Cari dan filter katalog">
           <label class="catalog-field catalog-search-field" for="product-search">
-            <span>Cari nama produk atau instansi</span>
+            <span>Cari nama produk, instansi, atau kategori</span>
             <span class="catalog-control-with-icon">
               <Search size={19} strokeWidth={1.8} aria-hidden="true" />
               <input
                 id="product-search"
                 class="input"
                 type="search"
-                placeholder="Contoh: pangkat polisi atau pin jaksa"
+                placeholder="Contoh: nametag, gift box, atau pin jaksa"
                 autocomplete="off"
               />
             </span>
