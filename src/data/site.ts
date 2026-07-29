@@ -31,6 +31,8 @@ export const site = {
   instagram: "https://instagram.com/",
   address:
     "Jati Tangatangan No.22, Bongas, Kec. Cililin, Kabupaten Bandung Barat, Jawa Barat 40562",
+  jakartaStoreAddress:
+    "Gedung Senen Jaya Blok 1 & 2, Lantai 2, No. D8 12-D8 12A, Pasar Senen, Jakarta Pusat",
   mapsUrl: "https://maps.app.goo.gl/yP5jM35izjMY5qKQA",
   mapsEmbed:
     "https://www.google.com/maps?q=Jati%20Tangatangan%20No.22%2C%20Bongas%2C%20Kec.%20Cililin%2C%20Kabupaten%20Bandung%20Barat%2C%20Jawa%20Barat%2040562&output=embed",

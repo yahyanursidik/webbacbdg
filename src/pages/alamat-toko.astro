@@ -6,66 +6,104 @@ import {
   whatsappAdminUrl,
   whatsappUrl,
 } from "@/data/site";
+
+const bandungAdmin = whatsappAdmins.find((admin) => admin.id === "bandung")!;
+const jakartaAdmin = whatsappAdmins.find((admin) => admin.id === "jakarta")!;
 ---
 
 <BaseLayout
-  title="Alamat Workshop"
-  description="Alamat workshop BAC, Google Maps, jam operasional, serta kontak Admin Bandung dan Admin Jakarta."
+  title="Alamat Workshop & Official Store"
+  description="Alamat Workshop BAC Bandung Barat dan Official Store Jakarta di Pasar Senen, beserta kontak admin untuk merencanakan kunjungan."
 >
   <section class="page-hero">
     <div class="container">
-      <p class="eyebrow">Alamat Workshop</p>
-      <h1>Lokasi BAC dan kontak utama untuk kunjungan workshop.</h1>
-      <p>{site.address}</p>
+      <p class="eyebrow">Lokasi BAC</p>
+      <h1>Workshop Bandung Barat dan Official Store Jakarta.</h1>
+      <p>Pilih lokasi yang paling dekat, lalu konfirmasi waktu kunjungan bersama admin BAC.</p>
       <div class="inline-actions">
-        <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin bertanya alamat workshop dan jam operasional.")} target="_blank" rel="noreferrer">
-          Tanya Alamat
+        <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin bertanya tentang lokasi dan merencanakan kunjungan.")} target="_blank" rel="noreferrer">
+          Tanya Lokasi
         </a>
-        <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Buka Maps</a>
+        <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Peta Workshop</a>
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container grid-2">
-      <div class="contact-panel">
-        <h2>Informasi Workshop</h2>
+      <article class="contact-panel location-card" id="workshop-bandung-barat">
+        <p class="eyebrow">Produksi & kunjungan</p>
+        <h2>Workshop Bandung Barat</h2>
         <p><strong>Nama:</strong> {site.name}</p>
         <p><strong>Alamat:</strong> {site.address}</p>
         <p><strong>Jam operasional:</strong> {site.hours}</p>
-        {
-          whatsappAdmins.map((admin) => (
-            <p>
-              <strong>Admin {admin.city}:</strong>{" "}
-              <a
-                href={whatsappAdminUrl(
-                  admin.id,
-                  `Halo ${admin.name}, saya ingin bertanya tentang produk BAC.`,
-                )}
-                target="_blank"
-                rel="noreferrer"
-                data-wa-direct
-              >
-                {admin.name} · {admin.display}
-              </a>
-            </p>
-          ))
-        }
-        <p><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></p>
-        <div class="inline-actions">
-          <a class="button button-whatsapp" href={whatsappUrl("Halo Admin BAC, saya ingin datang ke workshop BAC.")} target="_blank" rel="noreferrer">
-            Pilih Admin WhatsApp
+        <p>
+          <strong>Admin Bandung:</strong>{" "}
+          <a
+            href={whatsappAdminUrl(
+              bandungAdmin.id,
+              `Halo ${bandungAdmin.name}, saya ingin merencanakan kunjungan ke Workshop BAC Bandung Barat.`,
+            )}
+            target="_blank"
+            rel="noreferrer"
+            data-wa-direct
+          >
+            {bandungAdmin.name} · {bandungAdmin.display}
           </a>
-          <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Arahkan ke Lokasi</a>
+        </p>
+        <div class="inline-actions">
+          <a class="button button-secondary" href={site.mapsUrl} target="_blank" rel="noreferrer">Buka Google Maps</a>
         </div>
-      </div>
-      <img class="detail-image" src="/images/bac-hero.webp" alt="Display workshop dan katalog atribut BAC" />
+      </article>
+
+      <article class="contact-panel location-card" id="official-store-jakarta">
+        <p class="eyebrow">Official Store</p>
+        <h2>Jakarta</h2>
+        <p><strong>Nama:</strong> BAC Official Store Jakarta</p>
+        <p><strong>Alamat:</strong> {site.jakartaStoreAddress}</p>
+        <p><strong>Kunjungan:</strong> Konfirmasi waktu dengan Admin Jakarta.</p>
+        <p>
+          <strong>Admin Jakarta:</strong>{" "}
+          <a
+            href={whatsappAdminUrl(
+              jakartaAdmin.id,
+              `Halo ${jakartaAdmin.name}, saya ingin merencanakan kunjungan ke BAC Official Store Jakarta di Pasar Senen.`,
+            )}
+            target="_blank"
+            rel="noreferrer"
+            data-wa-direct
+          >
+            {jakartaAdmin.name} · {jakartaAdmin.display}
+          </a>
+        </p>
+        <div class="inline-actions">
+          <a
+            class="button button-whatsapp"
+            href={whatsappAdminUrl(
+              jakartaAdmin.id,
+              `Halo ${jakartaAdmin.name}, saya ingin bertanya tentang BAC Official Store Jakarta.`,
+            )}
+            target="_blank"
+            rel="noreferrer"
+            data-wa-direct
+          >
+            Chat Admin Jakarta
+          </a>
+        </div>
+      </article>
     </div>
   </section>
 
   <section class="section section-soft">
     <div class="container">
-      <iframe class="map-frame" src={site.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Maps BAC"></iframe>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Peta lokasi</p>
+          <h2>Workshop Bandung Barat</h2>
+        </div>
+        <p>Peta berikut khusus menuju workshop produksi BAC di Kecamatan Cililin.</p>
+      </div>
+      <iframe class="map-frame" src={site.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Maps Workshop BAC Bandung Barat"></iframe>
     </div>
   </section>
 </BaseLayout>

@@ -101,6 +101,17 @@ const localBusinessSchema = {
   email: site.email,
   address: site.address,
   openingHours: site.hours,
+  department: {
+    "@type": "Store",
+    name: "BAC Official Store Jakarta",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Gedung Senen Jaya Blok 1 & 2, Lantai 2, No. D8 12-D8 12A",
+      addressLocality: "Jakarta Pusat",
+      addressRegion: "DKI Jakarta",
+      addressCountry: "ID",
+    },
+  },
 };
 ---
 
