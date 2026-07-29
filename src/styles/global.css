@@ -697,6 +697,10 @@ h3 {
   padding: 24px;
 }
 
+.location-card {
+  scroll-margin-top: calc(var(--announcement-height) + var(--space-3xl));
+}
+
 .category-card {
   position: relative;
   overflow: hidden;
