@@ -38,7 +38,11 @@ export const site = {
 };
 
 export function whatsappUrl(message: string) {
-  return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const params = new URLSearchParams({
+    pilihAdmin: "1",
+    pesan: message,
+  });
+  return `/kontak/?${params.toString()}#pilih-admin`;
 }
 
 export function whatsappAdminUrl(adminId: WhatsappAdminId, message: string) {
