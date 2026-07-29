@@ -106,10 +106,17 @@
       "accent": "var(--service-gold)"
     },
     {
-      "name": "Produk Custom",
-      "slug": "produk-custom",
-      "description": "Nametag, papan nama, gift box, dan produk custom untuk kebutuhan instansi maupun umum.",
+      "name": "Nametag / Papan Nama",
+      "slug": "nametag-papan-nama",
+      "description": "Nametag dan papan nama custom untuk kebutuhan instansi, kantor, organisasi, dan umum.",
       "color": "var(--service-maroon)",
+      "accent": "var(--service-gold)"
+    },
+    {
+      "name": "Gift Box",
+      "slug": "gift-box",
+      "description": "Gift box custom berbagai ukuran untuk paket atribut, penghargaan, suvenir, dan acara.",
+      "color": "var(--service-green)",
       "accent": "var(--service-gold)"
     },
     {
@@ -13206,7 +13213,7 @@
     {
       "name": "Nametag / Papan Nama Berbagai Model",
       "slug": "nametag-papan-nama-berbagai-model",
-      "category": "produk-custom",
+      "category": "nametag-papan-nama",
       "institution": "Instansi & Umum",
       "attributeType": "Nametag / Papan Nama",
       "shortDescription": "Koleksi nametag dan papan nama custom BAC dengan beragam warna, border, tulisan, dan penempatan logo.",
@@ -13269,7 +13276,7 @@
     {
       "name": "Gift Box Berbagai Ukuran",
       "slug": "gift-box-berbagai-ukuran",
-      "category": "produk-custom",
+      "category": "gift-box",
       "institution": "Instansi & Umum",
       "attributeType": "Gift Box",
       "shortDescription": "Gift box custom untuk paket atribut kedinasan, penghargaan, dan suvenir dengan tata letak interior yang dapat disesuaikan.",
